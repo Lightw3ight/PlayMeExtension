@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'playme-icons';
+    src:
+        url('fonts/playme-icons.woff2?ab8r9k') format('woff2'),
+        url('fonts/playme-icons.ttf?ab8r9k') format('truetype'),
+        url('fonts/playme-icons.woff?ab8r9k') format('woff'),
+        url('fonts/playme-icons.svg?ab8r9k#playme-icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'playme-icons' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 16px;
+    display: inline-block;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bubble-plus:before {
+    content: "\eaec";
+}
+.icon-search:before {
+    content: "\eb30";
+}
+.icon-thumbs-up:before {
+    content: "\ecf5";
+}
+.icon-thumbs-down:before {
+    content: "\ecf7";
+}
+.icon-plus:before {
+    content: "\ed5d";
+}
+.icon-plus-circle:before {
+    content: "\ed5f";
+}
+.icon-checkmark:before {
+    content: "\ed71";
+}
+.icon-arrow-down:before {
+    content: "\edc1";
+}
+.icon-arrow-left:before {
+    content: "\edc5";
+}
+.icon-checkmark-circle:before {
+    content: "\ee76";
+}
+.icon-queue_music:before {
+    content: "\e900";
+}
+

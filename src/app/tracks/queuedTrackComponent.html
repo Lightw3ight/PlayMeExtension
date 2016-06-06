@@ -1,0 +1,52 @@
+<div class="row track-list-item">
+	<div class="col-xs-2">
+		<img [src]="queuedTrack.Track?.Album?.ArtworkUrlSmall || '/images/pixel.gif'">
+	</div>
+	<div class="col-xs-10">
+		<div class="row">
+			<div class="col-xs-8">
+				<label>{{queuedTrack.Track.Name}}</label>
+				<ul class="comma-separated" *ngIf="queuedTrack?.Track?.Artists">
+					<li *ngFor="let artist of queuedTrack.Track?.Artists">
+						<a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a>
+					</li>
+				</ul>
+				<a *ngIf="queuedTrack?.Track?.Album" [routerLink]="['/album', queuedTrack?.Track?.Album.MusicProvider.Identifier, queuedTrack?.Track?.Album.Link]">{{queuedTrack?.Track?.Album?.Name}}</a><br>
+			</div>
+
+			<div class="col-xs-4 text-right queued-track-opinions" *ngIf="!queuedTrack.StartedPlayingDateTime" [ngClass]="{'has-votes': (queuedTrack.LikeCount + queuedTrack.VetoCount > 0)}">
+				<button class="btn btn-like" *ngIf="!queuedTrack.IsSkipped" (click)="like()">
+					<i class="icon-thumbs-up"></i>
+					<span class="badge badge-like">{{queuedTrack.LikeCount}}</span>
+					
+					<div class="user-list" *ngIf="queuedTrack?.LikeCount">
+						<h3>Likes</h3>
+						<ul class="list-unstyled">
+							<li *ngFor="let like of queuedTrack?.Likes">{{like.fullName | async}}</li>
+						</ul>
+					</div> 
+				</button>
+				<button class="btn btn-veto" *ngIf="!queuedTrack.IsSkipped" (click)="veto()">
+					<i class="icon-thumbs-down"></i>
+					<span class="badge badge-veto">{{queuedTrack.VetoCount}}</span>
+					
+					<div class="user-list" *ngIf="queuedTrack?.VetoCount">
+						<h3>Vetoes</h3>
+						<ul class="list-unstyled">
+							<li *ngFor="let veto of queuedTrack?.Vetoes">{{veto.fullName | async}}</li>
+						</ul>
+					</div>
+				</button>
+			</div>
+
+			<div class="col-xs-4 text-right" *ngIf="queuedTrack.StartedPlayingDateTime">
+				<queue-track-button [track]="queuedTrack.Track"></queue-track-button>
+			</div>
+		</div>
+		<div class="queue-info">
+			Queued by <span *ngIf="!queuedTrack.url">{{queuedTrack.fullName | async}}</span> <a [href]="queuedTrack.url" class="user-link dark top" target="_blank" *ngIf="queuedTrack.url">{{queuedTrack.fullName | async}}<img [src]="queuedTrack?.userPhotoUrl"></a>
+			<span *ngIf="queuedTrack.Reason"> text: {{queuedTrack.Reason}}</span>
+			<span *ngIf="queuedTrack.StartedPlayingDateTime">, played at {{queuedTrack.StartedPlayingDateTime | date: 'HH:mm'}} on {{queuedTrack.StartedPlayingDateTime | date}}</span>
+		</div>
+	</div>
+</div>

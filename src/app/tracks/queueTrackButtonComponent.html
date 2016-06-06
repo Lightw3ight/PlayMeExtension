@@ -1,0 +1,4 @@
+<button class="btn btn-default" [ngClass]="{'btn-success': track.IsAlreadyQueued}" (click)="queueTrack()" [disabled]="track.IsAlreadyQueued">
+	<span *ngIf="!track.IsAlreadyQueued">queue</span>
+	<span *ngIf="track.IsAlreadyQueued">queued</span>
+</button>

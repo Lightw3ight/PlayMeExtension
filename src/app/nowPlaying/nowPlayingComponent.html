@@ -1,0 +1,74 @@
+<div class="app-root">
+	<div class="album-art-background"><img [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge || '/images/pixel.gif'"></div>
+	<div class="content-top">
+		<div class="row nav-bar">
+			<zone-selector class="col-xs-3" [activeZone]="activeZone" (zoneChanged)="changeZone($event)"></zone-selector>
+			<search-bar class="col-xs-9"></search-bar>
+		</div>
+
+		<div class="now-playing">
+			<div class="row">
+				<div class="col-xs-8">
+					<small><em>Queued by 
+						<a [href]="currentTrack?.url" class="user-link" *ngIf="currentTrack?.url" target="_blank" disabled>{{currentTrack?.fullName | async}}<img [src]="currentTrack?.userPhotoUrl"></a>
+						<span *ngIf="!currentTrack?.url">{{currentTrack?.fullName | async}}</span>
+						</em></small>
+					<h1>{{currentTrack?.Track?.Name}}</h1>
+
+					<ul class="comma-separated" *ngIf="currentTrack?.Track?.Artists?.length">
+						<li *ngFor="let artist of currentTrack?.Track?.Artists">
+							<a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a>
+						</li>
+					</ul>
+					<a *ngIf="currentTrack?.Track?.Album" [routerLink]="['/album', currentTrack?.Track?.Album.MusicProvider.Identifier, currentTrack?.Track?.Album.Link]">{{currentTrack?.Track?.Album?.Name}}</a>
+
+					<div class="now-playing-opinion-buttons">
+						<button class="btn btn-like" (click)="likeTrack(currentTrack)">
+							<i class="icon-thumbs-up"></i>
+							<span class="badge badge-like">{{currentTrack?.LikeCount}}</span>
+							
+							<div class="user-list" *ngIf="currentTrack?.LikeCount">
+								<h3>Likes</h3>
+								<ul class="list-unstyled">
+									<li *ngFor="let like of currentTrack?.Likes">{{like.fullName | async}}</li>
+								</ul>
+							</div>
+						</button>
+
+						<button class="btn btn-veto" (click)="vetoTrack(currentTrack)">
+							<i class="icon-thumbs-down"></i>
+							<span class="badge badge-veto">{{currentTrack?.VetoCount}}</span>
+							
+							<div class="user-list" *ngIf="currentTrack?.VetoCount">
+								<h3>Vetoes</h3>
+								<ul class="list-unstyled">
+									<li *ngFor="let veto of currentTrack?.Vetoes">{{veto.fullName | async}}</li>
+								</ul>
+							</div>
+						</button>
+					</div>
+
+				</div>
+				<div class="col-xs-4">
+					<img [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge || '/images/pixel.gif'" class="img-responsive">
+				</div>
+			</div>
+		</div>
+		<div class="progress now-playing-progress">
+			<div class="progress-bar" [style.width]="getPercentComplete()"></div>
+		</div>
+	</div>
+
+	<div class="content-bottom">
+		<tabset>
+			<tab heading="Next up">
+				<p *ngIf="!trackQueue?.length" class="text"><em>There are no tracks in the queue</em></p>
+				<queued-track *ngFor="let track of trackQueue" [queuedTrack]="track" (likeTrack)="likeTrack(track)" (vetoTrack)="vetoTrack(track)"></queued-track>
+			</tab>
+
+			<tab heading="History">
+				<queued-track *ngFor="let track of trackHistory" [queuedTrack]="track"></queued-track>
+			</tab>
+		</tabset>
+	</div>
+</div>
