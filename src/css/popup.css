@@ -214,6 +214,7 @@ search-bar .btn {
 .now-playing-opinion-buttons .btn-like i,
 .now-playing-opinion-buttons .btn-veto i {
 	font-size: 24px;
+	color: white;
 }
 
 .now-playing-opinion-buttons .btn-like .badge,
