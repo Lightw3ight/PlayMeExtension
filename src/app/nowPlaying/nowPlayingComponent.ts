@@ -9,14 +9,14 @@ import {IPagedResult} from '../models/IPagedResult';
 import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap'
 import {UserInfoService} from '../services/userInfoService';
 import {SignalRService} from '../services/signalrService';
-import {UserListComponent} from '../tracks/userListComponent';
+import {UserListComponent} from '../tracks/userList/userListComponent';
 
 
 
 import {SearchBarComponent} from '../search/searchBarComponent';
 import {ZoneSelectorComponent} from './zoneSelectorComponent';
 import { TAB_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
-import {QueuedTrackComponent} from '../tracks/QueuedTrackComponent';
+import {QueuedTrackComponent} from '../tracks/queuedTrack/queuedTrackComponent';
 
 @Component({
 	selector: 'now-playing',
