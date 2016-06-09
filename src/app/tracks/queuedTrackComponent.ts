@@ -5,13 +5,15 @@ import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 
 import {IQueuedTrack} from '../models/IQueuedTrack.d';
 import {QueueTrackButtonComponent} from './queueTrackButtonComponent';
+import {UserListComponent} from './userListComponent';
 
 @Component({
 	selector: 'queued-track',
 	templateUrl: '/app/tracks/queuedTrackComponent.html',
 	directives:[
 		ROUTER_DIRECTIVES,
-		QueueTrackButtonComponent
+		QueueTrackButtonComponent,
+		UserListComponent
 	]
 })
 export class QueuedTrackComponent implements OnInit{

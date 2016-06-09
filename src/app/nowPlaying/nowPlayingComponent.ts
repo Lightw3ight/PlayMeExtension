@@ -9,6 +9,7 @@ import {IPagedResult} from '../models/IPagedResult';
 import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap'
 import {UserInfoService} from '../services/userInfoService';
 import {SignalRService} from '../services/signalrService';
+import {UserListComponent} from '../tracks/userListComponent';
 
 
 
@@ -26,7 +27,8 @@ import {QueuedTrackComponent} from '../tracks/QueuedTrackComponent';
 		ZoneSelectorComponent,
 		TAB_DIRECTIVES,
 		QueuedTrackComponent,
-		TOOLTIP_DIRECTIVES
+		TOOLTIP_DIRECTIVES,
+		UserListComponent
 	]
 })
 export class NowPlayingComponent implements OnInit, OnDestroy {

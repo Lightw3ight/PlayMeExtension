@@ -203,11 +203,11 @@ search-bar .btn {
 	font-weight: normal;
 }
 
-.btn-like .badge {
+.badge.badge-like {
 	background-color: #3775ab;
 }
 
-.btn-veto .badge {
+.badge.badge-veto {
 	background-color: #b94a48;
 }
 
@@ -236,8 +236,7 @@ search-bar .btn {
 	opacity: 1;
 }
 
-.user-list {
-	display: none;
+user-list {
 	position: absolute;
 	top: 100%;
 	left: 0;
@@ -247,13 +246,31 @@ search-bar .btn {
 	padding: 5px;
 	margin-top: 8px;
 	color: white;
+	z-index: 1;
 }
 
-.user-list a {
+user-list[position=right]{
+	left: 100%;
+	right: auto;
+	bottom: 0;
+	top: auto;
+	margin-left: 8px;
+}
+
+user-list[position=right]:before {
+	border-color: transparent;
+	border-right-color: black;
+	top: auto;
+	right: auto;
+	bottom: 5px;
+	left: -10px;
+}
+
+user-list a {
 	color: white;
 }
 
-.track-list-item .user-list {
+user-list[position=left] {
 	right: 100%;
 	bottom: 0;
 	top: auto;
@@ -261,7 +278,7 @@ search-bar .btn {
 	margin-right: 8px;
 }
 
-.track-list-item .user-list:before {
+user-list[position=left]:before {
 	border-color: transparent;
 	border-left-color: black;
 	top: auto;
@@ -270,12 +287,36 @@ search-bar .btn {
 	right: -10px;
 }
 
-.btn-like:hover .user-list,
-.btn-veto:hover .user-list {
+user-list[position=top] {
+	right: auto;
+	bottom: 100%;
+	top: auto;
+	left: 0;
+	margin-bottom: 8px;
+}
+
+user-list[position=top]:before {
+	border-color: transparent;
+	border-top-color: black;
+	top: auto;
+	left: 5px;
+	bottom: -10px;
+	right: auto;
+}
+
+.user-list-container{
+	position: relative;
+}
+
+.user-list-container user-list{
+	display: none;
+}
+
+.user-list-container:hover user-list{
 	display: block;
 }
 
-.user-list:before {
+user-list:before {
 	content: "";
 	width: 10px;
 	height: 10px;
@@ -286,11 +327,11 @@ search-bar .btn {
 	left: 5px;
 }
 
-.user-list li {
+user-list li {
 	text-align: left;
 }
 
-.user-list h3 {
+user-list h3 {
 	margin: 0 0 3px 0;
 	padding-bottom: 3px;
 	font-size: 12px;
@@ -447,6 +488,10 @@ simple-track-list-item .track-name {
 
 .queue-info {
 	font-size: 11px;
+}
+
+.queue-info .badge{
+	margin-top: 5px;
 }
 
 .list-unstyled {

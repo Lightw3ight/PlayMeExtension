@@ -15,27 +15,17 @@
 			</div>
 
 			<div class="col-xs-4 text-right queued-track-opinions" *ngIf="!queuedTrack.StartedPlayingDateTime" [ngClass]="{'has-votes': (queuedTrack.LikeCount + queuedTrack.VetoCount > 0)}">
-				<button class="btn btn-like" *ngIf="!queuedTrack.IsSkipped" (click)="like()">
+				<button class="btn btn-like user-list-container" *ngIf="!queuedTrack.IsSkipped" (click)="like()">
 					<i class="icon-thumbs-up"></i>
 					<span class="badge badge-like">{{queuedTrack.LikeCount}}</span>
 					
-					<div class="user-list" *ngIf="queuedTrack?.LikeCount">
-						<h3>Likes</h3>
-						<ul class="list-unstyled">
-							<li *ngFor="let like of queuedTrack?.Likes">{{like.fullName | async}}</li>
-						</ul>
-					</div> 
+					<user-list title="Likes" [opinions]="queuedTrack?.Likes" *ngIf="queuedTrack?.LikeCount" position="left"></user-list>
 				</button>
-				<button class="btn btn-veto" *ngIf="!queuedTrack.IsSkipped" (click)="veto()">
+				<button class="btn btn-veto user-list-container" *ngIf="!queuedTrack.IsSkipped" (click)="veto()">
 					<i class="icon-thumbs-down"></i>
 					<span class="badge badge-veto">{{queuedTrack.VetoCount}}</span>
 					
-					<div class="user-list" *ngIf="queuedTrack?.VetoCount">
-						<h3>Vetoes</h3>
-						<ul class="list-unstyled">
-							<li *ngFor="let veto of queuedTrack?.Vetoes">{{veto.fullName | async}}</li>
-						</ul>
-					</div>
+					<user-list title="Vetoes" [opinions]="queuedTrack?.Vetoes" *ngIf="queuedTrack?.VetoCount" position="left"></user-list>
 				</button>
 			</div>
 
@@ -47,6 +37,17 @@
 			Queued by <span *ngIf="!queuedTrack.url">{{queuedTrack.fullName | async}}</span> <a [href]="queuedTrack.url" class="user-link dark top" target="_blank" *ngIf="queuedTrack.url">{{queuedTrack.fullName | async}}<img [src]="queuedTrack?.userPhotoUrl"></a>
 			<span *ngIf="queuedTrack.Reason"> text: {{queuedTrack.Reason}}</span>
 			<span *ngIf="queuedTrack.StartedPlayingDateTime">, played at {{queuedTrack.StartedPlayingDateTime | date: 'HH:mm'}} on {{queuedTrack.StartedPlayingDateTime | date}}</span>
+
+			<div *ngIf="queuedTrack.StartedPlayingDateTime">
+				<div class="badge badge-like user-list-container">
+					{{queuedTrack.LikeCount}}
+					<user-list title="Likes" [opinions]="queuedTrack?.Likes" *ngIf="queuedTrack?.LikeCount" position="top"></user-list>
+				</div>
+				<div class="badge badge-veto user-list-container">
+					{{queuedTrack.VetoCount}}
+					<user-list title="Vetoes" [opinions]="queuedTrack?.Vetoes" *ngIf="queuedTrack?.VetoCount" position="top"></user-list>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
