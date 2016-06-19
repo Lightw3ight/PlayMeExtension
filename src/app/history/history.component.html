@@ -1,0 +1,28 @@
+<div class="app-root">
+	<div class="album-art-background"><img [src]="album?.ArtworkUrlLarge || '/images/pixel.gif'"></div>
+	<div class="content-top album-header">
+		<div class="row nav-bar">
+			<zone-selector class="col-xs-3" [activeZone]="activeZone"></zone-selector>
+			<search-bar class="col-xs-9"></search-bar>
+		</div>
+		<breadcrumbs></breadcrumbs>
+		<h1 class="text-center">History</h1>
+	</div>
+	<div class="content-bottom">
+		<tabset>
+			<tab heading="All" (select)="loadFullHistory()">
+				<p *ngIf="!loading && history.length === 0">No results</p>
+				<queued-track *ngFor="let track of history" [queuedTrack]="track" (likeTrack)="likeTrack(track)" (vetoTrack)="vetoTrack(track)"></queued-track>
+			</tab>
+			<tab heading="Requested" (select)="loadRequestHistory()">
+				<p *ngIf="!loading && requestHistory.length === 0">No results</p>
+				<queued-track *ngFor="let track of requestHistory" [queuedTrack]="track" (likeTrack)="likeTrack(track)" (vetoTrack)="vetoTrack(track)"></queued-track>
+			</tab>
+			<tab heading="Mine" (select)="loadUserHistory()">
+				<p *ngIf="!loading && userHistory.length === 0">No results</p>
+				<queued-track *ngFor="let track of userHistory" [queuedTrack]="track" (likeTrack)="likeTrack(track)" (vetoTrack)="vetoTrack(track)"></queued-track>
+			</tab>
+		</tabset>
+		<p *ngIf="loading">loading...</p>
+	</div>
+</div>

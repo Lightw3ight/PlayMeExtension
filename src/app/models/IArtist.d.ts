@@ -1,6 +1,7 @@
 import {ITrack} from './ITrack';
 import {IAlbum} from './IAlbum';
 import {IPlayMeObject} from './IPlayMeObject';
+import {LoadedState} from './LoadedState';
 
 export interface IArtist extends IPlayMeObject {
 	Profile: any;
@@ -13,8 +14,3 @@ export interface IArtist extends IPlayMeObject {
 	LoadStatus: LoadedState;
 }
 
-export enum LoadedState{
-	Basic = 0,
-	FullNoTracks = 1,
-	FullWithTracks = 2
-}

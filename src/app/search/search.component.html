@@ -1,0 +1,35 @@
+<div class="app-root">
+	<div class="album-art-background"><img [src]="album?.ArtworkUrlLarge || '/images/pixel.gif'"></div>
+	<div class="content-top search-header">
+		<div class="row nav-bar">
+			<zone-selector class="col-xs-3" [activeZone]="activeZone"></zone-selector>
+			<search-bar class="col-xs-9"></search-bar>
+		</div>
+		<breadcrumbs></breadcrumbs>
+
+		<div class="search-term">
+			Search results for <em>{{searchQuery}}</em>
+		</div>
+	</div>
+	<div class="content-bottom">
+		<tabset>
+			<tab heading="Artists" *ngIf="results?.PagedArtists?.Artists">
+				<div class="row">
+					<artist-list-item *ngFor="let artist of results?.PagedArtists?.Artists" [artist]="artist"></artist-list-item>
+				</div>
+			</tab>
+			<tab heading="Albums" *ngIf="results?.PagedAlbums?.Albums">
+				<div class="row">
+					<album-list-item *ngFor="let album of results?.PagedAlbums?.Albums" [album]="album"></album-list-item>
+				</div>
+			</tab>
+			<tab heading="Tracks" *ngIf="results?.PagedTracks?.Tracks">
+				<ul class="list-unstyled">
+					<li *ngFor="let track of results?.PagedTracks?.Tracks">
+						<track-list-item [track]="track"></track-list-item>
+					</li>
+				</ul>
+			</tab>
+		</tabset>
+	</div>
+</div>

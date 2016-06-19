@@ -1,0 +1,14 @@
+<div class="app-root">
+  <div class="album-art-background"><img [src]="album?.ArtworkUrlLarge || '/images/pixel.gif'"></div>
+  <div class="content-top album-header">
+    <div class="row nav-bar">
+      <zone-selector class="col-xs-3" [activeZone]="activeZone"></zone-selector>
+      <search-bar class="col-xs-9"></search-bar>
+    </div>
+    <breadcrumbs></breadcrumbs>
+    <h1 class="text-center">Queue</h1>
+  </div>
+  <div class="content-bottom">
+    <queued-track *ngFor="let track of queuedTracks" [queuedTrack]="track" (likeTrack)="likeTrack(track)" (vetoTrack)="vetoTrack(track)"></queued-track>
+  </div>
+</div>
