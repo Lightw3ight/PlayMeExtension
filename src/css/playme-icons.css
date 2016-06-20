@@ -32,6 +32,18 @@
 .icon-search:before {
     content: "\eb30";
 }
+.icon-playlist:before {
+    content: "\ec56";
+}
+.icon-playlist-add:before {
+    content: "\ec57";
+}
+.icon-heart-broken:before {
+    content: "\eceb";
+}
+.icon-heart:before {
+    content: "\ecec";
+}
 .icon-thumbs-up:before {
     content: "\ecf5";
 }
@@ -59,4 +71,5 @@
 .icon-queue_music:before {
     content: "\e900";
 }
+
 

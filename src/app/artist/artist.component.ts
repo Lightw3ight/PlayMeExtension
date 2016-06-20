@@ -35,6 +35,10 @@ export class ArtistComponent implements OnInit {
 		
 		this._artistService.getArtist(this.artistId, this.provider).then((artist: IArtist) =>{
 			this.artist = artist;
+		})
+		.catch(() =>{
+			alert('Error loading artist');
+			this._location.back();
 		});
 	}
 	

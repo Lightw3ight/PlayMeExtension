@@ -2,12 +2,12 @@
 	<div class="col-xs-2">
 		<img [src]="track?.Album.ArtworkUrlSmall" class="img-responsive">
 	</div>
-	<div class="col-xs-6">
+	<div class="col-xs-7">
 		<label>{{track?.Name}}</label>
 		<ul class="comma-separated">
 			<li *ngFor="let artist of track?.Artists"><a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a></li>
 		</ul>
 		<a [routerLink]="['/album', track?.Album.MusicProvider.Identifier, track?.Album.Link]">{{track?.Album?.Name}}</a>
 	</div>
-	<queue-track-button [track]="track" class="col-xs-4 text-right"></queue-track-button>
+	<queue-track-button [track]="track" class="col-xs-3 text-right"></queue-track-button>
 </div>

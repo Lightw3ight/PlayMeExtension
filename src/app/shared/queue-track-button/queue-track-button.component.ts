@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {QueueService} from '../../api/queue.service';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 
 
 import {ITrack} from '../../models/ITrack';
@@ -9,9 +10,15 @@ import {ITrack} from '../../models/ITrack';
 	moduleId: module.id,
 	selector: 'queue-track-button',
 	templateUrl: 'queue-track-button.component.html',
+	styleUrls: ['queue-track-button.component.css'],
 	directives: [
-		ROUTER_DIRECTIVES
-	]
+		ROUTER_DIRECTIVES,
+		MODAL_DIRECTVES
+	],
+	viewProviders: [
+		BS_VIEW_PROVIDERS
+	],
+	encapsulation: ViewEncapsulation.Emulated
 })
 export class QueueTrackButtonComponent implements OnInit {
 	@Input() track: ITrack;
@@ -23,7 +30,13 @@ export class QueueTrackButtonComponent implements OnInit {
 	ngOnInit() {
 	}
 
+	focusComments(elem: HTMLElement){
+		setTimeout(() => {
+			elem.focus();
+		}, 300);
+	}
+
 	queueTrack(message) {
-		this._queueService.queueTrack(this.track);
+		this._queueService.queueTrack(this.track, message);
 	}
 }

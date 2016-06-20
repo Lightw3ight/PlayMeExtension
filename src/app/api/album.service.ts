@@ -18,8 +18,8 @@ export class AlbumService {
 			.map(response => {
 				return <IAlbum>response.json()
 			})
-			.toPromise()
-			.catch(this.handleError);
+			.toPromise();
+			//.catch(this.handleError);
 	}
 	
 	private handleError(error: Response){

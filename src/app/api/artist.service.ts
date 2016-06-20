@@ -18,8 +18,8 @@ export class ArtistService {
 			.map(response => {
 				return <IArtist>response.json()
 			})
-			.toPromise()
-			.catch(this.handleError);
+			.toPromise();
+			//.catch(this.handleError);
 	}
 	
 	private handleError(error: Response){

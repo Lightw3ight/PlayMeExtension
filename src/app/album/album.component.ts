@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES, RouteSegment} from '@angular/router';
+import {Location} from '@angular/common';
 
 import {AlbumService, QueueService} from '../api';
 import {IAlbum, ITrack} from '../models';
@@ -25,7 +26,7 @@ export class AlbumComponent implements OnInit {
 	album: IAlbum;
 	backgroundColor: '#FFF';
 	foregroundColor: '#FFF';
-	constructor(private _routeSegment: RouteSegment, private _albumService: AlbumService, private _queueService: QueueService) {
+	constructor(private _routeSegment: RouteSegment, private _albumService: AlbumService, private _queueService: QueueService, private _location: Location) {
 
 	}
 	ngOnInit() {
@@ -34,6 +35,10 @@ export class AlbumComponent implements OnInit {
 
 		this._albumService.getAlbum(id, provider).then((album: IAlbum) => {
 			this.album = album;
+		})
+		.catch(() =>{
+			alert('Error loading artist');
+			this._location.back();
 		});
 	}
 

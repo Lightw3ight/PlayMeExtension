@@ -48,13 +48,14 @@ export class QueueService {
 			.catch(this.handleError);
 	}
 
-	queueTrack(track: ITrack) {
+	queueTrack(track: ITrack, comment: string = null) {
 		var url = `http://music.trademe.local/${this._audioZoneService.getCurrentZone()}/api/Queue/Enqueue`;
 		
 		if (track.IsAlreadyQueued){
 			return;
 		}
 		
+		track.Reason = comment;
 		var data = {
 			id: encodeURIComponent(track.Link),
 			provider: track.MusicProvider.Identifier,

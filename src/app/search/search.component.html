@@ -13,17 +13,20 @@
 	</div>
 	<div class="content-bottom">
 		<tabset>
-			<tab heading="Artists" *ngIf="results?.PagedArtists?.Artists">
+			<tab heading="Artists" *ngIf="results?.PagedArtists?.Artists" [active]="artistTabActive" (select)="artistTabActive = true;">
+				<p *ngIf="results?.PagedArtists?.Artists?.length === 0"><em>No artists</em></p>
 				<div class="row">
 					<artist-list-item *ngFor="let artist of results?.PagedArtists?.Artists" [artist]="artist"></artist-list-item>
 				</div>
 			</tab>
-			<tab heading="Albums" *ngIf="results?.PagedAlbums?.Albums">
+			<tab heading="Albums" *ngIf="results?.PagedAlbums?.Albums" [active]="albumsTabActive" (select)="albumsTabActive = true">
+				<p *ngIf="results?.PagedAlbums?.Albums?.length === 0"><em>No albums</em></p>
 				<div class="row">
 					<album-list-item *ngFor="let album of results?.PagedAlbums?.Albums" [album]="album"></album-list-item>
 				</div>
 			</tab>
-			<tab heading="Tracks" *ngIf="results?.PagedTracks?.Tracks">
+			<tab heading="Tracks" *ngIf="results?.PagedTracks?.Tracks" [active]="tracksTabActive" (select)="tracksTabActive = true">
+				<p *ngIf="results?.PagedTracks?.Tracks?.length === 0"><em>No tracks</em></p>
 				<ul class="list-unstyled">
 					<li *ngFor="let track of results?.PagedTracks?.Tracks">
 						<track-list-item [track]="track"></track-list-item>
