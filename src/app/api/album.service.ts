@@ -11,7 +11,7 @@ export class AlbumService {
 	}
 
 	getAlbum(id: string, provider: string) : Promise<IAlbum> {
-		var url = `http://music.trademe.local/${this._audioZoneService.getCurrentZone()}/api/browse/album/${provider}/${id}`;
+		var url = `${this._audioZoneService.getCurrentZone()}/api/browse/album/${provider}/${id}`;
 
 		var result =this._http.get(url);
 		return result

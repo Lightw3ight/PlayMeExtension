@@ -1,0 +1,11 @@
+<button class="btn btn-like user-list-container" (click)="likeTrack(track)" title="Like">
+	<i class="icon-heart"></i>
+	<span class="badge badge-like">{{track?.LikeCount}}</span>
+	<user-list title="Likes" [opinions]="track?.Likes" *ngIf="track?.LikeCount"></user-list>
+</button>
+
+<button class="btn btn-veto user-list-container" (click)="vetoTrack(track)" title="Veto">
+	<i class="icon-heart-broken"></i>
+	<span class="badge badge-veto">{{track?.VetoCount}}</span>
+	<user-list title="Vetoes" [opinions]="track?.Vetoes" *ngIf="track?.VetoCount"></user-list>
+</button>

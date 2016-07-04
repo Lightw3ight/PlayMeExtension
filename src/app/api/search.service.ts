@@ -11,7 +11,7 @@ export class SearchService {
 	}
 
 	search(provider, query) : Promise<ISearchResults> {
-		var url = `http://music.trademe.local/${this._audioZoneService.getCurrentZone()}/api/search?provider=${provider}&searchTerm=${query}`;
+		var url = `${this._audioZoneService.getCurrentZone()}/api/search?provider=${provider}&searchTerm=${query}`;
 
 		var result =this._http.get(url);
 		return result

@@ -49,6 +49,7 @@ const barrels: string[] = [
   'app/artist',
   'app/queue',
   'app/history',
+  'app/shared/opinion-buttons',
   /** @cli-barrel */
 ];
 

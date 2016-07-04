@@ -40,7 +40,7 @@ export class SignalRService {
 
 	initializeHub() {
 		this._hub = this.$.connection.queueHub;
-		this.$.connection.hub.url = `http://music.trademe.local/${this._audioZoneService.getCurrentZone()}/signalr`;
+		this.$.connection.hub.url = `${this._audioZoneService.getCurrentZone()}/signalr`;
 		this._hub.on('updateCurrentTrack', this.onUpdateCurrentTrack);
 		this._hub.on('updatePlayingSoon', this.onUpdatePlayingSoon);
 		this._hub.on('updateRecentlyPlayed', this.onUpdateRecentlyPlayed);

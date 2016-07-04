@@ -23,7 +23,7 @@ export class QueueService {
 	}
 
 	getHistory(type: string = 'all'): Promise<IPagedResult<IQueuedTrack>>{
-		var url = `http://music.trademe.local/${this._audioZoneService.getCurrentZone()}/api/history?filter=${type}&start=0&take=50`;
+		var url = `${this._audioZoneService.getCurrentZone()}/api/history?filter=${type}&start=0&take=50`;
 
 		return this._http.get(url)
 			.map(response => {
@@ -36,7 +36,7 @@ export class QueueService {
 	}
 
 	getAllQueuedTracks(): Promise<IQueuedTrack[]>{
-		var url = `http://music.trademe.local/${this._audioZoneService.getCurrentZone()}/api/Queue`;
+		var url = `${this._audioZoneService.getCurrentZone()}/api/Queue`;
 
 		return this._http.get(url)
 			.map(response => {
@@ -49,7 +49,7 @@ export class QueueService {
 	}
 
 	queueTrack(track: ITrack, comment: string = null) {
-		var url = `http://music.trademe.local/${this._audioZoneService.getCurrentZone()}/api/Queue/Enqueue`;
+		var url = `${this._audioZoneService.getCurrentZone()}/api/Queue/Enqueue/${track.MusicProvider.Identifier}/${track.Link}`;
 		
 		if (track.IsAlreadyQueued){
 			return;

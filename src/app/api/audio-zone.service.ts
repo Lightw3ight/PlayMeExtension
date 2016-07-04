@@ -2,19 +2,20 @@ import {Injectable} from '@angular/core';
 
 export interface IAudioZone {
 	name: string,
-	path: string
+	path?: string
 }
 
 @Injectable()
 export class AudioZoneService {
 	private zoneKey = 'currentAudioZone';
 	private _zones: IAudioZone[] = [
-		{ name: 'Bullnose', path: 'Bullnose' },
-		{ name: 'OML L3', path: 'oml/3' },
-		{ name: 'OML L4', path: 'oml/4' },
-		{ name: 'OML L5', path: 'oml/5' },
-		{ name: 'Auckland L1', path: 'sst/1' },
-		{ name: 'Auckland L2', path: 'sst/2' }
+		{ name: 'Bullnose', path: 'http://music.trademe.local/Bullnose' },
+		{ name: 'OML L3', path: 'http://music.trademe.local/oml/3' },
+		{ name: 'OML L4', path: 'http://music.trademe.local/oml/4' },
+		{ name: 'OML L5', path: 'http://music.trademe.local/oml/5' },
+		{ name: 'Auckland L1', path: 'http://music.trademe.local/sst/1' },
+		{ name: 'Auckland L2', path: 'http://music.trademe.local/sst/2' },
+		{name: 'Christchurch', path: 'http://chc-music.trademe.local'}
 	]
 
 	getAllZones(): Promise<IAudioZone[]> {
@@ -28,6 +29,11 @@ export class AudioZoneService {
 	}
 	
 	getCurrentZone(){
-		return localStorage.getItem(this.zoneKey) || this._zones[0].path;
+		let zone = localStorage.getItem(this.zoneKey) || this._zones[0].path;
+		if (!zone.startsWith('http')){
+			zone = this._zones.find(z => z.name.indexOf(zone) > 0);
+		}
+
+		return zone || this._zones[0].path;
 	}
 }

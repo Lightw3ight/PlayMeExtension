@@ -11,7 +11,7 @@ export class ArtistService {
 	}
 
 	getArtist(id: string, provider: string) : Promise<IArtist> {
-		var url = `http://music.trademe.local/${this._audioZoneService.getCurrentZone()}/api/browse/artist/${provider}/${id}`;
+		var url = `${this._audioZoneService.getCurrentZone()}/api/browse/artist/${provider}/${id}`;
 
 		var result =this._http.get(url);
 		return result

@@ -1,4 +1,5 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, DynamicComponentLoader} from '@angular/core';
+import { DomSanitizationService, SecurityContext } from '@angular/platform-browser';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import * as moment from 'moment';
 import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap'
@@ -19,7 +20,8 @@ import {
 import {
 	UserListComponent,
 	SearchBarComponent,
-	QueuedTrackComponent
+	QueuedTrackComponent,
+	OpinionButtonsComponent
 } from '../shared';
 
 
@@ -39,7 +41,8 @@ import { TAB_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 		TAB_DIRECTIVES,
 		QueuedTrackComponent,
 		TOOLTIP_DIRECTIVES,
-		UserListComponent
+		UserListComponent,
+		OpinionButtonsComponent
 	]
 })
 export class NowPlayingComponent implements OnInit, OnDestroy {
@@ -57,8 +60,16 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
 	constructor(private _searchService: SearchService,
 		private _audioZoneService: AudioZoneService,
 		private _userInfoService: UserInfoService,
-		private _signalRService: SignalRService) {
+		private _signalRService: SignalRService,
+		private _domSanitizationService: DomSanitizationService) {
 
+	}
+
+	createSpotifyUrl(track: IQueuedTrack){
+		if (!track){
+			return null;
+		}
+		return this._domSanitizationService.bypassSecurityTrustUrl(`spotify:track:${track.Track.Link}`);
 	}
 
 	ngOnDestroy() {

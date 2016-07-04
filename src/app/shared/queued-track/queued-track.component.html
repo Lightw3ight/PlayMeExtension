@@ -14,20 +14,13 @@
 				<a *ngIf="queuedTrack?.Track?.Album" [routerLink]="['/album', queuedTrack?.Track?.Album.MusicProvider.Identifier, queuedTrack?.Track?.Album.Link]">{{queuedTrack?.Track?.Album?.Name}}</a><br>
 			</div>
 
-			<div class="col-xs-4 text-right queued-track-opinions" *ngIf="!queuedTrack.StartedPlayingDateTime" [ngClass]="{'has-votes': (queuedTrack.LikeCount + queuedTrack.VetoCount > 0)}">
-				<button class="btn btn-like user-list-container" *ngIf="!queuedTrack.IsSkipped" (click)="like()" title="Like Track">
-					<i class="icon-heart"></i>
-					<span class="badge badge-like">{{queuedTrack.LikeCount}}</span>
-					
-					<user-list title="Likes" [opinions]="queuedTrack?.Likes" *ngIf="queuedTrack?.LikeCount" position="left"></user-list>
-				</button>
-				<button class="btn btn-veto user-list-container" *ngIf="!queuedTrack.IsSkipped" (click)="veto()" title="Veto Track">
-					<i class="icon-heart-broken"></i>
-					<span class="badge badge-veto">{{queuedTrack.VetoCount}}</span>
-					
-					<user-list title="Vetoes" [opinions]="queuedTrack?.Vetoes" *ngIf="queuedTrack?.VetoCount" position="left"></user-list>
-				</button>
-			</div>
+			<opinion-buttons 
+				class="col-xs-4 text-right"
+				*ngIf="!queuedTrack.StartedPlayingDateTime"
+				[ngClass]="{'has-votes': (queuedTrack.LikeCount + queuedTrack.VetoCount > 0)}"
+				[track]="queuedTrack" 
+				(like)="like()" 
+				(veto)="veto()"></opinion-buttons>
 
 			<div class="col-xs-4 text-right" *ngIf="queuedTrack.StartedPlayingDateTime">
 				<queue-track-button [track]="queuedTrack.Track"></queue-track-button>

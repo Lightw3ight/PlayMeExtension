@@ -6,3 +6,4 @@ export * from './queued-track';
 export * from './search-bar';
 export * from './search-bar';
 export * from './breadcrumbs';
+export * from './opinion-buttons';

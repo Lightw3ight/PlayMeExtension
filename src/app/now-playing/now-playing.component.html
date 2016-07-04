@@ -21,21 +21,7 @@
 						</li>
 					</ul>
 					<a *ngIf="currentTrack?.Track?.Album" [routerLink]="['/album', currentTrack?.Track?.Album.MusicProvider.Identifier, currentTrack?.Track?.Album.Link]">{{currentTrack?.Track?.Album?.Name}}</a>
-
-					<div class="now-playing-opinion-buttons">
-						<button class="btn btn-like user-list-container" (click)="likeTrack(currentTrack)" title="Like Track">
-							<i class="icon-heart"></i>
-							<span class="badge badge-like">{{currentTrack?.LikeCount}}</span>
-							<user-list title="Likes" [opinions]="currentTrack?.Likes" *ngIf="currentTrack?.LikeCount"></user-list>
-						</button>
-
-						<button class="btn btn-veto user-list-container" (click)="vetoTrack(currentTrack)" title="Veto Track">
-							<i class="icon-heart-broken"></i>
-							<span class="badge badge-veto">{{currentTrack?.VetoCount}}</span>
-							
-							<user-list title="Vetoes" [opinions]="currentTrack?.Vetoes" *ngIf="currentTrack?.VetoCount"></user-list>
-						</button>
-					</div>
+					<opinion-buttons [track]="currentTrack" (like)="likeTrack(currentTrack)" (veto)="vetoTrack(currentTrack)"></opinion-buttons>
 					<p *ngIf="currentTrack?.Reason" class="track-comment">
 						<em>{{currentTrack?.Reason}}</em>
 					</p>
@@ -61,6 +47,7 @@
 
 			<tab heading="History">
 				<queued-track *ngFor="let track of trackHistory" [queuedTrack]="track"></queued-track>
+				
 				<a [routerLink]="['/history']">See all history</a>
 			</tab>
 		</tabset>

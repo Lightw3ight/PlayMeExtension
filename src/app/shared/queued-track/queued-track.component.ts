@@ -4,6 +4,7 @@ import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {IQueuedTrack} from '../../models/IQueuedTrack.d';
 import {QueueTrackButtonComponent} from '../';
 import {UserListComponent} from '../';
+import {OpinionButtonsComponent} from '../opinion-buttons';
 
 @Component({
 	moduleId: module.id,
@@ -13,7 +14,8 @@ import {UserListComponent} from '../';
 	directives: [
 		ROUTER_DIRECTIVES,
 		QueueTrackButtonComponent,
-		UserListComponent
+		UserListComponent,
+		OpinionButtonsComponent
 	],
 	encapsulation: ViewEncapsulation.None
 })
