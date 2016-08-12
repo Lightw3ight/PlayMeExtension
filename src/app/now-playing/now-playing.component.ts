@@ -2,6 +2,7 @@ import {Component, OnInit, OnDestroy, DynamicComponentLoader} from '@angular/cor
 import { DomSanitizationService } from '@angular/platform-browser';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import * as moment from 'moment';
+import {Subscription} from 'rxjs';
 //import { TOOLTIP_DIRECTIVES, TAB_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap'
 
 
@@ -48,13 +49,13 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
 
 	backgroundColor: '#FFF';
 	foregroundColor: '#000';
+	private subscriptions: Subscription[] = [];
 
 	constructor(private _searchService: SearchService,
 		private _audioZoneService: AudioZoneService,
 		private _userInfoService: UserInfoService,
 		private _signalRService: SignalRService,
 		private _domSanitizationService: DomSanitizationService) {
-
 	}
 
 	createSpotifyUrl(track: IQueuedTrack){
@@ -64,26 +65,25 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
 		return this._domSanitizationService.bypassSecurityTrustUrl(`spotify:track:${track.Track.Link}`);
 	}
 
-	ngOnDestroy() {
-		window.clearInterval(this.progressIntervalId);
-		this.closeHubConnection();
-	}
-
 	ngOnInit() {
 		this.activeZone = this._audioZoneService.getCurrentZone();
 		this.openHubConnection();
-
-		this._signalRService.getRecentlyPlayed().subscribe(history => {
+		this.subscriptions.push(this._signalRService.getRecentlyPlayed().subscribe(history => {
 			this.trackHistory = history;
-		})
-		this._signalRService.getNextUp().subscribe(queue => {
+		}));
+		this.subscriptions.push(this._signalRService.getNextUp().subscribe(queue => {
 			this.trackQueue = queue;
-		})
-		this._signalRService.getNowPlaying().subscribe(track => {
+		}));
+		this.subscriptions.push(this._signalRService.getNowPlaying().subscribe(track => {
 			this.currentTrack = track;
-		});
-
+		}));
 		this.progressIntervalId = window.setInterval(this.calculatePercentComplete, 500);
+	}
+
+	ngOnDestroy() {
+		this.subscriptions.forEach(s => s.unsubscribe());
+		window.clearInterval(this.progressIntervalId);
+		this.closeHubConnection();
 	}
 
 	private openHubConnection() {
@@ -109,7 +109,6 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
 	}
 
 	calculatePercentComplete = () => {
-		//return '0%';
 		var percent = 0;
 		if (this.currentTrack) {
 

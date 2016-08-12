@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy } from '@angular/core';
 import {Router, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
+import {Subscription} from 'rxjs';
 
 import {AlbumService, QueueService} from '../api';
 import {IAlbum, ITrack} from '../models';
@@ -11,17 +12,18 @@ import {IAlbum, ITrack} from '../models';
 	templateUrl: 'album.component.html',
 	styleUrls: ['album.component.css']
 })
-export class AlbumComponent implements OnInit {
+export class AlbumComponent implements OnInit, OnDestroy {
 	artistId: string;
 	provider: string;
 	album: IAlbum;
 	backgroundColor: '#FFF';
 	foregroundColor: '#FFF';
+	private paramsSubscription: Subscription;
 	constructor(private _route: ActivatedRoute, private _albumService: AlbumService, private _queueService: QueueService, private _location: Location) {
 
 	}
 	ngOnInit() {
-		this._route.params.subscribe(params => {
+		this.paramsSubscription = this._route.params.subscribe(params => {
 			var id = params['id'];
 			var provider = params['provider'];
 
@@ -33,6 +35,10 @@ export class AlbumComponent implements OnInit {
 				this._location.back();
 			});
 		});
+	}
+
+	ngOnDestroy(){
+		this.paramsSubscription.unsubscribe();
 	}
 
 	queueTrack(track: ITrack) {

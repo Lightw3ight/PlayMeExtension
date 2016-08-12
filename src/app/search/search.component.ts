@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES, ActivatedRoute} from '@angular/router';
-
 import {SearchService} from '../api';
 import {ISearchResults} from '../models';
+import {Subscription} from 'rxjs';
 
 @Component({
 	moduleId: module.id,
@@ -10,19 +10,20 @@ import {ISearchResults} from '../models';
 	templateUrl: 'search.component.html',
 	styleUrls: ['search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 	searchQuery: string;
 	provider: string;
 	results: ISearchResults = {};
 	tracksTabActive: boolean = false;
 	albumsTabActive: boolean = false;
 	artistTabActive: boolean = false;
+	private paramsSubscription: Subscription;
 	constructor(private _route: ActivatedRoute, private _searchService: SearchService) {
 
 	}
 
 	ngOnInit() {
-		this._route.params.subscribe(params => {
+		this.paramsSubscription = this._route.params.subscribe(params => {
 			this.searchQuery = params['searchQuery'];
 			this.provider = params['provider'];
 
@@ -37,5 +38,9 @@ export class SearchComponent implements OnInit {
 				}
 			});
 		});
+	}
+
+	ngOnDestroy(){
+		this.paramsSubscription.unsubscribe();
 	}
 }
