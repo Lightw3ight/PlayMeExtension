@@ -44,7 +44,6 @@
 
 				<a [routerLink]="['/queue']" *ngIf="trackQueue?.length">See all queued tracks</a>
 			</tab>
-
 			<tab heading="History">
 				<queued-track *ngFor="let track of trackHistory" [queuedTrack]="track"></queued-track>
 				

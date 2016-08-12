@@ -1,3 +1,9 @@
+"use strict";
+
+// SystemJS configuration file, see links for more information
+// https://github.com/systemjs/systemjs
+// https://github.com/systemjs/systemjs/blob/master/docs/config-api.md
+
 /***********************************************************************************************
  * User Configuration.
  **********************************************************************************************/
@@ -18,6 +24,7 @@ const barrels: string[] = [
   '@angular/core',
   '@angular/common',
   '@angular/compiler',
+  '@angular/forms',
   '@angular/http',
   '@angular/router',
   '@angular/platform-browser',
@@ -50,6 +57,9 @@ const barrels: string[] = [
   'app/queue',
   'app/history',
   'app/shared/opinion-buttons',
+  'app/shared/tabset',
+  'app/shared/tabset/tab',
+  'app/shared/dropdown'
   /** @cli-barrel */
 ];
 
@@ -57,14 +67,6 @@ const cliSystemConfigPackages: any = {};
 barrels.forEach((barrelName: string) => {
   cliSystemConfigPackages[barrelName] = { main: 'index' };
 });
-
-cliSystemConfigPackages.moment = {
-  format: 'cjs'
-};
-
-cliSystemConfigPackages['ng2-bootstrap'] = {
-  format: 'cjs'
-};
 
 /** Type declaration for ambient System. */
 declare var System: any;
@@ -75,8 +77,8 @@ System.config({
     '@angular': 'vendor/@angular',
     'rxjs': 'vendor/rxjs',
     'main': 'main.js',
-    'moment': 'vendor/moment/moment.js',
-    'ng2-bootstrap': 'vendor/ng2-bootstrap'
+    'moment': 'vendor/moment/moment.js'
+    //'ng2-bootstrap': 'vendor/ng2-bootstrap'
   },
   packages: cliSystemConfigPackages
 });

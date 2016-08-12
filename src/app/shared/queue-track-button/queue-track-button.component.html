@@ -1,13 +1,13 @@
 <div class="btn-group" role="group">
-	<button type="button" class="btn btn-default btn-icon" (click)="smModal.show(); focusComments(comment);" title="Queue with comment" [disabled]="track.IsAlreadyQueued">
+	<!--<button type="button" class="btn btn-default btn-icon" (click)="smModal.show(); focusComments(comment);" title="Queue with comment" [disabled]="track.IsAlreadyQueued">
 		<i class="icon-bubble-plus"></i>
-	</button>
+	</button>-->
 	<button class="btn btn-default btn-icon" [ngClass]="{'btn-success': track.IsAlreadyQueued}" (click)="queueTrack()" [disabled]="track.IsAlreadyQueued" title="Queue track">
 		<i class="icon-playlist-add"></i>
 	</button>
 </div>
 
-<div bsModal #smModal="bs-modal" class="modal fade text-left" role="dialog" aria-hidden="true">
+<!--<div bsModal #smModal="bs-modal" class="modal fade text-left" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -26,4 +26,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->

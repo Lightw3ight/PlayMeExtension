@@ -1,8 +1,8 @@
 import {Component, OnInit, OnDestroy, DynamicComponentLoader} from '@angular/core';
-import { DomSanitizationService, SecurityContext } from '@angular/platform-browser';
+import { DomSanitizationService } from '@angular/platform-browser';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import * as moment from 'moment';
-import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap'
+//import { TOOLTIP_DIRECTIVES, TAB_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap'
 
 
 
@@ -27,7 +27,6 @@ import {
 
 
 import {ZoneSelectorComponent} from './zone-selector/zone-selector.component';
-import { TAB_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
 	moduleId: module.id,
@@ -35,14 +34,7 @@ import { TAB_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 	templateUrl: 'now-playing.component.html',
 	styleUrls: ['now-playing.component.css'],
 	directives: [
-		ROUTER_DIRECTIVES,
-		SearchBarComponent,
-		ZoneSelectorComponent,
-		TAB_DIRECTIVES,
-		QueuedTrackComponent,
-		TOOLTIP_DIRECTIVES,
-		UserListComponent,
-		OpinionButtonsComponent
+		ROUTER_DIRECTIVES
 	]
 })
 export class NowPlayingComponent implements OnInit, OnDestroy {

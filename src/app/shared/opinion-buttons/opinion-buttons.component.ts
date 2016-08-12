@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 
 import {IQueuedTrack} from '../../models';
-import {UserListComponent} from '../';
 
 
 @Component({
@@ -9,9 +8,6 @@ import {UserListComponent} from '../';
 	selector: 'opinion-buttons',
 	templateUrl: 'opinion-buttons.component.html',
 	styleUrls: ['opinion-buttons.component.css'],
-	directives: [
-		UserListComponent
-	],
 	encapsulation: ViewEncapsulation.None
 })
 export class OpinionButtonsComponent implements OnInit {

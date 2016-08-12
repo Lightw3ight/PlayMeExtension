@@ -1,17 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES, RouteSegment} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
 	moduleId: module.id,
 	selector: 'search-bar',
-	templateUrl: 'search-bar.component.html',
-	directives: [
-		ROUTER_DIRECTIVES
-	]
+	templateUrl: 'search-bar.component.html'
 })
 export class SearchBarComponent implements OnInit {
 	searchValue: string;
-	constructor(private _routeSegment: RouteSegment, private _router: Router) {
+	constructor(private _router: Router) {
 
 	}
 	ngOnInit() {

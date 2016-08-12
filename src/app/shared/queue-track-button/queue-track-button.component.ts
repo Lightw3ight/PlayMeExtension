@@ -1,7 +1,5 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {QueueService} from '../../api/queue.service';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 
 
 import {ITrack} from '../../models/ITrack';
@@ -11,13 +9,6 @@ import {ITrack} from '../../models/ITrack';
 	selector: 'queue-track-button',
 	templateUrl: 'queue-track-button.component.html',
 	styleUrls: ['queue-track-button.component.css'],
-	directives: [
-		ROUTER_DIRECTIVES,
-		MODAL_DIRECTVES
-	],
-	viewProviders: [
-		BS_VIEW_PROVIDERS
-	],
 	encapsulation: ViewEncapsulation.Emulated
 })
 export class QueueTrackButtonComponent implements OnInit {

@@ -1,10 +1,14 @@
 {
   "project": {
-    "version": "0.1.0",
-    "name": "play-me-extension"
+    "version": "1.0.0-beta.10",
+    "name": "ngtest"
   },
   "apps": [
-    {"main": "src/main.ts", "tsconfig": "src/tsconfig.json"}
+    {
+      "main": "src/main.ts",
+      "tsconfig": "src/tsconfig.json",
+      "mobile": false
+    }
   ],
   "addons": [],
   "packages": [],
@@ -20,6 +24,9 @@
   },
   "defaults": {
     "prefix": "app",
-    "sourceDir": "src"
+    "sourceDir": "src",
+    "styleExt": "css",
+    "prefixInterfaces": false,
+    "lazyRoutePrefix": "+"
   }
 }

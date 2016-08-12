@@ -1,15 +1,11 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
-import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
-
 import {AudioZoneService, IAudioZone} from '../../api';
 
 @Component({
 	moduleId: module.id,
 	selector: 'zone-selector',
 	templateUrl: 'zone-selector.component.html',
-	directives: [
-		DROPDOWN_DIRECTIVES
-	]
+	styleUrls: ['zone-selector.component.css']
 })
 export class ZoneSelectorComponent implements OnInit {
 	@Input() activeZone: string;

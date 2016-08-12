@@ -1,0 +1,19 @@
+<ul class="nav"
+	[ngClass]="classMap"
+	(click)="$event.preventDefault()">
+	<li *ngFor="let tabz of tabs"
+		class="nav-item"
+		[class.active]="tabz.active"
+		[class.disabled]="tabz.disabled">
+		<a href
+			class="nav-link"
+			[class.active]="tabz.active"
+			[class.disabled]="tabz.disabled"
+			(click)="activate(tabz)">
+			<span>{{tabz.heading}}</span>
+		</a>
+	</li>
+</ul>
+<div class="tab-content">
+	<ng-content></ng-content>
+</div>
