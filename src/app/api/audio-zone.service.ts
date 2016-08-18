@@ -13,6 +13,7 @@ export class AudioZoneService {
 		{ name: 'OML L3', path: 'http://music.trademe.local/oml/3' },
 		{ name: 'OML L4', path: 'http://music.trademe.local/oml/4' },
 		{ name: 'OML L5', path: 'http://music.trademe.local/oml/5' },
+		{ name: 'NZX L4', path: 'http://music.trademe.local/nzx/4' },
 		{ name: 'Auckland L1', path: 'http://music.trademe.local/sst/1' },
 		{ name: 'Auckland L2', path: 'http://music.trademe.local/sst/2' },
 		{name: 'Christchurch', path: 'http://chc-music.trademe.local'}
