@@ -20,7 +20,7 @@ module.exports = function(defaults) {
       //'ng2-bootstrap/**/*.js',
       'bootstrap/dist/**/*.*',
       'ms-signalr-client/*.js',
-      'jquery/dist/**/*.*'
+      'jquery/dist/**/*.+(js|js.map)'
     ]
   });
 };
