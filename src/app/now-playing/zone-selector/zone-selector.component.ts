@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
 import {AudioZoneService, IAudioZone} from '../../api';
 
 @Component({
-	moduleId: module.id,
 	selector: 'zone-selector',
 	templateUrl: 'zone-selector.component.html',
 	styleUrls: ['zone-selector.component.css']

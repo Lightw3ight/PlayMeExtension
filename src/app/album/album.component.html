@@ -1,5 +1,5 @@
 <div class="app-root">
-  <div class="album-art-background"><img [src]="album?.ArtworkUrlLarge || '/images/pixel.gif'"></div>
+  <div class="album-art-background"><img [src]="album?.ArtworkUrlLarge || '/assets/images/pixel.gif'"></div>
   <div class="content-top album-header">
     <div class="row nav-bar">
       <zone-selector class="col-xs-3" [activeZone]="activeZone"></zone-selector>
@@ -12,7 +12,7 @@
         <h1>{{album?.Name}}</h1>
       </div>
       <div class="col-xs-4">
-        <img [src]="album?.ArtworkUrlLarge || '/images/pixel.gif'" class="img-responsive">
+        <img [src]="album?.ArtworkUrlLarge || '/assets/images/pixel.gif'" class="img-responsive">
       </div>
     </div>
   </div>

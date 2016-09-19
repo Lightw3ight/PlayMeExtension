@@ -32,7 +32,7 @@ export class AudioZoneService {
 	getCurrentZone(){
 		let zone = localStorage.getItem(this.zoneKey) || this._zones[0].path;
 		if (!zone.startsWith('http')){
-			zone = this._zones.find(z => z.name.indexOf(zone) > 0);
+			zone = this._zones.find(z => z.name.indexOf(<any>zone) > 0).name;
 		}
 
 		return zone || this._zones[0].path;

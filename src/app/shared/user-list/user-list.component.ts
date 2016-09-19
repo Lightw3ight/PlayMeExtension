@@ -4,7 +4,6 @@ import {IVeto} from '../../models/IVeto';
 import {ILike} from '../../models/ILike';
 
 @Component({
-	moduleId: module.id,
 	selector: 'user-list',
 	templateUrl: 'user-list.component.html',
 	styleUrls: [

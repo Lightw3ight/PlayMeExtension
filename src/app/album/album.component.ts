@@ -1,12 +1,11 @@
 import {Component, OnInit, OnDestroy } from '@angular/core';
-import {Router, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
+import {Router, ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
 
 import {AlbumService, QueueService} from '../api';
 import {IAlbum, ITrack} from '../models';
 
 @Component({
-	moduleId: module.id,
 	selector: 'album',
 	templateUrl: 'album.component.html',
 	styleUrls: ['album.component.css']

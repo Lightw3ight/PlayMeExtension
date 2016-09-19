@@ -1,5 +1,5 @@
 <div class="app-root">
-	<div class="album-art-background"><img [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge || '/images/pixel.gif'"></div>
+	<div class="album-art-background"><img [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge || '/assets/images/pixel.gif'"></div>
 	<div class="content-top">
 		<div class="row nav-bar">
 			<zone-selector class="col-xs-3" [activeZone]="activeZone" (zoneChanged)="changeZone($event)"></zone-selector>
@@ -27,7 +27,7 @@
 					</p>
 				</div>
 				<div class="col-xs-4">
-					<img [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge || '/images/pixel.gif'" class="img-responsive">
+					<img [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge || '/assets/images/pixel.gif'" class="img-responsive">
 				</div>
 			</div>
 		</div>

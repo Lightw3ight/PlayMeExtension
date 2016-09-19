@@ -1,10 +1,8 @@
 import {Component, Input, OnInit, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
 import {QueueService} from '../../api/queue.service';
-import {IQueuedTrack} from '../../models/IQueuedTrack.d';
-
+import {IQueuedTrack} from '../../models';
 
 @Component({
-	moduleId: module.id,
 	selector: 'queued-track',
 	templateUrl: 'queued-track.component.html',
 	styleUrls: ['queued-track.component.css'],

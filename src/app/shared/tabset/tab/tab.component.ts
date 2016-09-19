@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, ElementRef, ContentChild } from '@angular/core';
 
 @Component({
-  moduleId: module.id,
   selector: 'tab',
   templateUrl: 'tab.component.html',
   styleUrls: ['tab.component.css']

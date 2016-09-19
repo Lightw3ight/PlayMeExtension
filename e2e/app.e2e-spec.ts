@@ -1,10 +1,10 @@
-import { NgtestPage } from './app.po';
+import { NgfinaltestPage } from './app.po';
 
-describe('ngtest App', function() {
-  let page: NgtestPage;
+describe('ngfinaltest App', function() {
+  let page: NgfinaltestPage;
 
   beforeEach(() => {
-    page = new NgtestPage();
+    page = new NgfinaltestPage();
   });
 
   it('should display message saying app works', () => {

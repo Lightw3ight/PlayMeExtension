@@ -4,7 +4,6 @@ import {IQueuedTrack} from '../../models';
 
 
 @Component({
-	moduleId: module.id,
 	selector: 'opinion-buttons',
 	templateUrl: 'opinion-buttons.component.html',
 	styleUrls: ['opinion-buttons.component.css'],

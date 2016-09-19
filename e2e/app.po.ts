@@ -1,4 +1,6 @@
-export class NgtestPage {
+import { browser, element, by } from 'protractor/globals';
+
+export class NgfinaltestPage {
   navigateTo() {
     return browser.get('/');
   }

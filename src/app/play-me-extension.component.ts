@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, ViewContainerRef } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router} from '@angular/router';
+import { Router} from '@angular/router';
 
 
 
@@ -12,12 +12,10 @@ import {UserInfoService} from './api/user-info.service';
 import {SignalRService} from './api/signalr.service';
 
 @Component({
-	moduleId: module.id,
 	selector: 'play-me-extension-app',
 	templateUrl: 'play-me-extension.component.html',
 	styleUrls: ['play-me-extension.component.css'],
 	encapsulation: ViewEncapsulation.None
-	//directives: [ROUTER_DIRECTIVES]
 })
 export class PlayMeExtensionAppComponent {
 	constructor(private router: Router, private viewContainerRef: ViewContainerRef) {

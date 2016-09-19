@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { routing, appRoutingProviders } from './app.routes';
-import { HTTP_PROVIDERS } from '@angular/http';
+import { HttpModule } from '@angular/http';
+import 'bootstrap';
 
 import {
 	SearchService,
@@ -24,14 +25,15 @@ import { PlayMeExtensionAppComponent } from './play-me-extension.component';
 import { ArtistListItemComponent } from './search/artist-list-item';
 import { AlbumListItemComponent } from './search/album-list-item'
 import { ZoneSelectorComponent } from './now-playing';
-import { SharedModule } from './shared';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
 	imports: [
 		BrowserModule,
 		FormsModule,
 		routing,
-		SharedModule
+		SharedModule,
+		HttpModule
 	],
 	declarations: [
 		PlayMeExtensionAppComponent,
@@ -47,7 +49,6 @@ import { SharedModule } from './shared';
 	],
 	providers: [
 		appRoutingProviders,
-		HTTP_PROVIDERS,
 		SearchService,
 		ArtistService,
 		AlbumService,

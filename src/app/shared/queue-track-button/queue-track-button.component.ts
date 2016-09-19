@@ -5,7 +5,6 @@ import {QueueService} from '../../api/queue.service';
 import {ITrack} from '../../models/ITrack';
 
 @Component({
-	moduleId: module.id,
 	selector: 'queue-track-button',
 	templateUrl: 'queue-track-button.component.html',
 	styleUrls: ['queue-track-button.component.css'],

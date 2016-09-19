@@ -1,11 +1,10 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Location} from '@angular/common';
-import {Router, ROUTER_DIRECTIVES, ActivatedRoute} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {ArtistService} from '../api';
 import {IArtist} from '../models';
 
 @Component({
-	moduleId: module.id,
 	selector: 'artist',
 	templateUrl: 'artist.component.html',
 	styleUrls: ['artist.component.css']

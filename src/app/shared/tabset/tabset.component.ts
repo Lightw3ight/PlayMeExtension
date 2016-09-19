@@ -2,7 +2,6 @@ import { Component, OnInit, Input, HostBinding, ContentChildren, QueryList } fro
 import { TabComponent } from './tab';
 
 @Component({
-	moduleId: module.id,
 	selector: 'tabset',
 	templateUrl: 'tabset.component.html',
 	styleUrls: ['tabset.component.css']

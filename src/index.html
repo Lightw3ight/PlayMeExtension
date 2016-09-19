@@ -5,20 +5,17 @@
 	<meta charset="utf-8">
 	<title>Play Me</title>
 	<base href="/">
-	<link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/css/playme-icons.css">
+	<!--<link rel="stylesheet" href="/assets/css/playme-icons.css">-->
+
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="/vendor/jquery/dist/jquery.min.js"></script>
-	<script src="/static/jquery.signalR-2.0.1.min.js"></script>
-	<!--<script src="/vendor/ms-signalr-client/jquery.signalR.min.js"></script>-->
-	<script src="/static/playme-signalr.js"></script>
+	<!--<script src="/assets/jquery-2.0.3.min.js"></script>
+	<script src="/assets/jquery.signalR-2.0.1.min.js"></script>
+	<script src="/assets/playme-signalr.js"></script>-->
+
 </head>
 
 <body>
 	<play-me-extension-app>Loading...</play-me-extension-app>
-	{{#each scripts.polyfills}}
-		<script src="{{.}}"></script>
-	{{/each}}
-	<script src="/static/extension-loader.js"></script>
 </body>
+
 </html>

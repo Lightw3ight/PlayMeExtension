@@ -1,6 +1,6 @@
 <div class="album-tile col-xs-4">
 	<a [routerLink]="['/album', album.MusicProvider.Identifier, album.Link]" [attr.title]="album.Name">
-		<img src="/images/pixel.gif" [ngStyle]="{'background-image': 'url('+album.ArtworkUrlLarge+')'}" [attr.alt]="album.Name">
+		<img src="/assets/images/pixel.gif" [ngStyle]="{'background-image': 'url('+album.ArtworkUrlLarge+')'}" [attr.alt]="album.Name">
 	</a>
 	<div>
 		<a [routerLink]="['/album', album.MusicProvider.Identifier, album.Link]">{{album.Name}}</a>

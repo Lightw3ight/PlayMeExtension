@@ -13,7 +13,6 @@ import {
 } from '../api';
 
 @Component({
-	moduleId: module.id,
 	selector: 'app-history',
 	templateUrl: 'history.component.html',
 	styleUrls: ['history.component.css']

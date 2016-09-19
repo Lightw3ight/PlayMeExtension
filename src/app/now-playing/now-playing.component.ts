@@ -1,7 +1,6 @@
-import {Component, OnInit, OnDestroy, DynamicComponentLoader} from '@angular/core';
-import { DomSanitizationService } from '@angular/platform-browser';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-import * as moment from 'moment';
+import {Component, OnInit, OnDestroy } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import {Router } from '@angular/router';
 import {Subscription} from 'rxjs';
 //import { TOOLTIP_DIRECTIVES, TAB_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap'
 
@@ -30,13 +29,9 @@ import {
 import {ZoneSelectorComponent} from './zone-selector/zone-selector.component';
 
 @Component({
-	moduleId: module.id,
 	selector: 'now-playing',
 	templateUrl: 'now-playing.component.html',
-	styleUrls: ['now-playing.component.css'],
-	directives: [
-		ROUTER_DIRECTIVES
-	]
+	styleUrls: ['now-playing.component.css']
 })
 export class NowPlayingComponent implements OnInit, OnDestroy {
 	currentTrack: IQueuedTrack = null;
@@ -55,7 +50,7 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
 		private _audioZoneService: AudioZoneService,
 		private _userInfoService: UserInfoService,
 		private _signalRService: SignalRService,
-		private _domSanitizationService: DomSanitizationService) {
+		private _domSanitizationService: DomSanitizer) {
 	}
 
 	createSpotifyUrl(track: IQueuedTrack){

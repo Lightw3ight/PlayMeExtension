@@ -16,7 +16,6 @@ import {
 //import { TAB_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
-	moduleId: module.id,
 	selector: 'app-queue',
 	templateUrl: 'queue.component.html',
 	styleUrls: ['queue.component.css']
