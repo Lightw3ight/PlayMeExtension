@@ -26,7 +26,7 @@ export class QueueComponent implements OnInit {
 	constructor(private _queueService: QueueService) { }
 
 	ngOnInit() {
-		this._queueService.getAllQueuedTracks().then(tracks =>{
+		this._queueService.getAllQueuedTracks().then((tracks: IQueuedTrack[]) =>{
 		    this.queuedTracks = tracks;
 		})
 	}

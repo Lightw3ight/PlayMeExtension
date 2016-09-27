@@ -3,20 +3,15 @@ import { BrowserModule }  from '@angular/platform-browser';
 import { CommonModule }   from '@angular/common';
 import { FormsModule }    from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { ModalModule, DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import {
     BreadcrumbsComponent,
-    DropdownDirective,
-    DropdownMenuDirective,
-    DropdownToggleDirective,
     OpinionButtonsComponent,
     QueueTrackButtonComponent,
     QueuedTrackComponent,
     SearchBarComponent,
     SimpleTrackListItemComponent,
-    TabsetComponent,
-    TabComponent,
     TrackListItemComponent,
     UserListComponent
     
@@ -27,35 +22,27 @@ import {
         BrowserModule,
         CommonModule,
         FormsModule,
-        RouterModule
+        RouterModule,
+		ModalModule,
+        DropdownModule
     ],
     declarations: [
         BreadcrumbsComponent,
-        DropdownDirective,
-        DropdownMenuDirective,
-        DropdownToggleDirective,
         OpinionButtonsComponent,
         QueueTrackButtonComponent,
         QueuedTrackComponent,
         SearchBarComponent,
         SimpleTrackListItemComponent,
-        TabsetComponent,
-        TabComponent,
         TrackListItemComponent,
         UserListComponent
     ],
     exports: [
         BreadcrumbsComponent,
-        DropdownDirective,
-        DropdownMenuDirective,
-        DropdownToggleDirective,
         OpinionButtonsComponent,
         QueueTrackButtonComponent,
         QueuedTrackComponent,
         SearchBarComponent,
         SimpleTrackListItemComponent,
-        TabsetComponent,
-        TabComponent,
         TrackListItemComponent,
         UserListComponent
     ],

@@ -89,7 +89,7 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
 		this._signalRService.closeHubConnection();
 	}
 
-	changeZone(zone) {
+	changeZone(zone: string) {
 		this.closeHubConnection();
 		this.activeZone = zone;
 		this.openHubConnection();

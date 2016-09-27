@@ -4,6 +4,7 @@ import { FormsModule }    from '@angular/forms';
 import { routing, appRoutingProviders } from './app.routes';
 import { HttpModule } from '@angular/http';
 import 'bootstrap';
+import { TabsModule, DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import {
 	SearchService,
@@ -33,7 +34,9 @@ import { SharedModule } from './shared/shared.module';
 		FormsModule,
 		routing,
 		SharedModule,
-		HttpModule
+		HttpModule,
+		TabsModule,
+		DropdownModule
 	],
 	declarations: [
 		PlayMeExtensionAppComponent,

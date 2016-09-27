@@ -33,7 +33,7 @@ export class HistoryComponent implements OnInit {
 	loadFullHistory() {
 		this.history = [];
 		this.loading = true;
-		this._queueService.getHistory().then(response => {
+		this._queueService.getHistory().then((response: IPagedResult<IQueuedTrack>) => {
 			this.history = response.PageData;
 			this.loading = false;
 		})
@@ -42,7 +42,7 @@ export class HistoryComponent implements OnInit {
 	loadRequestHistory() {
 		this.requestHistory = [];
 		this.loading = true;
-		this._queueService.getRequestedHistory().then(response => {
+		this._queueService.getRequestedHistory().then((response: IPagedResult<IQueuedTrack>) => {
 			this.requestHistory = response.PageData;
 			this.loading = false;
 		})
@@ -51,7 +51,7 @@ export class HistoryComponent implements OnInit {
 	loadUserHistory() {
 		this.userHistory = [];
 		this.loading = true;
-		this._queueService.getMyHistory().then(response => {
+		this._queueService.getMyHistory().then((response: IPagedResult<IQueuedTrack>) => {
 			this.userHistory = response.PageData;
 			this.loading = false;
 		})

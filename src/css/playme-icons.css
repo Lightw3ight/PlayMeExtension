@@ -10,66 +10,72 @@
 }
 
 [class^="icon-"], [class*=" icon-"] {
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'playme-icons' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    font-size: 16px;
-    display: inline-block;
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'playme-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
 
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-bubble:before {
+  content: "\eac7";
+}
 .icon-bubble-plus:before {
-    content: "\eaec";
+  content: "\eaec";
 }
 .icon-search:before {
-    content: "\eb30";
+  content: "\eb30";
 }
 .icon-playlist:before {
-    content: "\ec56";
+  content: "\ec56";
 }
 .icon-playlist-add:before {
-    content: "\ec57";
+  content: "\ec57";
+}
+.icon-more2:before {
+  content: "\ec5c";
 }
 .icon-heart-broken:before {
-    content: "\eceb";
+  content: "\eceb";
 }
 .icon-heart:before {
-    content: "\ecec";
+  content: "\ecec";
 }
 .icon-thumbs-up:before {
-    content: "\ecf5";
+  content: "\ecf5";
 }
 .icon-thumbs-down:before {
-    content: "\ecf7";
+  content: "\ecf7";
 }
 .icon-plus:before {
-    content: "\ed5d";
+  content: "\ed5d";
 }
 .icon-plus-circle:before {
-    content: "\ed5f";
+  content: "\ed5f";
 }
 .icon-checkmark:before {
-    content: "\ed71";
+  content: "\ed71";
+}
+.icon-play:before {
+  content: "\ed85";
 }
 .icon-arrow-down:before {
-    content: "\edc1";
+  content: "\edc1";
 }
 .icon-arrow-left:before {
-    content: "\edc5";
+  content: "\edc5";
 }
 .icon-checkmark-circle:before {
-    content: "\ee76";
+  content: "\ee76";
 }
 .icon-queue_music:before {
-    content: "\e900";
+  content: "\e900";
 }
-
 

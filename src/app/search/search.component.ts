@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit {
 			this.searchQuery = params['searchQuery'];
 			this.provider = params['provider'];
 
-			this._searchService.search(this.provider, this.searchQuery).then(results => {
+			this._searchService.search(this.provider, this.searchQuery).then((results: ISearchResults) => {
 				this.results = results;
 				if (results.PagedArtists.Artists.length) {
 					this.artistTabActive = true;

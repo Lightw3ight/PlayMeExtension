@@ -16,8 +16,8 @@ export class ZoneSelectorComponent implements OnInit {
 
 	}
 
-	getZoneName(zonePath) {
-		var zone = this.zones.find(z => z.path === zonePath);
+	getZoneName(zonePath: string) {
+		var zone = this.zones.find((z: IAudioZone) => z.path === zonePath);
 		return zone ? zone.name : null;
 	}
 
@@ -29,7 +29,7 @@ export class ZoneSelectorComponent implements OnInit {
 
 	ngOnInit() {
 		this.activeZone = this._audioZoneService.getCurrentZone();
-		this._audioZoneService.getAllZones().then(zones => {
+		this._audioZoneService.getAllZones().then((zones : IAudioZone[]) => {
 			this.zones = zones;
 
 			if (!this.activeZone) {
