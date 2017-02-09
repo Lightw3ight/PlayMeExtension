@@ -1,19 +1,21 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
-import { FormsModule }    from '@angular/forms';
-import { routing, appRoutingProviders } from './app.routes';
+import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { routing, appRoutingProviders } from './app.routes';
 import 'bootstrap';
-import { TabsModule, DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { TabsModule } from 'ng2-bootstrap/tabs';
+import { DropdownModule } from 'ng2-bootstrap/dropdown';
+import { ModalModule } from 'ng2-bootstrap/modal';
 
 import {
-	SearchService,
-	ArtistService,
-	AlbumService,
-	QueueService,
-	AudioZoneService,
-	UserInfoService,
-	SignalRService
+    SearchService,
+    ArtistService,
+    AlbumService,
+    QueueService,
+    AudioZoneService,
+    UserInfoService,
+    SignalRService
 } from './api';
 
 import { AlbumComponent } from './album';
@@ -29,37 +31,38 @@ import { ZoneSelectorComponent } from './now-playing';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-	imports: [
-		BrowserModule,
-		FormsModule,
-		routing,
-		SharedModule,
-		HttpModule,
-		TabsModule,
-		DropdownModule
-	],
-	declarations: [
-		PlayMeExtensionAppComponent,
-		ZoneSelectorComponent,
-		AlbumListItemComponent,
-		ArtistListItemComponent,
-		AlbumComponent,
-		SearchComponent,
-		ArtistComponent,
-		QueueComponent,
-		HistoryComponent,
-		NowPlayingComponent,
-	],
-	providers: [
-		appRoutingProviders,
-		SearchService,
-		ArtistService,
-		AlbumService,
-		QueueService,
-		AudioZoneService,
-		UserInfoService,
-		SignalRService
-	],
-	bootstrap: [PlayMeExtensionAppComponent]
+    imports: [
+        BrowserModule,
+        FormsModule,
+        routing,
+        SharedModule,
+        HttpModule,
+        TabsModule.forRoot(),
+        DropdownModule.forRoot(),
+        ModalModule.forRoot()
+    ],
+    declarations: [
+        PlayMeExtensionAppComponent,
+        ZoneSelectorComponent,
+        AlbumListItemComponent,
+        ArtistListItemComponent,
+        AlbumComponent,
+        SearchComponent,
+        ArtistComponent,
+        QueueComponent,
+        HistoryComponent,
+        NowPlayingComponent,
+    ],
+    providers: [
+        appRoutingProviders,
+        SearchService,
+        ArtistService,
+        AlbumService,
+        QueueService,
+        AudioZoneService,
+        UserInfoService,
+        SignalRService
+    ],
+    bootstrap: [PlayMeExtensionAppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,21 @@
-<div class="row">
-	<div class="col-xs-8">
+<div class="simple-track-list-item"
+	[class.simple-track-list-item--menu-open]="menuComponent.isOpen"
+	[class.simple-track-list-item--queued]="track.IsAlreadyQueued">
+	<div class="simple-track-list-item__before">
+		<label>{{ trackNumber }}</label>
+		<button type="button"
+			class="btn-icon"
+			[disabled]="track.IsAlreadyQueued"
+			(click)="queueTrack(track)">
+			<i class="icon-play"></i>
+		</button>
+	</div>
+	<div class="simple-track-list-item__name">
 		<label class="track-name">{{track.Name}}</label>
 	</div>
-	<queue-track-button [track]="track" class="col-xs-4 text-right"></queue-track-button>
+	<div class="simple-track-list-item__after">
+		<label>{{ formatTime(track.Duration) }}</label>
+
+		<queue-track-button [track]="track" #menuComponent></queue-track-button>
+	</div>
 </div>

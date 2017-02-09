@@ -18,8 +18,8 @@
   </div>
   <div class="content-bottom">
     <ul class="list-unstyled">
-      <li *ngFor="let track of album?.Tracks">
-        <simple-track-list-item [track]="track"></simple-track-list-item>
+      <li *ngFor="let track of album?.Tracks; let ix = index">
+        <simple-track-list-item [track]="track" [trackNumber]="ix + 1"></simple-track-list-item>
       </li>
     </ul>
   </div>

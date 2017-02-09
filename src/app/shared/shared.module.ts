@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
-import { CommonModule }   from '@angular/common';
-import { FormsModule }    from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { ModalModule, DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { DropdownModule } from 'ng2-bootstrap/dropdown';
+import { ModalModule } from 'ng2-bootstrap/modal';
 
 import {
     BreadcrumbsComponent,
@@ -14,7 +15,7 @@ import {
     SimpleTrackListItemComponent,
     TrackListItemComponent,
     UserListComponent
-    
+
 } from './';
 
 @NgModule({
@@ -23,7 +24,7 @@ import {
         CommonModule,
         FormsModule,
         RouterModule,
-		ModalModule,
+        ModalModule,
         DropdownModule
     ],
     declarations: [
@@ -46,7 +47,7 @@ import {
         TrackListItemComponent,
         UserListComponent
     ],
-    providers:[
+    providers: [
     ]
 })
 export class SharedModule {

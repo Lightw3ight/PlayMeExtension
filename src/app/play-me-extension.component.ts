@@ -14,7 +14,7 @@ import {SignalRService} from './api/signalr.service';
 @Component({
 	selector: 'play-me-extension-app',
 	templateUrl: 'play-me-extension.component.html',
-	styleUrls: ['play-me-extension.component.css'],
+	styleUrls: ['play-me-extension.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
 export class PlayMeExtensionAppComponent {

@@ -165,7 +165,7 @@ search-bar .form-control:focus {
 }
 
 search-bar .btn {
-	padding: 3px 5px 2px 5px;
+	padding: 4px 5px 2px 5px;
 	border-radius: 0;
 	border: 3px solid #FFF !important;
 }
@@ -242,15 +242,6 @@ search-bar .btn {
 .now-playing opinion-buttons .btn-veto:hover {
 	color: #FFF;
 	opacity: 1;
-}
-
-.track-list-item opinion-buttons {
-	display: none;
-}
-
-.track-list-item:hover opinion-buttons,
-.track-list-item .has-votes {
-	display: block;
 }
 
 .dropdown-menu a {
@@ -354,35 +345,6 @@ search-bar .btn {
 	font-weight: normal;
 	font-size: 18px;
 	margin: 0;
-}
-
-.track-list-item,
-simple-track-list-item {
-	margin-bottom: 5px;
-	display: block;
-}
-
-simple-track-list-item .track-name {
-	line-height: 34px;
-	font-weight: normal;
-	margin: 0;
-}
-
-.track-list-item {
-	margin-bottom: 10px;
-}
-
-.track-list-item label {
-	margin-bottom: 0;
-	color: #666;
-}
-
-.track-list-item a {
-	font-size: 12px;
-}
-
-.track-list-item ul {
-	line-height: 14px;
 }
 
 .queue-info {
@@ -494,4 +456,23 @@ simple-track-list-item .track-name {
 
 .user-list-container:hover user-list{
 	display: block;
+}
+
+.btn-icon {
+	border: none;
+	background: none;
+
+	i {
+		color: #0077ff;
+	}
+
+	&:hover {
+		i {
+			color: #0055ff;
+		}	
+	}
+
+	&[disabled] {
+		opacity: 0.2;
+	}
 }

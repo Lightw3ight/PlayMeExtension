@@ -5,7 +5,10 @@ import {IQueuedTrack} from '../../models';
 @Component({
 	selector: 'queued-track',
 	templateUrl: 'queued-track.component.html',
-	styleUrls: ['queued-track.component.css'],
+	styleUrls: [
+		'../track-list-item/track-list-item.component.scss',
+		'queued-track.component.scss'
+		],
 	encapsulation: ViewEncapsulation.None
 })
 export class QueuedTrackComponent implements OnInit {

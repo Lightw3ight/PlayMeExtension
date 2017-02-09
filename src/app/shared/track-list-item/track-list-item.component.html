@@ -1,13 +1,18 @@
-<div class="row track-list-item">
-	<div class="col-xs-2">
+<div class="track-list-item">
+	<div class="track-list-item__artwork">
 		<img [src]="track?.Album.ArtworkUrlSmall" class="img-responsive">
+		<button type="button" class="btn-icon track-list-item__artwork-play-button" [disabled]="track.IsAlreadyQueued" (click)="queueTrack(track)">
+			<i class="icon-play"></i>
+		</button>
 	</div>
-	<div class="col-xs-7">
+	<div class="track-list-item__details">
 		<label>{{track?.Name}}</label>
 		<ul class="comma-separated">
 			<li *ngFor="let artist of track?.Artists"><a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a></li>
 		</ul>
 		<a [routerLink]="['/album', track?.Album.MusicProvider.Identifier, track?.Album.Link]">{{track?.Album?.Name}}</a>
 	</div>
-	<queue-track-button [track]="track" class="col-xs-3 text-right"></queue-track-button>
+	<div class="track-list-item__options">
+		<queue-track-button [track]="track"></queue-track-button>
+	</div>
 </div>
