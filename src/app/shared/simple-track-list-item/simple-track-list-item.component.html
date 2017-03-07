@@ -1,21 +1,68 @@
-<div class="simple-track-list-item"
-	[class.simple-track-list-item--menu-open]="menuComponent.isOpen"
-	[class.simple-track-list-item--queued]="track.IsAlreadyQueued">
-	<div class="simple-track-list-item__before">
-		<label>{{ trackNumber }}</label>
+<div
+	fxLayout="row"
+	fxLayoutAlign="start center">
+	<div
+		class="track-item__col"
+		fxFlex="none"
+		*ngIf="!track.IsAlreadyQueued">
+		<label class="track-item__icon-size-text track-item--hover-hide">{{ trackNumber }}</label>
 		<button type="button"
-			class="btn-icon"
+			class="track-item--hover-show"
+			md-icon-button
 			[disabled]="track.IsAlreadyQueued"
 			(click)="queueTrack(track)">
 			<i class="icon-play"></i>
 		</button>
 	</div>
-	<div class="simple-track-list-item__name">
-		<label class="track-name">{{track.Name}}</label>
+	
+	<div
+		class="track-item__col"
+		fxFlex="none"
+		*ngIf="track.IsAlreadyQueued">
+		<md-icon class="track-item__display-icon">volume_up</md-icon>
 	</div>
-	<div class="simple-track-list-item__after">
-		<label>{{ formatTime(track.Duration) }}</label>
 
-		<queue-track-button [track]="track" #menuComponent></queue-track-button>
+	<div
+		class="track-item__col"
+		fxFlex
+		fxFlexFill>
+		<div class="track-item__wrap-trap">
+			<div class="track-item__wrap-trap-inner">
+				<label>{{track?.Name}}</label>
+			</div>
+		</div>
+	</div>
+
+	<div
+		class="track-item__col track-item--hover-show"
+		fxFlex="none">
+		<button
+			md-icon-button
+			[mdMenuTriggerFor]="menu"
+			*ngIf="!track.IsAlreadyQueued">
+  			<md-icon>more_vert</md-icon>
+		</button>
+
+		<md-menu #menu="mdMenu">
+			<button
+				md-menu-item
+				(click)="queueTrack()">
+				<md-icon>play_arrow</md-icon>
+				<span>Queue</span>
+			</button>
+			<button
+				md-menu-item
+				(click)="queueWithComment()">
+				<md-icon>comment</md-icon>
+				<span>Queue with comment</span>
+			</button>
+		</md-menu>
+
+	</div>
+
+	<div
+		class="track-item__col track-item--hover-hide"
+		fxFlex="none">
+		<label>{{ formatTime(track.Duration) }}</label>
 	</div>
 </div>

@@ -1,1 +1,1 @@
-export { ArtistListItemComponent } from './artist-list-item.component';
+export * from './artist-list-item.component';

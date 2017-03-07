@@ -1,1 +1,1 @@
-export { ArtistComponent } from './artist.component';
+export * from './artist.component';

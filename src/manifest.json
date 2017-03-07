@@ -11,6 +11,7 @@
 	"permissions": [
 		"http://music.trademe.local/*/*",
 		"http://guesswho/*/*",
-		"http://chc-music.trademe.local/*/*"
+		"http://chc-music.trademe.local/*/*",
+		"https://fonts.googleapis.com/icon"
 	]
 }

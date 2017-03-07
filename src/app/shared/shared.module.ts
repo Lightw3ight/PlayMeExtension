@@ -1,21 +1,19 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { DropdownModule } from 'ng2-bootstrap/dropdown';
-import { ModalModule } from 'ng2-bootstrap/modal';
+import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import {
-    BreadcrumbsComponent,
     OpinionButtonsComponent,
-    QueueTrackButtonComponent,
     QueuedTrackComponent,
-    SearchBarComponent,
     SimpleTrackListItemComponent,
     TrackListItemComponent,
-    UserListComponent
-
+    UserListComponent,
+    FixedBackgroundComponent,
+    QueueWithCommentComponent
 } from './';
 
 @NgModule({
@@ -23,31 +21,33 @@ import {
         BrowserModule,
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
         RouterModule,
-        ModalModule,
-        DropdownModule
+        MaterialModule.forRoot(),
+        FlexLayoutModule.forRoot()
     ],
     declarations: [
-        BreadcrumbsComponent,
         OpinionButtonsComponent,
-        QueueTrackButtonComponent,
         QueuedTrackComponent,
-        SearchBarComponent,
         SimpleTrackListItemComponent,
         TrackListItemComponent,
-        UserListComponent
+        UserListComponent,
+        FixedBackgroundComponent,
+        QueueWithCommentComponent
     ],
     exports: [
-        BreadcrumbsComponent,
         OpinionButtonsComponent,
-        QueueTrackButtonComponent,
         QueuedTrackComponent,
-        SearchBarComponent,
         SimpleTrackListItemComponent,
         TrackListItemComponent,
-        UserListComponent
+        UserListComponent,
+        FixedBackgroundComponent,
+        QueueWithCommentComponent
     ],
     providers: [
+    ],
+    entryComponents: [
+        QueueWithCommentComponent
     ]
 })
 export class SharedModule {

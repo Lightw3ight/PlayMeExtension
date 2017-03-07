@@ -1,47 +1,148 @@
-<div class="track-list-item">
-	<div class="track-list-item__artwork">
-		<img [src]="queuedTrack.Track?.Album?.ArtworkUrlSmall || '/assets/images/pixel.gif'">
-		<button type="button"
-			class="btn-icon track-list-item__artwork-play-button"
-			*ngIf="!queuedTrack.Track.IsAlreadyQueued && queuedTrack.StartedPlayingDateTime"
+<div
+	fxLayout="row"
+	fxLayoutAlign="start start">
+	<div
+		class="track-item__col"
+		*ngIf="!hasQueuedTrack"
+		fxFlex="none">
+		<img
+			[src]="queuedTrack.Track?.Album?.ArtworkUrlMedium || '/assets/images/pixel.gif'"
+			class="track-item__album-image">
+
+		<button
+			md-icon-button
+			class="track-item--hover-fade-in track-item__play-button"
+			type="button"
 			(click)="queueTrack()">
-			<i class="icon-play"></i>
+			<md-icon>play_arrow</md-icon>
 		</button>
 	</div>
 
-	<div class="track-list-item__details">
-		<div>
-			<label>{{queuedTrack.Track.Name}}</label>
-			<ul class="comma-separated" *ngIf="queuedTrack?.Track?.Artists">
-				<li *ngFor="let artist of queuedTrack.Track?.Artists">
-					<a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a>
-				</li>
-			</ul>
-			<a *ngIf="queuedTrack?.Track?.Album" [routerLink]="['/album', queuedTrack?.Track?.Album.MusicProvider.Identifier, queuedTrack?.Track?.Album.Link]">{{queuedTrack?.Track?.Album?.Name}}</a><br>
+	<div
+		class="track-item__col"
+		*ngIf="hasQueuedTrack"
+		fxFlex="none">
+		<md-icon class="track-item__display-icon">volume_up</md-icon>
+	</div>
+
+	<div
+		class="track-item__col track-item__details"
+		fxFlex
+		fxFlexFill>
+		<div
+			class="track-item__wrap-trap"
+			(click)="isMoreInfoVisible = !isMoreInfoVisible">
+			<div
+				class="track-item__wrap-trap-inner">
+				<label>{{queuedTrack.Track.Name}}</label>
+				<ul
+					class="comma-separated">
+					<li
+						*ngFor="let artist of queuedTrack.Track?.Artists">
+						<a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 
-		<div class="queue-info">
-			Queued by <span *ngIf="!queuedTrack.url">{{queuedTrack.fullName | async}}</span> <a [href]="queuedTrack.url" class="user-link dark top" target="_blank" *ngIf="queuedTrack.url">{{queuedTrack.fullName | async}}<img [src]="queuedTrack?.userPhotoUrl"></a>
-			<span *ngIf="queuedTrack.Reason"> text: {{queuedTrack.Reason}}</span>
-			<span *ngIf="queuedTrack.StartedPlayingDateTime">, played at {{queuedTrack.StartedPlayingDateTime | date: 'HH:mm'}} on {{queuedTrack.StartedPlayingDateTime | date}}</span>
+		<div
+			class="track-item__more-info"
+			*ngIf="isMoreInfoVisible">
+			<a
+				*ngIf="queuedTrack?.Track?.Album"
+				[routerLink]="['/album', queuedTrack?.Track?.Album.MusicProvider.Identifier, queuedTrack?.Track?.Album.Link]">
+				{{queuedTrack?.Track?.Album?.Name}}
+			</a><br>
 
-			<div>
-				<div class="badge badge-like user-list-container">
-					{{queuedTrack.LikeCount}}
-					<user-list title="Likes" [opinions]="queuedTrack?.Likes" *ngIf="queuedTrack?.LikeCount" position="top"></user-list>
-				</div>
-				<div class="badge badge-veto user-list-container">
-					{{queuedTrack.VetoCount}}
-					<user-list title="Vetoes" [opinions]="queuedTrack?.Vetoes" *ngIf="queuedTrack?.VetoCount" position="top"></user-list>
-				</div>
-			</div>
+			<small>
+				Queued by
+				<span
+					*ngIf="!queuedTrack.url">
+					{{queuedTrack.fullName | async}}
+				</span>
+				<a
+					[href]="queuedTrack.url"
+					class="user-link dark top"
+					target="_blank"
+					*ngIf="queuedTrack.url">
+					{{queuedTrack.fullName | async}}<img [src]="queuedTrack?.userPhotoUrl">
+				</a>
+				<span
+					*ngIf="queuedTrack.Reason">
+					text: {{queuedTrack.Reason}}
+				</span>
+				<span
+					*ngIf="queuedTrack.StartedPlayingDateTime">
+					, played at {{queuedTrack.StartedPlayingDateTime | date: 'HH:mm'}} on {{queuedTrack.StartedPlayingDateTime | date}}
+				</span>
+			</small>
 		</div>
 	</div>
 
-	<div class="track-list-item__options">
-		<queue-track-button [track]="queuedTrack.Track"
-			[queuedTrack]="queuedTrack"
-			(likeTrack)="like()" 
-			(vetoTrack)="veto()"></queue-track-button>
+	<div
+		class="track-item__col track-item--hover-fade-in"
+		fxFlex="none">
+		<button
+			md-icon-button
+			[mdMenuTriggerFor]="menu">
+  			<md-icon>more_vert</md-icon>
+		</button>
+
+		<md-menu
+			#menu="mdMenu">
+			<button
+				md-menu-item
+				(click)="queueTrack()"
+				*ngIf="!hasQueuedTrack">
+				<md-icon>play_arrow</md-icon>
+				<span>Queue</span>
+			</button>
+			<button
+				md-menu-item
+				(click)="queueWithComment()"
+				*ngIf="!hasQueuedTrack">
+				<md-icon>comment</md-icon>
+				<span>Queue with comment</span>
+			</button>
+			<button
+				md-menu-item
+				(click)="like()"
+				*ngIf="hasQueuedTrack">
+				<md-icon>mood</md-icon>
+				<span>Like</span>
+			</button>
+			<button
+				md-menu-item
+				(click)="veto()"
+				*ngIf="hasQueuedTrack">
+				<md-icon>mood_bad</md-icon>
+				<span>Veto</span>
+			</button>
+		</md-menu>
+	</div>
+
+	<div
+		class="track-item__col"
+		fxFlex="none">
+		<div
+			class="badge badge-like user-list-container">
+			{{queuedTrack.LikeCount}}
+			<pm-user-list
+				title="Likes"
+				[opinions]="queuedTrack?.Likes"
+				*ngIf="queuedTrack?.LikeCount"
+				position="left">
+			</pm-user-list>
+		</div>
+		<div
+			class="badge badge-veto user-list-container">
+			{{queuedTrack.VetoCount}}
+			<pm-user-list
+				title="Vetoes"
+				[opinions]="queuedTrack?.Vetoes"
+				*ngIf="queuedTrack?.VetoCount"
+				position="left">
+			</pm-user-list>
+		</div>
 	</div>
 </div>

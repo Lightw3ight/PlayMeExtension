@@ -17,11 +17,10 @@
       "polyfills": "polyfills.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.json",
-      "prefix": "app",
+      "prefix": "pm",
       "styles": [
-        "styles.css",
-        "css/playme-icons.css",
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+        "styles.scss",
+        "css/playme-icons.css"
       ],
       "scripts": [
         "scripts/jquery-2.0.3.min.js",

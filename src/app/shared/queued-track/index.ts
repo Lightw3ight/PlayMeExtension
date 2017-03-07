@@ -1,1 +1,1 @@
-export { QueuedTrackComponent } from './queued-track.component';
+export * from './queued-track.component';

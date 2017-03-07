@@ -1,11 +1,39 @@
-<button class="btn btn-like user-list-container" (click)="likeTrack(track)" title="Like">
-	<i class="icon-heart"></i>
-	<span class="badge badge-like">{{track?.LikeCount}}</span>
-	<user-list title="Likes" [opinions]="track?.Likes" *ngIf="track?.LikeCount"></user-list>
-</button>
+<div
+	class="option-buttons__like-container">
+	<button
+		md-icon-button
+		(click)="likeTrack(track)"
+		title="Like">
+		<md-icon>mood</md-icon>
+	</button>
 
-<button class="btn btn-veto user-list-container" (click)="vetoTrack(track)" title="Veto">
-	<i class="icon-heart-broken"></i>
-	<span class="badge badge-veto">{{track?.VetoCount}}</span>
-	<user-list title="Vetoes" [opinions]="track?.Vetoes" *ngIf="track?.VetoCount"></user-list>
-</button>
+	<span
+		class="badge badge-like">
+		{{track?.LikeCount}}
+	</span>
+	<pm-user-list
+		title="Likes"
+		[opinions]="track?.Likes"
+		*ngIf="track?.LikeCount">
+	</pm-user-list>
+</div>
+
+<div
+	class="option-buttons__veto-container">
+	<button
+		md-icon-button
+		(click)="vetoTrack(track)"
+		title="Veto">
+		<md-icon>mood_bad</md-icon>
+	</button>
+
+	<span
+		class="badge badge-veto">
+		{{track?.VetoCount}}
+	</span>
+	<pm-user-list
+		title="Vetoes"
+		[opinions]="track?.Vetoes"
+		*ngIf="track?.VetoCount">
+	</pm-user-list>
+</div>

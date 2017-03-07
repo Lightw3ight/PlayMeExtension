@@ -1,15 +1,14 @@
+import { IAudioZone } from './IAudioZone';
 import { Injectable } from '@angular/core';
-
-export interface IAudioZone {
-    name: string;
-    path?: string;
-}
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 @Injectable()
 export class AudioZoneService {
     private zoneKey = 'currentAudioZone';
+    private zoneChangedObservable: BehaviorSubject<IAudioZone>;
+
     private _zones: IAudioZone[] = [
-//        { name: 'Bullnose', path: 'http://music.trademe.local/Bullnose' },
+        //        { name: 'Bullnose', path: 'http://music.trademe.local/Bullnose' },
         { name: 'OML L3', path: 'http://music.trademe.local/oml/3' },
         { name: 'OML L4', path: 'http://music.trademe.local/oml/4' },
         { name: 'OML L5', path: 'http://music.trademe.local/oml/5' },
@@ -17,7 +16,11 @@ export class AudioZoneService {
         { name: 'Auckland L1', path: 'http://music.trademe.local/sst/1' },
         { name: 'Auckland L2', path: 'http://music.trademe.local/sst/2' },
         { name: 'Christchurch', path: 'http://chc-music.trademe.local' }
-    ]
+    ];
+
+    constructor() {
+        this.zoneChangedObservable = new BehaviorSubject(this.getCurrentZoneSnapshot());
+    }
 
     getAllZones(): Promise<IAudioZone[]> {
         return new Promise((resolve, reject) => {
@@ -26,15 +29,20 @@ export class AudioZoneService {
     }
 
     setCurrentZone(zonePath) {
-        localStorage.setItem(this.zoneKey, zonePath);
+        if (zonePath) {
+            const zone = this._zones.find(z => z.path === zonePath);
+            localStorage.setItem(this.zoneKey, zonePath);
+            this.zoneChangedObservable.next(zone);
+        }
     }
 
-    getCurrentZone() {
-        let zone = localStorage.getItem(this.zoneKey) || this._zones[0].path;
-        if (!zone.startsWith('http')) {
-            zone = this._zones.find(z => z.name.indexOf(<any>zone) > 0).name;
-        }
+    getCurrentZone(): Observable<IAudioZone> {
+        return this.zoneChangedObservable;
+    }
 
-        return zone || this._zones[0].path;
+    getCurrentZoneSnapshot(): IAudioZone {
+        const zonePath = localStorage.getItem(this.zoneKey);
+        const zone = this._zones.find(z => z.path === zonePath) || this._zones[0];
+        return zone;
     }
 }

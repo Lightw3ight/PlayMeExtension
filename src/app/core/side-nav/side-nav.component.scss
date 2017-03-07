@@ -1,0 +1,30 @@
+:host {
+    width: 250px;
+    display: block;
+}
+
+.side-nav__header {
+    padding: .25rem;
+
+    img {
+        margin-left: .25rem;
+        width: 150px;
+    }
+}
+
+.side-nav__nav-item {
+    display: block;
+    height: 48px;
+    display: flex;
+    align-items: center;
+
+    md-icon {
+        margin: 0 .5rem;
+        vertical-align: top;
+    }
+
+    &:hover {
+        background-color: #eeeeee;
+        text-decoration: none;
+    }
+}

@@ -1,0 +1,46 @@
+:host {
+	height: 100%;
+}
+
+.app-container__site-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+}
+
+.app-container {
+	height: 100%;
+	background-color: #EEE;
+	transform: none !important;
+
+	&.mat-sidenav-container {
+		overflow: visible;
+	}
+
+	&.md-sidenav-opened {
+		//overflow: hidden;
+	}
+
+	.mat-sidenav-content {
+		position: static;
+		height: auto;
+		overflow: visible;
+		transform: none !important;
+	}
+
+	md-sidenav {
+		z-index: 120;
+		position: fixed;
+	}
+
+	.mat-sidenav-backdrop {
+		z-index: 110;
+		position: fixed;
+	}
+}
+
+.app-container__content {
+	padding-top: 2rem;
+}

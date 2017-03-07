@@ -1,33 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 
 import {
-	IQueuedTrack,
-	IPagedResult
+    IQueuedTrack,
+    IPagedResult
 } from '../models';
 import {
-	AudioZoneService,
-	IAudioZone,
-	UserInfoService,
-	SignalRService,
-	QueueService
+    AudioZoneService,
+    IAudioZone,
+    UserInfoService,
+    SignalRService,
+    QueueService
 } from '../api';
 
-
-//import { TAB_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
-
 @Component({
-	selector: 'app-queue',
-	templateUrl: 'queue.component.html',
-	styleUrls: ['queue.component.css']
+    selector: 'pm-queue',
+    templateUrl: 'queue.component.html',
+    styleUrls: ['queue.component.scss']
 })
 export class QueueComponent implements OnInit {
-	queuedTracks: IQueuedTrack[];
+    queuedTracks: IQueuedTrack[];
+    loading = true;
 
-	constructor(private _queueService: QueueService) { }
+    constructor(private _queueService: QueueService) { }
 
-	ngOnInit() {
-		this._queueService.getAllQueuedTracks().then((tracks: IQueuedTrack[]) =>{
-		    this.queuedTracks = tracks;
-		})
-	}
+    ngOnInit() {
+        this._queueService.getAllQueuedTracks().then((tracks: IQueuedTrack[]) => {
+            this.queuedTracks = tracks;
+            this.loading = false;
+        });
+    }
 }

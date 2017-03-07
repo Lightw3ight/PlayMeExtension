@@ -2,12 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { routing, appRoutingProviders } from './app.routes';
+import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import 'bootstrap';
-import { TabsModule } from 'ng2-bootstrap/tabs';
-import { DropdownModule } from 'ng2-bootstrap/dropdown';
-import { ModalModule } from 'ng2-bootstrap/modal';
 
+import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
+import { routing, appRoutingProviders } from './app.routes';
 import {
     SearchService,
     ArtistService,
@@ -17,18 +18,13 @@ import {
     UserInfoService,
     SignalRService
 } from './api';
-
 import { AlbumComponent } from './album';
-import { SearchComponent } from './search';
+import { SearchComponent, ArtistListItemComponent, AlbumListItemComponent } from './search';
 import { ArtistComponent } from './artist';
 import { QueueComponent } from './queue';
 import { HistoryComponent } from './history';
 import { NowPlayingComponent } from './now-playing';
-import { PlayMeExtensionAppComponent } from './play-me-extension.component';
-import { ArtistListItemComponent } from './search/artist-list-item';
-import { AlbumListItemComponent } from './search/album-list-item'
-import { ZoneSelectorComponent } from './now-playing';
-import { SharedModule } from './shared/shared.module';
+import { AppComponent } from './app.component';
 
 @NgModule({
     imports: [
@@ -36,14 +32,13 @@ import { SharedModule } from './shared/shared.module';
         FormsModule,
         routing,
         SharedModule,
+        CoreModule,
         HttpModule,
-        TabsModule.forRoot(),
-        DropdownModule.forRoot(),
-        ModalModule.forRoot()
+        MaterialModule.forRoot(),
+        FlexLayoutModule.forRoot()
     ],
     declarations: [
-        PlayMeExtensionAppComponent,
-        ZoneSelectorComponent,
+        AppComponent,
         AlbumListItemComponent,
         ArtistListItemComponent,
         AlbumComponent,
@@ -51,7 +46,7 @@ import { SharedModule } from './shared/shared.module';
         ArtistComponent,
         QueueComponent,
         HistoryComponent,
-        NowPlayingComponent,
+        NowPlayingComponent
     ],
     providers: [
         appRoutingProviders,
@@ -63,6 +58,6 @@ import { SharedModule } from './shared/shared.module';
         UserInfoService,
         SignalRService
     ],
-    bootstrap: [PlayMeExtensionAppComponent]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

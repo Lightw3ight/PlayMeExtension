@@ -1,1 +1,1 @@
-export { QueueComponent } from './queue.component';
+export * from './queue.component';
