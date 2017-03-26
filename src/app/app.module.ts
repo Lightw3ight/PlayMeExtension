@@ -4,8 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import 'bootstrap';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { routing, appRoutingProviders } from './app.routes';
@@ -35,7 +34,8 @@ import { AppComponent } from './app.component';
         CoreModule,
         HttpModule,
         MaterialModule.forRoot(),
-        FlexLayoutModule.forRoot()
+        FlexLayoutModule.forRoot(),
+        BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,
