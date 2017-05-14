@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { Router, NavigationEnd } from '@angular/router';
 import { AudioZoneService } from '../../api';
 import { Location } from '@angular/common';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
     selector: 'pm-site-header',
@@ -30,9 +31,9 @@ export class SiteHeaderComponent implements OnInit {
     ngOnInit() {
         window.addEventListener('scroll', this.onWindowScroll);
 
-        this.searchInput.valueChanges
-            .debounceTime(1000)
-            .subscribe(this.onSearchChanged);
+         this.searchInput.valueChanges
+             .debounceTime(1000)
+             .subscribe(this.onSearchChanged);
 
         this._audioZoneService.getCurrentZone().subscribe(zone => {
             this.currentAudioZone = zone;
@@ -40,7 +41,8 @@ export class SiteHeaderComponent implements OnInit {
 
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
-                this.enableBack = event.url !== '/' && event.url !== '/now-playing';
+                this.enableBack = event.url !== '/';
+                //this.enableBack = !event.url.startsWith('/now-playing');
                 this.forceOpaqueView = event.url.startsWith('/search')
                     || event.url.startsWith('/queue')
                     || event.url.startsWith('/history');
@@ -72,5 +74,9 @@ export class SiteHeaderComponent implements OnInit {
 
     back() {
         this._location.back();
+    }
+
+    home() {
+        this.router.navigateByUrl('/');
     }
 }

@@ -57,11 +57,26 @@ $item-padding: 4px;
     position: relative;
 }
 
-.track-item__album-image {
+.track-item__album-image,
+.track-item__user-image {
     width: $item-height - ($item-padding * 2);
     margin: $item-padding 0;
 	height: auto;
     display: block;
+}
+
+.track-item__user-image {
+    display: none;
+}
+
+.track-item--queued:hover {
+    .track-item__user-image {
+        display: block;
+    }
+
+    .track-item__album-image {
+        display: none;
+    }   
 }
 
 .track-item__details {

@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { routeAnimation } from './../router-animation';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ArtistService } from '../api';
 import { IArtist } from '../models';
@@ -8,24 +10,24 @@ import { IArtist } from '../models';
 @Component({
     selector: 'pm-artist',
     templateUrl: 'artist.component.html',
-    styleUrls: ['artist.component.scss']
+    styleUrls: ['artist.component.scss'],
+    animations: [routeAnimation]
 })
 export class ArtistComponent implements OnInit {
-    artistId: string;
-    provider: string;
+    @HostBinding('@routerTransition') animate = true;
     artist: IArtist;
+    paramsSubscription: Subscription;
+
     constructor(private _route: ActivatedRoute, private _artistService: ArtistService, private _location: Location) {
 
     }
 
     ngOnInit() {
-        this.artistId = this._route.snapshot.params['id'];
-        this.provider = this._route.snapshot.params['provider'];
-
-        this._artistService.getArtist(this.artistId, this.provider).then((artist: IArtist) => {
-            this.artist = artist;
-        })
-            .catch(() => {
+        this._route.params
+            .switchMap(params => this._artistService.getArtist(params['id'], params['provider']))
+            .subscribe((artist: IArtist) => {
+                this.artist = artist;
+            }, () => {
                 alert('Error loading artist');
                 this._location.back();
             });

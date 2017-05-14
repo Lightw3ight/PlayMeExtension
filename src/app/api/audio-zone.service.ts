@@ -1,7 +1,7 @@
 import { IAudioZone } from './IAudioZone';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
-
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class AudioZoneService {
     private zoneKey = 'currentAudioZone';
@@ -22,10 +22,8 @@ export class AudioZoneService {
         this.zoneChangedObservable = new BehaviorSubject(this.getCurrentZoneSnapshot());
     }
 
-    getAllZones(): Promise<IAudioZone[]> {
-        return new Promise((resolve, reject) => {
-            resolve(this._zones);
-        });
+    getAllZones(): Observable<IAudioZone[]> {
+        return Observable.of(this._zones);
     }
 
     setCurrentZone(zonePath) {

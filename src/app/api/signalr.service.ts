@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { AudioZoneService } from './audio-zone.service';
 import { IQueuedTrack } from '../models/IQueuedTrack';
@@ -101,7 +101,6 @@ export class SignalRService {
     }
 
     private startSockets() {
-        //setInterval(this.setCurrentTime, 500);
         this._hub.server.getCurrentTrack();
         this._hub.server.getPlayingSoon();
         this._hub.server.getRecentlyPlayed();

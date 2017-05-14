@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 export interface IUserInfo {
@@ -11,7 +11,7 @@ export interface IUserInfo {
 @Injectable()
 export class UserInfoService {
     guessWhoUrl = 'http://guesswho/EmployeeData.ashx';
-    private users: Promise<IUserInfo[]>;
+    private users: Observable<IUserInfo[]>;
 
     constructor(private _http: Http) {
 
@@ -25,24 +25,24 @@ export class UserInfoService {
         return userId.replace('TRADEME\\', '');
     }
 
-    getUserFullName(userId: string) {
+    getUserFullName(userId: string): Observable<string> {
         if (!userId || userId === 'Autoplay') {
-            return Promise.resolve(userId);
+            return Observable.of(userId);
         }
 
         userId = this.parseUserId(userId);
 
-        return this.getAllUsers().then(users => {
-            return users.find(u => u.userId === userId).name || userId;
+        return this.getAllUsers().map(users => {
+            const user = users.find(u => u.userId === userId);
+            return user ? user.name : userId;
         });
     }
 
-    getAllUsers(): Promise<IUserInfo[]> {
-        var result = this.users || (this.users = this._http.get(this.guessWhoUrl)
+    getAllUsers(): Observable<IUserInfo[]> {
+        const result = this.users || (this.users = this._http.get(this.guessWhoUrl)
             .map(response => {
-                return <IUserInfo[]>response.json()
+                return <IUserInfo[]>response.json();
             })
-            .toPromise()
             .catch(this.handleError));
 
         return result;

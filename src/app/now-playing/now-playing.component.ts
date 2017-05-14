@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { routeAnimation } from './../router-animation';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -18,11 +19,13 @@ import {
     QueuedTrackComponent,
     OpinionButtonsComponent
 } from '../shared';
+import { trigger, transition, animate, style } from '@angular/animations';
 
 @Component({
     selector: 'pm-now-playing',
     templateUrl: 'now-playing.component.html',
-    styleUrls: ['now-playing.component.scss']
+    styleUrls: ['now-playing.component.scss'],
+    animations: [ routeAnimation ]
 })
 export class NowPlayingComponent implements OnInit, OnDestroy {
     currentTrack: IQueuedTrack = null;
@@ -32,6 +35,7 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
     trackHistory: IQueuedTrack[] = [];
     trackProgress: number;
     progressIntervalId: number;
+    @HostBinding('@routerTransition') animate = true;
 
     backgroundColor: '#FFF';
     foregroundColor: '#000';

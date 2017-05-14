@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { ISavedTrack } from './ISavedTrack';
 import { ILike } from './ILike';
 import { IVeto } from './IVeto';
@@ -18,5 +19,9 @@ export interface IQueuedTrack extends ISavedTrack {
     Vetoes: IVeto[];
 
     //Not 100% sure this exists
-    url: any;
+    url: string;
+
+    fullName: Observable<string>;
+    userId: string;
+    userPhotoUrl: string;
 }

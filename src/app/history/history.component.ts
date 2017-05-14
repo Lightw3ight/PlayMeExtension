@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { routeAnimation } from './../router-animation';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { MdTabChangeEvent } from '@angular/material';
 
 import {
@@ -16,24 +17,26 @@ import {
 @Component({
     selector: 'app-history',
     templateUrl: 'history.component.html',
-    styleUrls: ['history.component.scss']
+    styleUrls: ['history.component.scss'],
+    animations: [ routeAnimation ]
 })
 export class HistoryComponent implements OnInit {
     history: IQueuedTrack[] = [];
     userHistory: IQueuedTrack[] = [];
     requestHistory: IQueuedTrack[] = [];
     loading = false;
+    @HostBinding('@routerTransition') animate = true;
 
     public get noHistoryResults(): boolean {
-        return !onload && this.history.length === 0;
+        return !this.loading && this.history.length === 0;
     }
 
     public get noRequestHistoryResults(): boolean {
-        return !onload && this.requestHistory.length === 0;
+        return !this.loading && this.requestHistory.length === 0;
     }
 
     public get noUserHistoryResults(): boolean {
-        return !onload && this.userHistory.length === 0;
+        return !this.loading && this.userHistory.length === 0;
     }
 
     constructor(private _queueService: QueueService) { }
@@ -45,7 +48,7 @@ export class HistoryComponent implements OnInit {
     loadFullHistory() {
         this.history = [];
         this.loading = true;
-        this._queueService.getHistory().then((response: IPagedResult<IQueuedTrack>) => {
+        this._queueService.getHistory().subscribe((response: IPagedResult<IQueuedTrack>) => {
             this.history = response.PageData;
             this.loading = false;
         });
@@ -54,7 +57,7 @@ export class HistoryComponent implements OnInit {
     loadRequestHistory() {
         this.requestHistory = [];
         this.loading = true;
-        this._queueService.getRequestedHistory().then((response: IPagedResult<IQueuedTrack>) => {
+        this._queueService.getRequestedHistory().subscribe((response: IPagedResult<IQueuedTrack>) => {
             this.requestHistory = response.PageData;
             this.loading = false;
         });
@@ -63,7 +66,7 @@ export class HistoryComponent implements OnInit {
     loadUserHistory() {
         this.userHistory = [];
         this.loading = true;
-        this._queueService.getMyHistory().then((response: IPagedResult<IQueuedTrack>) => {
+        this._queueService.getMyHistory().subscribe((response: IPagedResult<IQueuedTrack>) => {
             this.userHistory = response.PageData;
             this.loading = false;
         });

@@ -34,7 +34,7 @@ import { AppComponent } from './app.component';
         CoreModule,
         HttpModule,
         MaterialModule.forRoot(),
-        FlexLayoutModule.forRoot(),
+        FlexLayoutModule,
         BrowserAnimationsModule
     ],
     declarations: [

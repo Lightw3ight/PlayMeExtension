@@ -24,7 +24,7 @@ import {
         ReactiveFormsModule,
         RouterModule,
         MaterialModule.forRoot(),
-        FlexLayoutModule.forRoot()
+        FlexLayoutModule
     ],
     declarations: [
         OpinionButtonsComponent,

@@ -1,36 +1,36 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-
+import { Subscription } from 'rxjs/Subscription';
 import { AlbumService, QueueService } from '../api';
+import { routeAnimation } from './../router-animation';
 import { IAlbum, ITrack } from '../models';
 
 @Component({
     selector: 'pm-album',
     templateUrl: 'album.component.html',
-    styleUrls: ['album.component.scss']
+    styleUrls: ['album.component.scss'],
+    animations: [routeAnimation]
 })
 export class AlbumComponent implements OnInit {
-    artistId: string;
+    @HostBinding('@routerTransition') animate = true;
     provider: string;
     album: IAlbum;
-    backgroundColor: '#FFF';
-    foregroundColor: '#FFF';
+    paramsSubscription: Subscription;
+
     constructor(private _route: ActivatedRoute,
-                private _albumService: AlbumService,
-                private _queueService: QueueService,
-                private _location: Location) {
-
+        private _albumService: AlbumService,
+        private _queueService: QueueService,
+        private _location: Location) {
     }
-    ngOnInit() {
-        const id = this._route.snapshot.params['id'];
-        const provider = this._route.snapshot.params['provider'];
 
-        this._albumService.getAlbum(id, provider).then((album: IAlbum) => {
+    ngOnInit() {
+        this._route.params
+            .switchMap(params => this._albumService.getAlbum(params['id'], params['provider']))
+            .subscribe((album) => {
                 this.album = album;
-            })
-            .catch(() => {
-                alert('Error loading artist');
+            }, () => {
+                alert('Error loading album');
                 this._location.back();
             });
     }

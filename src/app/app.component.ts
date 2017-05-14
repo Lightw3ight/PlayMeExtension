@@ -11,8 +11,7 @@ import { SignalRService } from './api/signalr.service';
 @Component({
     selector: 'pm-app',
     templateUrl: 'app.component.html',
-    styleUrls: ['app.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['app.component.scss']
 })
 export class AppComponent {
     private _navOpen = false;

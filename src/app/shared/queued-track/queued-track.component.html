@@ -1,28 +1,28 @@
 <div
 	fxLayout="row"
-	fxLayoutAlign="start start">
+	fxLayoutAlign="start start"
+	[class.track-item--queued]="hasQueuedTrack">
 	<div
 		class="track-item__col"
-		*ngIf="!hasQueuedTrack"
 		fxFlex="none">
 		<img
 			[src]="queuedTrack.Track?.Album?.ArtworkUrlMedium || '/assets/images/pixel.gif'"
 			class="track-item__album-image">
 
+		<img
+			[src]="queuedTrack?.userPhotoUrl"
+			[title]="queuedTrack?.fullName | async"
+			class="track-item__user-image"
+			*ngIf="hasQueuedTrack">
+
 		<button
 			md-icon-button
+			*ngIf="!hasQueuedTrack"
 			class="track-item--hover-fade-in track-item__play-button"
 			type="button"
 			(click)="queueTrack()">
 			<md-icon>play_arrow</md-icon>
 		</button>
-	</div>
-
-	<div
-		class="track-item__col"
-		*ngIf="hasQueuedTrack"
-		fxFlex="none">
-		<md-icon class="track-item__display-icon">volume_up</md-icon>
 	</div>
 
 	<div

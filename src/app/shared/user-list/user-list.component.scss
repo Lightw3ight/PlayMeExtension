@@ -5,7 +5,7 @@
 	font-size: 11px;
 	background-color: #000;
 	border-radius: 3px;
-	padding: 5px 15px;
+	padding: 5px 10px;
 	margin-top: 8px;
 	color: white;
 	z-index: 1;
@@ -21,6 +21,7 @@
 	li {
 		text-align: left;
 		white-space: nowrap;
+		line-height: 15px;
 	}
 
 	h3 {
@@ -29,6 +30,7 @@
 		font-size: 12px;
 		text-align: left;
 		border-bottom: 1px solid rgba(255, 255, 255, .5);
+		line-height: 14px;
 	}
 
 	&[position=right]:before {

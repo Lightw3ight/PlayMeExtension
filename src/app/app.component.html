@@ -1,3 +1,8 @@
+<pm-site-header
+    class="app-container__site-header"
+    (toggleMenu)="sidenav.open()">
+</pm-site-header>
+
 <md-sidenav-container
     class="app-container">
     <md-sidenav
@@ -8,11 +13,6 @@
             (close)="sidenav.close()">
         </pm-side-nav>
     </md-sidenav>
-
-    <pm-site-header
-        class="app-container__site-header"
-        (toggleMenu)="sidenav.open()">
-    </pm-site-header>
     
     <main
         class="app-container__content">

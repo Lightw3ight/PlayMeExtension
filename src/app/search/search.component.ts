@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { routeAnimation } from './../router-animation';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { SearchService } from '../api';
@@ -7,41 +8,29 @@ import { ISearchResults } from '../models';
 @Component({
     selector: 'pm-search',
     templateUrl: 'search.component.html',
-    styleUrls: ['search.component.scss']
+    styleUrls: ['search.component.scss'],
+    animations: [routeAnimation]
 })
 export class SearchComponent implements OnInit {
-    searchQuery: string;
-    provider: string;
+    @HostBinding('@routerTransition') animate = true;
     results: ISearchResults = {};
-    tracksTabActive = false;
-    albumsTabActive = false;
-    artistTabActive = false;
     loading = false;
+    searchQuery: string;
 
     constructor(
         private _route: ActivatedRoute,
         private _searchService: SearchService
-        ) {
+    ) {
     }
 
     ngOnInit() {
-        this._route.params.subscribe(params => {
-            this.searchQuery = params['searchQuery'];
-            this.provider = params['provider'];
+        this._route.params.switchMap(params => {
             this.loading = true;
-
-            this._searchService.search(this.provider, this.searchQuery).then((results: ISearchResults) => {
-                this.results = results;
-                if (results.PagedArtists.Artists.length) {
-                    this.artistTabActive = true;
-                } else if (results.PagedAlbums.Albums.length) {
-                    this.albumsTabActive = true;
-                } else {
-                    this.tracksTabActive = true;
-                }
-
-                this.loading = false;
-            });
+            this.searchQuery = params['searchQuery']
+            return this._searchService.search(params['provider'], this.searchQuery);
+        }).subscribe(results => {
+            this.results = results;
+            this.loading = false;
         });
     }
 }

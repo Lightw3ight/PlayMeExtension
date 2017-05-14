@@ -33,7 +33,7 @@ export class ZoneSelectorComponent implements OnInit {
 
     ngOnInit() {
         this.activeZone = this._audioZoneService.getCurrentZoneSnapshot();
-        this._audioZoneService.getAllZones().then((zones: IAudioZone[]) => {
+        this._audioZoneService.getAllZones().subscribe((zones: IAudioZone[]) => {
             this.zones = zones.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
         });
     }

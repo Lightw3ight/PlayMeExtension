@@ -3,27 +3,26 @@
 }
 
 .app-container__site-header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	z-index: 100;
+
 }
 
 .app-container {
 	height: 100%;
-	background-color: #EEE;
-	transform: none !important;
+	background-color: #FFF;
 
-	&.mat-sidenav-container {
-		overflow: visible;
-	}
+	// Transforms disable any children's fixed position
+	transform: none !important;
 
 	&.md-sidenav-opened {
 		//overflow: hidden;
 	}
 
-	.mat-sidenav-content {
+	&.mat-sidenav-container {
+		overflow: visible;
+	}
+
+	// Disable the sidenav's internal scroll, we want to use the window's scroll
+	/deep/ .mat-sidenav-content {
 		position: static;
 		height: auto;
 		overflow: visible;
@@ -31,14 +30,13 @@
 	}
 
 	md-sidenav {
-		z-index: 120;
-		position: fixed;
+		z-index: 110;
 	}
 
-	.mat-sidenav-backdrop {
-		z-index: 110;
-		position: fixed;
-	}
+	// .mat-sidenav-backdrop {
+	// 	z-index: 110;
+	// 	position: fixed;
+	// }
 }
 
 .app-container__content {

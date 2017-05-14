@@ -18,7 +18,7 @@ import { ZoneSelectorComponent } from './zone-selector/zone-selector.component';
         ReactiveFormsModule,
         RouterModule,
         MaterialModule.forRoot(),
-        FlexLayoutModule.forRoot()
+        FlexLayoutModule
     ],
     declarations: [
         SideNavComponent,

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { routeAnimation } from './../router-animation';
+import { Component, OnInit, HostBinding } from '@angular/core';
 
 import {
     IQueuedTrack,
@@ -15,16 +16,18 @@ import {
 @Component({
     selector: 'pm-queue',
     templateUrl: 'queue.component.html',
-    styleUrls: ['queue.component.scss']
+    styleUrls: ['queue.component.scss'],
+    animations: [ routeAnimation ]
 })
 export class QueueComponent implements OnInit {
     queuedTracks: IQueuedTrack[];
     loading = true;
+    @HostBinding('@routerTransition') animate = true;
 
     constructor(private _queueService: QueueService) { }
 
     ngOnInit() {
-        this._queueService.getAllQueuedTracks().then((tracks: IQueuedTrack[]) => {
+        this._queueService.getAllQueuedTracks().subscribe((tracks: IQueuedTrack[]) => {
             this.queuedTracks = tracks;
             this.loading = false;
         });

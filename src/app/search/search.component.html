@@ -14,6 +14,7 @@
 			<div
 				class="search-page_artist-list">
 				<p
+					class="padding-top-half"
 					*ngIf="results?.PagedArtists?.Artists?.length === 0">
 					<em>No artists</em>
 				</p>
@@ -34,6 +35,7 @@
 			label="Albums"
 			*ngIf="results?.PagedAlbums?.Albums">
 			<p
+				class="padding-top-half"
 				*ngIf="results?.PagedAlbums?.Albums?.length === 0">
 				<em>No albums</em>
 			</p>
@@ -54,6 +56,7 @@
 			label="Tracks"
 			*ngIf="results?.PagedTracks?.Tracks">
 			<p
+				class="padding-top-half"
 				*ngIf="results?.PagedTracks?.Tracks?.length === 0">
 				<em>No tracks</em>
 			</p>
