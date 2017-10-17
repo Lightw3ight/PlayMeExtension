@@ -3,9 +3,9 @@ import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-
 import { ArtistService } from '../api';
 import { IArtist } from '../models';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
     selector: 'pm-artist',

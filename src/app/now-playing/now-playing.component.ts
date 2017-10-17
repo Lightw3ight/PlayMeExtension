@@ -2,7 +2,12 @@ import { routeAnimation } from './../router-animation';
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+// import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/observable/interval';
+import * as moment from 'moment';
 import {
     IQueuedTrack,
     IPagedResult
@@ -14,11 +19,6 @@ import {
     SignalRService,
     SearchService
 } from '../api';
-import {
-    UserListComponent,
-    QueuedTrackComponent,
-    OpinionButtonsComponent
-} from '../shared';
 import { trigger, transition, animate, style } from '@angular/animations';
 
 @Component({
@@ -28,18 +28,14 @@ import { trigger, transition, animate, style } from '@angular/animations';
     animations: [ routeAnimation ]
 })
 export class NowPlayingComponent implements OnInit, OnDestroy {
-    currentTrack: IQueuedTrack = null;
-    currentTime: number;
-    activeZone: string;
-    trackQueue: IQueuedTrack[] = [];
-    trackHistory: IQueuedTrack[] = [];
-    trackProgress: number;
-    progressIntervalId: number;
     @HostBinding('@routerTransition') animate = true;
-
-    backgroundColor: '#FFF';
-    foregroundColor: '#000';
-    private subscriptions: Subscription[] = [];
+    public currentTrack$: Observable<IQueuedTrack>;
+    public activeZone: string;
+    public trackQueue$: Observable<IQueuedTrack[]>;
+    public trackHistory$: Observable<IQueuedTrack[]>;
+    public trackProgress$: Observable<number>;
+    public trackElapsedTime$: Observable<string>;
+    private _destroyed$: Subject<any> = new Subject<any>();
 
     constructor(private _searchService: SearchService,
         private _audioZoneService: AudioZoneService,
@@ -56,25 +52,28 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscriptions.push(this._signalRService.getRecentlyPlayed().subscribe(history => {
-            this.trackHistory = history;
-        }));
-        this.subscriptions.push(this._signalRService.getNextUp().subscribe(queue => {
-            this.trackQueue = queue;
-        }));
-        this.subscriptions.push(this._signalRService.getNowPlaying().subscribe(track => {
-            this.currentTrack = track;
-        }));
-        this.progressIntervalId = window.setInterval(this.calculatePercentComplete, 500);
+        this.trackHistory$ = this._signalRService.getRecentlyPlayed();
+        this.trackQueue$ = this._signalRService.getNextUp();
+        this.currentTrack$ = this._signalRService.getNowPlaying();
+        this.trackProgress$ = Observable
+            .interval(500)
+            .switchMap(() => this.currentTrack$)
+            .map(track => this.getElapsedPercent(track));
 
-        this.subscriptions.push(this._audioZoneService.getCurrentZone().subscribe(zone => {
-            this.changeZone(zone.path);
-        }));
+        this.trackElapsedTime$ = Observable
+            .interval(500)
+            .switchMap(() => this.currentTrack$)
+            .map(track => this.getElapsedTime(track));
+
+        this._audioZoneService.getCurrentZone()
+            .takeUntil(this._destroyed$)
+            .subscribe(zone => {
+                this.changeZone(zone.path);
+            });
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
-        window.clearInterval(this.progressIntervalId);
+        this._destroyed$.next();
         this.closeHubConnection();
     }
 
@@ -103,20 +102,32 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
         this._signalRService.vetoTrack(queuedTrack.Id);
     }
 
-    calculatePercentComplete = () => {
-        let percent = 0;
-        if (this.currentTrack) {
-
-            const timeStarted = this.currentTrack.StartedPlayingDateTime.getTime();
-            const now = new Date().getTime();
-            let elapsed = now - (timeStarted + this.currentTrack.PausedDurationAsMilliseconds);
-
-            if (elapsed > this.currentTrack.Track.DurationMilliseconds) {
-                elapsed = this.currentTrack.Track.DurationMilliseconds;
-            }
-
-            percent = (elapsed / this.currentTrack.Track.DurationMilliseconds) * 100;
+    getElapsedMilliseconds(track: IQueuedTrack) {
+        if (!track) {
+            return 0;
         }
-        this.trackProgress = percent;
+
+        const timeStarted = track.StartedPlayingDateTime.getTime();
+        const now = new Date().getTime();
+        return Math.min(now - (timeStarted + track.PausedDurationAsMilliseconds), track.Track.DurationMilliseconds);
+    }
+
+    getElapsedPercent(track: IQueuedTrack): number {
+        if (!track) {
+            return 0;
+        }
+
+        const elapsed = this.getElapsedMilliseconds(track);
+        return (elapsed / track.Track.DurationMilliseconds) * 100;
+    }
+
+    getElapsedTime(track: IQueuedTrack): string {
+        if (!track) {
+            return '';
+        }
+
+        const elapsedDuration = moment.duration(this.getElapsedMilliseconds(track));
+        const totalDuration = moment.duration(track.Track.DurationMilliseconds);
+        return `${elapsedDuration.minutes()}:${elapsedDuration.seconds()} / ${totalDuration.minutes()}:${totalDuration.seconds()}`;
     }
 }

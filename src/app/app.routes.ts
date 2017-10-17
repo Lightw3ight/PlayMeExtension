@@ -1,10 +1,10 @@
+import { NowPlayingComponent } from './now-playing/now-playing.component';
 import { Routes, RouterModule } from '@angular/router';
-import { NowPlayingComponent } from './now-playing';
-import { AlbumComponent } from './album';
-import { SearchComponent } from './search';
-import { ArtistComponent } from './artist';
-import { QueueComponent } from './queue';
-import { HistoryComponent } from './history';
+import { AlbumComponent } from './album/album.component';
+import { SearchComponent } from './search/search.component';
+import { ArtistComponent } from './artist/artist.component';
+import { QueueComponent } from './queue/queue.component';
+import { HistoryComponent } from './history/history.component';
 
 const appRoutes: Routes = [
     {

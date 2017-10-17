@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
@@ -12,7 +13,7 @@ import { UserInfoService } from './user-info.service';
 
 @Injectable()
 export class QueueService {
-    constructor(private _http: Http, private _audioZoneService: AudioZoneService, private _userInfoService: UserInfoService) {
+    constructor(private _http: HttpClient, private _audioZoneService: AudioZoneService, private _userInfoService: UserInfoService) {
     }
 
     getMyHistory(): Observable<IPagedResult<IQueuedTrack>> {
@@ -26,25 +27,24 @@ export class QueueService {
     getHistory(type: string = 'all'): Observable<IPagedResult<IQueuedTrack>> {
         const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/history?filter=${type}&start=0&take=50`;
 
-        return this._http.get(url)
-            .map(response => {
-                const results = (<IPagedResult<IQueuedTrack>>response.json());
+        return this._http.get<IPagedResult<IQueuedTrack>>(url)
+            .map(results => {
                 results.PageData.forEach(this.parseQueuedTrack);
                 return results;
-            })
-            .catch(this.handleError);
+            });
+            // .catch(this.handleError);
     }
 
     getAllQueuedTracks(): Observable<IQueuedTrack[]> {
         const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/Queue`;
 
-        return this._http.get(url)
-            .map(response => {
-                const results = (<IQueuedTrack[]>response.json());
+        return this._http.get<IQueuedTrack[]>(url)
+            .map(results => {
+                // const results = (<IQueuedTrack[]>response.json());
                 results.forEach(this.parseQueuedTrack);
                 return results;
-            })
-            .catch(this.handleError);
+            });
+            // .catch(this.handleError);
     }
 
     queueTrack(track: ITrack, comment: string = null): void {
@@ -59,16 +59,15 @@ export class QueueService {
             id: encodeURIComponent(track.Link),
             provider: track.MusicProvider.Identifier,
             reason: track.Reason
-        }
+        };
 
-        const options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
+        // const options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
 
-        this._http.post(url, JSON.stringify(data), options)
-            .map(response => {
-                return response.json();
+        this._http.post(url, JSON.stringify(data), {
+                headers: new HttpHeaders().set('Content-Type', 'application/json')
             })
             .toPromise()
-            .catch(this.handleError)
+            // .catch(this.handleError)
             .then(() => {
                 track.IsAlreadyQueued = true;
             });
@@ -89,7 +88,7 @@ export class QueueService {
         });
 
         queueItem.Vetoes.forEach(l => {
-            const uid = this._userInfoService.parseUserId(l.ByUser)
+            const uid = this._userInfoService.parseUserId(l.ByUser);
             l.url = uid ? `http://guesswho/#${uid}` : null;
             l.fullName = this._userInfoService.getUserFullName(l.ByUser);
             l.userPhotoUrl = uid ? `http://guesswho/StaffPhoto.ashx?userId=${uid}` : null;

@@ -11,9 +11,9 @@
         <em>There are no tracks in the queue</em>
     </p>
     
-    <md-spinner
+    <mat-spinner
         *ngIf="loading">
-    </md-spinner>
+    </mat-spinner>
 
     <pm-queued-track
         *ngFor="let track of queuedTracks"

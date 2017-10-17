@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
     selector: 'pm-queue-with-comment',
@@ -8,7 +8,7 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 })
 export class QueueWithCommentComponent implements OnInit {
     comment: string;
-    constructor(private dialogRef: MdDialogRef<QueueWithCommentComponent>) { }
+    constructor(private dialogRef: MatDialogRef<QueueWithCommentComponent>) { }
 
     ngOnInit() {
     }

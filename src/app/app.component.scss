@@ -9,11 +9,12 @@
 .app-container {
 	height: 100%;
 	background-color: #FFF;
+	position: static;
 
 	// Transforms disable any children's fixed position
 	transform: none !important;
 
-	&.md-sidenav-opened {
+	&.mat-sidenav-opened {
 		//overflow: hidden;
 	}
 
@@ -29,7 +30,7 @@
 		transform: none !important;
 	}
 
-	md-sidenav {
+	mat-sidenav {
 		z-index: 110;
 	}
 

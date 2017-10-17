@@ -8,7 +8,7 @@
 		<label class="track-item__icon-size-text track-item--hover-hide">{{ trackNumber }}</label>
 		<button type="button"
 			class="track-item--hover-show"
-			md-icon-button
+			mat-icon-button
 			[disabled]="track.IsAlreadyQueued"
 			(click)="queueTrack(track)">
 			<i class="icon-play"></i>
@@ -19,7 +19,7 @@
 		class="track-item__col"
 		fxFlex="none"
 		*ngIf="track.IsAlreadyQueued">
-		<md-icon class="track-item__display-icon">volume_up</md-icon>
+		<mat-icon class="track-item__display-icon">volume_up</mat-icon>
 	</div>
 
 	<div
@@ -37,26 +37,26 @@
 		class="track-item__col track-item--hover-show"
 		fxFlex="none">
 		<button
-			md-icon-button
-			[mdMenuTriggerFor]="menu"
+			mat-icon-button
+			[matMenuTriggerFor]="menu"
 			*ngIf="!track.IsAlreadyQueued">
-  			<md-icon>more_vert</md-icon>
+  			<mat-icon>more_vert</mat-icon>
 		</button>
 
-		<md-menu #menu="mdMenu">
+		<mat-menu #menu="matMenu">
 			<button
-				md-menu-item
+				mat-menu-item
 				(click)="queueTrack()">
-				<md-icon>play_arrow</md-icon>
+				<mat-icon>play_arrow</mat-icon>
 				<span>Queue</span>
 			</button>
 			<button
-				md-menu-item
+				mat-menu-item
 				(click)="queueWithComment()">
-				<md-icon>comment</md-icon>
+				<mat-icon>comment</mat-icon>
 				<span>Queue with comment</span>
 			</button>
-		</md-menu>
+		</mat-menu>
 
 	</div>
 

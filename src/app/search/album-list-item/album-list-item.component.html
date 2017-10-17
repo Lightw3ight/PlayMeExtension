@@ -1,11 +1,11 @@
 <a
 	[routerLink]="['/album', album.MusicProvider.Identifier, album?.Link]"
 	[attr.title]="album.Name">
-	<md-card>
+	<mat-card>
 		<img
-			md-card-image
+			mat-card-image
 			[src]="album.ArtworkUrlLarge">
-		<md-card-content
+		<mat-card-content
 			class="album-list-item__content">
 			<a
 				class="album-list-item__title"
@@ -18,6 +18,6 @@
 				[routerLink]="['/artist', album.MusicProvider.Identifier, album?.Artist?.Link]">
 				{{album.Artist.Name}}
 			</a>
-		</md-card-content>
-	</md-card>
+		</mat-card-content>
+	</mat-card>
 </a>

@@ -1,24 +1,24 @@
 <h1
-    md-dialog-title>
+    mat-dialog-title>
     Queue with comment
 </h1>
 
 <div
-    md-dialog-content>
-    <md-input-container
+    mat-dialog-content>
+    <mat-input-container
         class="queue-with-comment__comment-input">
         <input
-            mdInput
+            matInput
             placeholder="Comment"
             [(ngModel)]="comment"
             name="queueComment">
-    </md-input-container>
+    </mat-input-container>
 </div>
 
 <div
-    md-dialog-actions>
+    mat-dialog-actions>
     <button
-        md-button
+        mat-button
         (click)="queueTrack()"
         type="button">
         Queue

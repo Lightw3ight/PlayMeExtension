@@ -1,52 +1,55 @@
 <section
 	class="container container--opaque">
 	<h1
-		class="md-title">
+		class="mat-title">
 		History
 	</h1>
 
-	<md-tab-group
+	<mat-tab-group
 		(selectChange)="onActiveTabChanged($event)">
-		<md-tab
+		<mat-tab
 			label="All">
 			<p
 				class="padding-top-half"
 				*ngIf="noHistoryResults">
 				No results
 			</p>
-			<md-spinner *ngIf="loading"></md-spinner>
+			<mat-spinner
+				*ngIf="loading"></mat-spinner>
 			<pm-queued-track
 				*ngFor="let track of history"
 				[queuedTrack]="track">
 			</pm-queued-track>
-		</md-tab>
+		</mat-tab>
 
-		<md-tab
+		<mat-tab
 			label="Requested">
 			<p
 				class="padding-top-half"
 				*ngIf="noRequestHistoryResults">
 				No results
 			</p>
-			<md-spinner *ngIf="loading"></md-spinner>
+			<mat-spinner
+				*ngIf="loading"></mat-spinner>
 			<pm-queued-track
 				*ngFor="let track of requestHistory"
 				[queuedTrack]="track">
 			</pm-queued-track>
-		</md-tab>
+		</mat-tab>
 
-		<md-tab
+		<mat-tab
 			label="Mine">
 			<p
 				class="padding-top-half"
 				*ngIf="noUserHistoryResults">
 				No results
 			</p>
-			<md-spinner *ngIf="loading"></md-spinner>
+			<mat-spinner
+				*ngIf="loading"></mat-spinner>
 			<pm-queued-track
 				*ngFor="let track of userHistory"
 				[queuedTrack]="track">
 			</pm-queued-track>
-		</md-tab>
-	</md-tab-group>
+		</mat-tab>
+	</mat-tab-group>
 </section>

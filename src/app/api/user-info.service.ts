@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 export interface IUserInfo {
-    name: string,
-    userId: string
+    name: string;
+    userId: string;
 }
 
 @Injectable()
@@ -13,7 +13,7 @@ export class UserInfoService {
     guessWhoUrl = 'http://guesswho/EmployeeData.ashx';
     private users: Observable<IUserInfo[]>;
 
-    constructor(private _http: Http) {
+    constructor(private _http: HttpClient) {
 
     }
 
@@ -39,17 +39,11 @@ export class UserInfoService {
     }
 
     getAllUsers(): Observable<IUserInfo[]> {
-        const result = this.users || (this.users = this._http.get(this.guessWhoUrl)
-            .map(response => {
-                return <IUserInfo[]>response.json();
-            })
-            .catch(this.handleError));
-
-        return result;
+        return this.users || (this.users = this._http.get<IUserInfo[]>(this.guessWhoUrl));
     }
 
     private handleError(error: Response) {
         console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
+        return Observable.throw(error || 'Server error');
     }
 }

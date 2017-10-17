@@ -1,6 +1,6 @@
 import { routeAnimation } from './../router-animation';
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { MdTabChangeEvent } from '@angular/material';
+import { MatTabChangeEvent } from '@angular/material';
 
 import {
     IQueuedTrack,
@@ -72,7 +72,7 @@ export class HistoryComponent implements OnInit {
         });
     }
 
-    onActiveTabChanged(args: MdTabChangeEvent) {
+    onActiveTabChanged(args: MatTabChangeEvent) {
         switch (args.tab.textLabel) {
             case 'Requested':
                 this.loadRequestHistory();

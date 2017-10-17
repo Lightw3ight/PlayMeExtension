@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ITrack } from '../../models';
 import { QueueService } from '../../api';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { SimpleTrackListItemComponent } from '../simple-track-list-item';
 
 @Component({
@@ -16,7 +16,7 @@ import { SimpleTrackListItemComponent } from '../simple-track-list-item';
 export class TrackListItemComponent extends SimpleTrackListItemComponent {
     @Input() track: ITrack;
 
-    constructor(_queueService: QueueService, dialog: MdDialog) {
+    constructor(_queueService: QueueService, dialog: MatDialog) {
         super(_queueService, dialog);
     }
 }

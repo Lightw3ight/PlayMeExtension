@@ -1,19 +1,45 @@
-<div class="site-header">
-    <div fxLayout="row" fxLayoutAlign="start center" class="site-header__search-container" [class.site-header__search-container--focus]="hasFocus" tabindex="0">
-        <div fxFlex="none">
-            <button class="site-header__menu-button" md-icon-button (click)="onToggleMenuClick()">
-                <md-icon>menu</md-icon>
+<div
+    class="site-header">
+    <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        class="site-header__search-container"
+        [class.site-header__search-container--focus]="hasFocus"
+        tabindex="0">
+        <div
+            fxFlex="none">
+            <button
+                class="site-header__menu-button"
+                mat-icon-button
+                (click)="onToggleMenuClick()">
+                <mat-icon>menu</mat-icon>
             </button>
-            <button class="site-header__back-button" md-icon-button (click)="home()">
-                <md-icon>navigate_before</md-icon>
+            <button
+                class="site-header__back-button"
+                mat-icon-button (click)="home()">
+                <mat-icon>navigate_before</mat-icon>
             </button>
         </div>
-        <div fxFlex fxFlexFill>
-            <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
-                <input type="text" [formControl]="searchInput" placeholder="Search" class="site-header__search-input material-search" (focus)="hasFocus = true" (blur)="hasFocus = false">
+        <div
+            fxFlex
+            fxFlexFill>
+            <form
+                (ngSubmit)="onSubmit()"
+                #searchForm="ngForm">
+                <input
+                    type="text"
+                    [formControl]="searchInput"
+                    placeholder="Search"
+                    class="site-header__search-input material-search"
+                    (focus)="hasFocus = true"
+                    (blur)="hasFocus = false">
             </form>
         </div>
 
-        <label fxFlex="none" class="site-header__audio-zone">{{currentAudioZone.name}}</label>
+        <label
+            fxFlex="none"
+            class="site-header__audio-zone">
+            {{currentAudioZone.name}}
+        </label>
     </div>
 </div>

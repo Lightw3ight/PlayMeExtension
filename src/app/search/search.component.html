@@ -1,14 +1,15 @@
 <section
 	class="container container--opaque">
 	<h1
-		class="md-title">
+		class="mat-title">
 		Search results for <em>{{searchQuery}}</em>
 	</h1>
 
-	<md-spinner *ngIf="loading"></md-spinner>
+	<mat-spinner
+		*ngIf="loading"></mat-spinner>
 	
-	<md-tab-group>
-		<md-tab
+	<mat-tab-group>
+		<mat-tab
 			label="Artists"
 			*ngIf="results?.PagedArtists?.Artists">
 			<div
@@ -29,9 +30,9 @@
 					</pm-artist-list-item>
 				</div>
 			</div>
-		</md-tab>
+		</mat-tab>
 
-		<md-tab
+		<mat-tab
 			label="Albums"
 			*ngIf="results?.PagedAlbums?.Albums">
 			<p
@@ -50,9 +51,9 @@
 					[album]="album">
 				</pm-album-list-item>
 			</div>
-		</md-tab>
+		</mat-tab>
 		
-		<md-tab
+		<mat-tab
 			label="Tracks"
 			*ngIf="results?.PagedTracks?.Tracks">
 			<p
@@ -69,6 +70,6 @@
 					</pm-track-list-item>
 				</li>
 			</ul>
-		</md-tab>
-	</md-tab-group>
+		</mat-tab>
+	</mat-tab-group>
 </section>

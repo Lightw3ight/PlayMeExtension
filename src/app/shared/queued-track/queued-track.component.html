@@ -16,12 +16,12 @@
 			*ngIf="hasQueuedTrack">
 
 		<button
-			md-icon-button
+			mat-icon-button
 			*ngIf="!hasQueuedTrack"
 			class="track-item--hover-fade-in track-item__play-button"
 			type="button"
 			(click)="queueTrack()">
-			<md-icon>play_arrow</md-icon>
+			<mat-icon>play_arrow</mat-icon>
 		</button>
 	</div>
 
@@ -83,42 +83,42 @@
 		class="track-item__col track-item--hover-fade-in"
 		fxFlex="none">
 		<button
-			md-icon-button
-			[mdMenuTriggerFor]="menu">
-  			<md-icon>more_vert</md-icon>
+			mat-icon-button
+			[matMenuTriggerFor]="menu">
+  			<mat-icon>more_vert</mat-icon>
 		</button>
 
-		<md-menu
-			#menu="mdMenu">
+		<mat-menu
+			#menu="matMenu">
 			<button
-				md-menu-item
+				mat-menu-item
 				(click)="queueTrack()"
 				*ngIf="!hasQueuedTrack">
-				<md-icon>play_arrow</md-icon>
+				<mat-icon>play_arrow</mat-icon>
 				<span>Queue</span>
 			</button>
 			<button
-				md-menu-item
+				mat-menu-item
 				(click)="queueWithComment()"
 				*ngIf="!hasQueuedTrack">
-				<md-icon>comment</md-icon>
+				<mat-icon>comment</mat-icon>
 				<span>Queue with comment</span>
 			</button>
 			<button
-				md-menu-item
+				mat-menu-item
 				(click)="like()"
 				*ngIf="hasQueuedTrack">
-				<md-icon>mood</md-icon>
+				<mat-icon>mood</mat-icon>
 				<span>Like</span>
 			</button>
 			<button
-				md-menu-item
+				mat-menu-item
 				(click)="veto()"
 				*ngIf="hasQueuedTrack">
-				<md-icon>mood_bad</md-icon>
+				<mat-icon>mood_bad</mat-icon>
 				<span>Veto</span>
 			</button>
-		</md-menu>
+		</mat-menu>
 	</div>
 
 	<div

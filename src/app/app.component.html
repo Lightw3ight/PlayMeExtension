@@ -3,19 +3,19 @@
     (toggleMenu)="sidenav.open()">
 </pm-site-header>
 
-<md-sidenav-container
+<mat-sidenav-container
     class="app-container">
-    <md-sidenav
+    <mat-sidenav
         #sidenav
         (open)="navOpen = true"
         (close)="navOpen = false">
         <pm-side-nav
             (close)="sidenav.close()">
         </pm-side-nav>
-    </md-sidenav>
+    </mat-sidenav>
     
     <main
         class="app-container__content">
         <router-outlet></router-outlet>
     </main>
-</md-sidenav-container>
+</mat-sidenav-container>

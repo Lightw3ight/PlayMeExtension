@@ -1,7 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ITrack } from '../../models/ITrack';
 import { QueueService } from '../../api/queue.service';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { QueueWithCommentComponent } from '../queue-with-comment/queue-with-comment.component';
 
 @Component({
@@ -16,7 +16,7 @@ export class SimpleTrackListItemComponent {
     @Input() track: ITrack;
     @Input() trackNumber: number;
 
-    constructor(protected _queueService: QueueService, public dialog: MdDialog) {
+    constructor(protected _queueService: QueueService, public dialog: MatDialog) {
 
     }
 

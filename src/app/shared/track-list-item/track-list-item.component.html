@@ -10,11 +10,11 @@
 			class="track-item__album-image">
 
 		<button
-			md-icon-button
+			mat-icon-button
 			class="track-item--hover-fade-in track-item__play-button"
 			type="button"
 			(click)="queueTrack()">
-			<md-icon>play_arrow</md-icon>
+			<mat-icon>play_arrow</mat-icon>
 		</button>
 	</div>
 
@@ -22,7 +22,7 @@
 		class="track-item__col"
 		*ngIf="track?.IsAlreadyQueued"
 		fxFlex="none">
-		<md-icon class="track-item__display-icon">volume_up</md-icon>
+		<mat-icon class="track-item__display-icon">volume_up</mat-icon>
 	</div>
 
 	<div
@@ -44,26 +44,26 @@
 		fxFlex="none"
 		*ngIf="!track.IsAlreadyQueued">
 		<button
-			md-icon-button
-			[mdMenuTriggerFor]="menu">
-  			<md-icon>more_vert</md-icon>
+			mat-icon-button
+			[matMenuTriggerFor]="menu">
+  			<mat-icon>more_vert</mat-icon>
 		</button>
 
-		<md-menu
-			#menu="mdMenu">
-			<button md-menu-item (click)="queueTrack()">
-				<md-icon>play_arrow</md-icon>
+		<mat-menu
+			#menu="matMenu">
+			<button mat-menu-item (click)="queueTrack()">
+				<mat-icon>play_arrow</mat-icon>
 				<span>Queue</span>
 			</button>
-			<button md-menu-item (click)="queueWithComment()">
-				<md-icon>comment</md-icon>
+			<button mat-menu-item (click)="queueWithComment()">
+				<mat-icon>comment</mat-icon>
 				<span>Queue with comment</span>
 			</button>
 
-			<button md-menu-item [routerLink]="['/album', track?.Album.MusicProvider.Identifier, track?.Album.Link]">
-				<md-icon>album</md-icon>
+			<button mat-menu-item [routerLink]="['/album', track?.Album.MusicProvider.Identifier, track?.Album.Link]">
+				<mat-icon>album</mat-icon>
 				<span>View album</span>
 			</button>
-		</md-menu>
+		</mat-menu>
 	</div>
 </div>

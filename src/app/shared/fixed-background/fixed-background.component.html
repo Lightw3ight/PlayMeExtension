@@ -1,3 +1,9 @@
-<div [@routerTransition]="true" class="album-art-background" [class.album-art-background--blurred]="blurred" [style.background-image]="'url(' + (blurred ? '' : src) + ')'">
-    <img *ngIf="blurred" [src]="src || '/assets/images/pixel.gif'">
+<div
+    class="album-art-background"
+    [@routerTransition]="true"
+    [class.album-art-background--blurred]="blurred"
+    [style.background-image]="'url(' + (blurred ? '' : src) + ')'">
+    <img
+        *ngIf="blurred"
+        [src]="src || '/assets/images/pixel.gif'">
 </div>

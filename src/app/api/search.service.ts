@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { ISearchResults } from '../models';
@@ -7,22 +7,16 @@ import { AudioZoneService } from './audio-zone.service';
 
 @Injectable()
 export class SearchService {
-    constructor(private _http: Http, private _audioZoneService: AudioZoneService) {
+    constructor(private _http: HttpClient, private _audioZoneService: AudioZoneService) {
     }
 
     search(provider, query): Observable<ISearchResults> {
         const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/search?provider=${provider}&searchTerm=${query}`;
-        const result = this._http.get(url);
-
-        return result
-            .map(response => {
-                return <ISearchResults>response.json();
-            })
-            .catch(this.handleError);
+        return this._http.get<ISearchResults>(url);
     }
 
-    private handleError(error: Response) {
-        console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
-    }
+    // private handleError(error: Response) {
+    //     console.error(error);
+    //     return Observable.throw(error.json().error || 'Server error');
+    // }
 }

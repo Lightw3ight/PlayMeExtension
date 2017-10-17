@@ -2,7 +2,7 @@ import { QueueWithCommentComponent } from '../queue-with-comment/queue-with-comm
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { QueueService } from '../../api/queue.service';
 import { IQueuedTrack } from '../../models';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class QueuedTrackComponent implements OnInit {
     @Output() vetoTrack = new EventEmitter();
     isMoreInfoVisible = false;
 
-    constructor(private _queueService: QueueService, public dialog: MdDialog) {
+    constructor(private _queueService: QueueService, public dialog: MatDialog) {
 
     }
 
