@@ -26,22 +26,19 @@
         box-shadow: 0 0 4px 2px rgba(0,0,0,.2);
     }
 
-    &.site-header--enable-back {
-        .site-header__back-button {
-            display: inline-block;
-        }
-
-        .site-header__menu-button {
-            display: none;
-        }
+    button {
+        color: #555;
     }
 }
 
-.site-header__back-button {
-    display: none;
+.site-header__button-divider {
+    display: inline-block;
+    width: 1px;
+    background-color: #dddddd;
+    vertical-align: middle;
+    height: 24px;
+    margin-left: 5px;
 }
-
-
 
 .site-header {
     width: 100%;

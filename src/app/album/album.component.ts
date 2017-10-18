@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AlbumService, QueueService } from '../api';
 import { routeAnimation } from './../router-animation';
 import { IAlbum, ITrack } from '../models';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'pm-album',
@@ -15,8 +16,7 @@ import { IAlbum, ITrack } from '../models';
 export class AlbumComponent implements OnInit {
     @HostBinding('@routerTransition') animate = true;
     provider: string;
-    album: IAlbum;
-    paramsSubscription: Subscription;
+    public album$: Observable<IAlbum>;
 
     constructor(private _route: ActivatedRoute,
         private _albumService: AlbumService,
@@ -25,13 +25,12 @@ export class AlbumComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._route.params
+        this.album$ = this._route.params
             .switchMap(params => this._albumService.getAlbum(params['id'], params['provider']))
-            .subscribe((album) => {
-                this.album = album;
-            }, () => {
+            .catch(error => {
                 alert('Error loading album');
                 this._location.back();
+                return Observable.of(error);
             });
     }
 

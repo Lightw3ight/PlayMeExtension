@@ -12,12 +12,12 @@ const appRoutes: Routes = [
         redirectTo: '/now-playing',
         pathMatch: 'full'
     },
-    { path: 'now-playing', component: NowPlayingComponent },
+    { path: 'now-playing', component: NowPlayingComponent, data: { isHome: true } },
     { path: 'album/:provider/:id', component: AlbumComponent },
-    { path: 'search/:provider/:searchQuery', component: SearchComponent },
+    { path: 'search/:provider/:searchQuery', component: SearchComponent, data: { opaqueHeader: true, preserveSearch: true } },
     { path: 'artist/:provider/:id', component: ArtistComponent },
-    { path: 'queue', component: QueueComponent },
-    { path: 'history', component: HistoryComponent }
+    { path: 'queue', component: QueueComponent, data: { opaqueHeader: true } },
+    { path: 'history', component: HistoryComponent, data: { opaqueHeader: true } }
 ];
 
 export const appRoutingProviders: any[] = [

@@ -1,25 +1,29 @@
-<pm-fixed-background
-	[src]="artist?.PortraitUrlLarge">
-</pm-fixed-background>
+<ng-container
+	*ngIf="artist$ | async as artist">
 
-<div
-	class="hero">
-	<h1
-		class="md-display-1">
-		{{artist?.Name}}
-	</h1>
-</div>
+	<pm-fixed-background
+		[src]="artist?.PortraitUrlLarge">
+	</pm-fixed-background>
 
-<section
-	class="container container--opaque">
 	<div
-		class="flex-row-container"
-		fxLayout="row"
-		fxLayoutWrap="wrap">
-		<pm-album-list-item
-			fxFlex="33.333%"
-			*ngFor="let album of artist?.Albums"
-			[album]="album">
-		</pm-album-list-item>
+		class="hero">
+		<h1
+			class="md-display-1">
+			{{artist?.Name}}
+		</h1>
 	</div>
-</section>
+
+	<section
+		class="container container--opaque">
+		<div
+			class="flex-row-container"
+			fxLayout="row"
+			fxLayoutWrap="wrap">
+			<pm-album-list-item
+				fxFlex="33.333%"
+				*ngFor="let album of artist?.Albums"
+				[album]="album">
+			</pm-album-list-item>
+		</div>
+	</section>
+</ng-container>

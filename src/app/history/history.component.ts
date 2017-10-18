@@ -13,6 +13,9 @@ import {
     SignalRService,
     QueueService
 } from '../api';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 
 @Component({
     selector: 'app-history',
@@ -21,55 +24,45 @@ import {
     animations: [ routeAnimation ]
 })
 export class HistoryComponent implements OnInit {
-    history: IQueuedTrack[] = [];
-    userHistory: IQueuedTrack[] = [];
-    requestHistory: IQueuedTrack[] = [];
-    loading = false;
-    @HostBinding('@routerTransition') animate = true;
+    public history$: Observable<IQueuedTrack[]>;
+    public userHistory$: Observable<IQueuedTrack[]>;
+    public requestHistory$: Observable<IQueuedTrack[]>;
+    public loading = false;
+    @HostBinding('@routerTransition') private _animate = true;
 
-    public get noHistoryResults(): boolean {
-        return !this.loading && this.history.length === 0;
-    }
-
-    public get noRequestHistoryResults(): boolean {
-        return !this.loading && this.requestHistory.length === 0;
-    }
-
-    public get noUserHistoryResults(): boolean {
-        return !this.loading && this.userHistory.length === 0;
-    }
-
-    constructor(private _queueService: QueueService) { }
+    constructor (
+        private _queueService: QueueService
+    ) { }
 
     ngOnInit() {
         this.loadFullHistory();
     }
 
     loadFullHistory() {
-        this.history = [];
         this.loading = true;
-        this._queueService.getHistory().subscribe((response: IPagedResult<IQueuedTrack>) => {
-            this.history = response.PageData;
-            this.loading = false;
-        });
+        this.history$ = this._queueService.getHistory()
+            .map(data => data.PageData)
+            .do(() => {
+                this.loading = false;
+            });
     }
 
     loadRequestHistory() {
-        this.requestHistory = [];
         this.loading = true;
-        this._queueService.getRequestedHistory().subscribe((response: IPagedResult<IQueuedTrack>) => {
-            this.requestHistory = response.PageData;
-            this.loading = false;
-        });
+        this.requestHistory$ = this._queueService.getRequestedHistory()
+            .map(data => data.PageData)
+            .do(() => {
+                this.loading = false;
+            });
     }
 
     loadUserHistory() {
-        this.userHistory = [];
         this.loading = true;
-        this._queueService.getMyHistory().subscribe((response: IPagedResult<IQueuedTrack>) => {
-            this.userHistory = response.PageData;
-            this.loading = false;
-        });
+        this.userHistory$ = this._queueService.getMyHistory()
+            .map(data => data.PageData)
+            .do(() => {
+                this.loading = false;
+            });
     }
 
     onActiveTabChanged(args: MatTabChangeEvent) {

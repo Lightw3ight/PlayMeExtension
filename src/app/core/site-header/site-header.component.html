@@ -9,14 +9,17 @@
         <div
             fxFlex="none">
             <button
-                class="site-header__menu-button"
                 mat-icon-button
                 (click)="onToggleMenuClick()">
                 <mat-icon>menu</mat-icon>
             </button>
+            <div
+                class="site-header__button-divider"
+                *ngIf="enableBack$ | async"></div>
             <button
-                class="site-header__back-button"
-                mat-icon-button (click)="home()">
+                mat-icon-button
+                (click)="back()"
+                *ngIf="enableBack$ | async">
                 <mat-icon>navigate_before</mat-icon>
             </button>
         </div>

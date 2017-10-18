@@ -1,46 +1,49 @@
-<pm-fixed-background
-    [src]="album?.ArtworkUrlLarge">
-</pm-fixed-background>
+<ng-container
+    *ngIf="album$ | async as album">
+    <pm-fixed-background
+        [src]="album?.ArtworkUrlLarge">
+    </pm-fixed-background>
 
-<div
-    class="hero">
     <div
-        class="album__hero"
-        fxLayout="row"
-        fxLayoutAlign="start start">
+        class="hero">
         <div
-            fxFlex="25%">
-            <img
-                [src]="album?.ArtworkUrlLarge || '/assets/images/pixel.gif'"
-                class="img-responsive">
-        </div>
+            class="album__hero"
+            fxLayout="row"
+            fxLayoutAlign="start start">
+            <div
+                fxFlex="25%">
+                <img
+                    [src]="album.ArtworkUrlLarge || '/assets/images/pixel.gif'"
+                    class="img-responsive">
+            </div>
 
-        <div
-            class="album__hero-details"
-            fxFlex
-            fxFlexFill>
-            <a
-                *ngIf="album?.Artist"
-                [routerLink]="['/artist', album?.MusicProvider?.Identifier, album?.Artist?.Link]">
-                {{album?.Artist?.Name}}
-            </a>
-            <h1
-                class="md-display-1">
-                {{album?.Name}}
-            </h1>
+            <div
+                class="album__hero-details"
+                fxFlex
+                fxFlexFill>
+                <a
+                    *ngIf="album.Artist"
+                    [routerLink]="['/artist', album.MusicProvider?.Identifier, album.Artist?.Link]">
+                    {{album.Artist?.Name}}
+                </a>
+                <h1
+                    class="md-display-1">
+                    {{album.Name}}
+                </h1>
+            </div>
         </div>
     </div>
-</div>
-<section
-    class="container container--opaque">
-    <ul
-        class="list-unstyled">
-        <li
-            *ngFor="let track of album?.Tracks; let ix = index">
-            <pm-simple-track-list-item
-                [track]="track"
-                [trackNumber]="ix + 1">
-            </pm-simple-track-list-item>
-        </li>
-    </ul>
-</section>
+    <section
+        class="container container--opaque">
+        <ul
+            class="list-unstyled">
+            <li
+                *ngFor="let track of album.Tracks; let ix = index">
+                <pm-simple-track-list-item
+                    [track]="track"
+                    [trackNumber]="ix + 1">
+                </pm-simple-track-list-item>
+            </li>
+        </ul>
+    </section>
+</ng-container>

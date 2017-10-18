@@ -5,7 +5,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ArtistService } from '../api';
 import { IArtist } from '../models';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/catch';
 
 @Component({
     selector: 'pm-artist',
@@ -15,21 +17,23 @@ import 'rxjs/add/operator/switchMap';
 })
 export class ArtistComponent implements OnInit {
     @HostBinding('@routerTransition') animate = true;
-    artist: IArtist;
-    paramsSubscription: Subscription;
+    public artist: IArtist;
+    public artist$: Observable<IArtist>;
+    public paramsSubscription: Subscription;
 
-    constructor(private _route: ActivatedRoute, private _artistService: ArtistService, private _location: Location) {
-
-    }
+    constructor (
+        private _route: ActivatedRoute,
+        private _artistService: ArtistService,
+        private _location: Location
+    ) { }
 
     ngOnInit() {
-        this._route.params
+        this.artist$ = this._route.params
             .switchMap(params => this._artistService.getArtist(params['id'], params['provider']))
-            .subscribe((artist: IArtist) => {
-                this.artist = artist;
-            }, () => {
+            .catch(error => {
                 alert('Error loading artist');
                 this._location.back();
+                return Observable.of(error);
             });
     }
 

@@ -11,13 +11,13 @@
 			label="All">
 			<p
 				class="padding-top-half"
-				*ngIf="noHistoryResults">
+				*ngIf="!loading && !(history$ | async)?.length">
 				No results
 			</p>
 			<mat-spinner
 				*ngIf="loading"></mat-spinner>
 			<pm-queued-track
-				*ngFor="let track of history"
+				*ngFor="let track of history$ | async"
 				[queuedTrack]="track">
 			</pm-queued-track>
 		</mat-tab>
@@ -26,13 +26,13 @@
 			label="Requested">
 			<p
 				class="padding-top-half"
-				*ngIf="noRequestHistoryResults">
+				*ngIf="!loading && !(requestHistory$ | async)?.length">
 				No results
 			</p>
 			<mat-spinner
 				*ngIf="loading"></mat-spinner>
 			<pm-queued-track
-				*ngFor="let track of requestHistory"
+				*ngFor="let track of requestHistory$ | async"
 				[queuedTrack]="track">
 			</pm-queued-track>
 		</mat-tab>
@@ -41,13 +41,13 @@
 			label="Mine">
 			<p
 				class="padding-top-half"
-				*ngIf="noUserHistoryResults">
+				*ngIf="!loading && !(userHistory$ | async)?.length">
 				No results
 			</p>
 			<mat-spinner
 				*ngIf="loading"></mat-spinner>
 			<pm-queued-track
-				*ngFor="let track of userHistory"
+				*ngFor="let track of userHistory$ | async"
 				[queuedTrack]="track">
 			</pm-queued-track>
 		</mat-tab>

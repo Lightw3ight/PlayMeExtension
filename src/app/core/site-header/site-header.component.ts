@@ -1,10 +1,12 @@
 import { IAudioZone } from './../../api/IAudioZone';
 import { Component, OnInit, Output, EventEmitter, HostBinding, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AudioZoneService } from '../../api';
 import { Location } from '@angular/common';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/filter';
 
 @Component({
     selector: 'pm-site-header',
@@ -13,20 +15,24 @@ import 'rxjs/add/operator/debounceTime';
 })
 export class SiteHeaderComponent implements OnInit {
     @HostBinding('class.site-header--opaque')
-    scrolled = false;
+    public scrolled = false;
 
     @HostBinding('class.site-header--forced-opaque')
-    forceOpaqueView = false;
+    public forceOpaqueView = false;
 
-    @HostBinding('class.site-header--enable-back')
-    public enableBack = true;
-
-    hasFocus = false;
-    searchInput = new FormControl();
-    currentAudioZone: IAudioZone;
+    // @HostBinding('class.site-header--enable-back')
+    public enableBack$: Observable<boolean>;
+    public hasFocus = false;
+    public searchInput = new FormControl();
+    public currentAudioZone: IAudioZone;
     @Output() toggleMenu = new EventEmitter();
 
-    constructor(private router: Router, private _audioZoneService: AudioZoneService, private _location: Location) { }
+    constructor(
+        private router: Router,
+        private _audioZoneService: AudioZoneService,
+        private _location: Location,
+        private _activatedRoute: ActivatedRoute
+    ) { }
 
     ngOnInit() {
         window.addEventListener('scroll', this.onWindowScroll);
@@ -39,19 +45,39 @@ export class SiteHeaderComponent implements OnInit {
             this.currentAudioZone = zone;
         });
 
-        this.router.events.subscribe(event => {
-            if (event instanceof NavigationEnd) {
-                this.enableBack = event.url !== '/';
-                //this.enableBack = !event.url.startsWith('/now-playing');
-                this.forceOpaqueView = event.url.startsWith('/search')
-                    || event.url.startsWith('/queue')
-                    || event.url.startsWith('/history');
+        const routeData$ = this.router.events
+            .filter(event => event instanceof NavigationEnd)
+            .map(() => this._activatedRoute)
+            .map(route => route.firstChild)
+            .switchMap(route => route.data);
 
-                if (!this.forceOpaqueView) {
+        routeData$
+            .subscribe(data => {
+                this.forceOpaqueView = !!data.opaqueHeader;
+
+                if (!data.preserveSearch) {
                     this.searchInput.reset();
                 }
-            }
-        });
+            });
+
+        this.enableBack$ = routeData$
+            .map(data => !data.isHome);
+            // .subscribe(data => {
+            //     this.enableBack = !data.isHome;
+            // });
+
+        // this.router.events.subscribe(event => {
+        //     if (event instanceof NavigationEnd) {
+        //         this.enableBack = event.url !== '/' && !event.url.startsWith('/now-playing');
+        //         this.forceOpaqueView = event.url.startsWith('/search')
+        //             || event.url.startsWith('/queue')
+        //             || event.url.startsWith('/history');
+
+        //         if (!this.forceOpaqueView) {
+        //             this.searchInput.reset();
+        //         }
+        //     }
+        // });
     }
 
     onSearchChanged = (newValue: string) => {

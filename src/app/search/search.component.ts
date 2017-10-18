@@ -4,6 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { SearchService } from '../api';
 import { ISearchResults } from '../models';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/do';
 
 @Component({
     selector: 'pm-search',
@@ -13,9 +16,9 @@ import { ISearchResults } from '../models';
 })
 export class SearchComponent implements OnInit {
     @HostBinding('@routerTransition') animate = true;
-    results: ISearchResults = {};
+    results$: Observable<ISearchResults>;
     loading = false;
-    searchQuery: string;
+    searchQuery$: Observable<string>;
 
     constructor(
         private _route: ActivatedRoute,
@@ -24,13 +27,15 @@ export class SearchComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._route.params.switchMap(params => {
-            this.loading = true;
-            this.searchQuery = params['searchQuery']
-            return this._searchService.search(params['provider'], this.searchQuery);
-        }).subscribe(results => {
-            this.results = results;
-            this.loading = false;
-        });
+        this.searchQuery$ = this._route.params
+            .map(params => params['searchQuery'])
+            .do(() => {
+                this.loading = true;
+            });
+
+        this.results$ = this._route.params.switchMap(params => this._searchService.search(params['provider'], params['searchQuery']))
+            .do(results => {
+                this.loading = false;
+            });
     }
 }

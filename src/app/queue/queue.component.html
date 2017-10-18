@@ -6,7 +6,7 @@
     </h1>
 
     <p
-        *ngIf="!queuedTracks?.length && !loading"
+        *ngIf="!(queuedTracks$ | async)?.length && !loading"
         class="text">
         <em>There are no tracks in the queue</em>
     </p>
@@ -16,7 +16,7 @@
     </mat-spinner>
 
     <pm-queued-track
-        *ngFor="let track of queuedTracks"
+        *ngFor="let track of queuedTracks$ | async"
         [queuedTrack]="track"
         (likeTrack)="likeTrack(track)"
         (vetoTrack)="vetoTrack(track)">

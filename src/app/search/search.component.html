@@ -2,13 +2,14 @@
 	class="container container--opaque">
 	<h1
 		class="mat-title">
-		Search results for <em>{{searchQuery}}</em>
+		Search results for <em>{{ searchQuery$ | async }}</em>
 	</h1>
 
 	<mat-spinner
 		*ngIf="loading"></mat-spinner>
 	
-	<mat-tab-group>
+	<mat-tab-group
+		*ngIf="results$ | async as results">
 		<mat-tab
 			label="Artists"
 			*ngIf="results?.PagedArtists?.Artists">
