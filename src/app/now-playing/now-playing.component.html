@@ -1,54 +1,131 @@
-<div class="app-root">
-	<div class="album-art-background"><img [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge || '/assets/images/pixel.gif'"></div>
-	<div class="content-top">
-		<div class="row nav-bar">
-			<zone-selector class="col-xs-3" [activeZone]="activeZone" (zoneChanged)="changeZone($event)"></zone-selector>
-			<search-bar class="col-xs-9"></search-bar>
-		</div>
+<ng-container
+    *ngIf="currentTrack$ | async as currentTrack">
+    <pm-fixed-background
+        [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge"
+        [blurred]="true">
+    </pm-fixed-background>
 
-		<div class="now-playing">
-			<div class="row">
-				<div class="col-xs-8">
-					<small><em>Queued by 
-						<a [href]="currentTrack?.url" class="user-link" *ngIf="currentTrack?.url" target="_blank" disabled>{{currentTrack?.fullName | async}}<img [src]="currentTrack?.userPhotoUrl"></a>
-						<span *ngIf="!currentTrack?.url">{{currentTrack?.fullName | async}}</span>
-						</em></small>
-					<h1><a href="{{currentTrack?.Track?.ExternalLink}}" target="_blank" title="Open in spotify">{{currentTrack?.Track?.Name}}</a></h1>
+    <section
+        class="container container--top now-playing__track-summary">
+        <small
+            class="now-playing__queued-by">
+            Queued by 
+            <a
+                [href]="currentTrack?.url"
+                class="user-link"
+                *ngIf="currentTrack?.url"
+                target="_blank" disabled>
+                {{currentTrack?.fullName | async}}
+                <img [src]="currentTrack?.userPhotoUrl">
+            </a>
+            <span
+                *ngIf="!currentTrack?.url">
+                {{currentTrack?.fullName | async}}
+            </span>
+        </small>
 
-					<ul class="comma-separated" *ngIf="currentTrack?.Track?.Artists?.length">
-						<li *ngFor="let artist of currentTrack?.Track?.Artists">
-							<a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a>
-						</li>
-					</ul>
-					<a *ngIf="currentTrack?.Track?.Album" [routerLink]="['/album', currentTrack?.Track?.Album.MusicProvider.Identifier, currentTrack?.Track?.Album.Link]">{{currentTrack?.Track?.Album?.Name}}</a>
-					<opinion-buttons [track]="currentTrack" (like)="likeTrack(currentTrack)" (veto)="vetoTrack(currentTrack)"></opinion-buttons>
-					<p *ngIf="currentTrack?.Reason" class="track-comment">
-						<em>{{currentTrack?.Reason}}</em>
-					</p>
-				</div>
-				<div class="col-xs-4">
-					<img [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge || '/assets/images/pixel.gif'" class="img-responsive">
-				</div>
-			</div>
-		</div>
-		<div class="progress now-playing-progress">
-			<div class="progress-bar" [style.width]="trackProgress"></div>
-		</div>
-	</div>
+        <div
+            fxLayout="row"
+            fxLayoutAlign="start start">
+            <div
+                fxFlex="25%">
+                <img
+                    [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge || '/assets/images/pixel.gif'"
+                    class="img-responsive">
+            </div>
 
-	<div class="content-bottom">
-		<tabset>
-			<tab heading="Next up">
-				<p *ngIf="!trackQueue?.length" class="text"><em>There are no tracks in the queue</em></p>
-				<queued-track *ngFor="let track of trackQueue" [queuedTrack]="track" (likeTrack)="likeTrack(track)" (vetoTrack)="vetoTrack(track)"></queued-track>
+            <div
+                fxFlex="75%"
+                class="now-playing__track-info">
+                <h1
+                    class="mat-display-1">
+                    <a
+                        href="{{currentTrack?.Track?.ExternalLink}}"
+                        target="_blank"
+                        title="{{currentTrack?.Track?.Name}}">
+                        {{currentTrack?.Track?.Name}}
+                    </a>
+                </h1>
 
-				<a [routerLink]="['/queue']" *ngIf="trackQueue?.length">See all queued tracks</a>
-			</tab>
-			<tab heading="History">
-				<queued-track *ngFor="let track of trackHistory" [queuedTrack]="track"></queued-track>
-				
-				<a [routerLink]="['/history']">See all history</a>
-			</tab>
-		</tabset>
-	</div>
-</div>
+                <ul
+                    class="comma-separated"
+                    *ngIf="currentTrack?.Track?.Artists?.length">
+                    <li
+                        *ngFor="let artist of currentTrack?.Track?.Artists">
+                        <a
+                            class="mat-subhead"
+                            [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">
+                            {{artist.Name}}
+                        </a>
+                    </li>
+                </ul>
+
+                <a
+                    class="mat-subhead now-playing__track-info-album"
+                    *ngIf="currentTrack?.Track?.Album"
+                    [routerLink]="['/album', currentTrack?.Track?.Album.MusicProvider.Identifier, currentTrack?.Track?.Album.Link]">
+                    {{currentTrack?.Track?.Album?.Name}}
+                </a>
+
+                <pm-opinion-buttons
+                    [track]="currentTrack"
+                    (like)="likeTrack(currentTrack)"
+                    (veto)="vetoTrack(currentTrack)">
+                </pm-opinion-buttons>
+
+                <p
+                    *ngIf="currentTrack?.Reason"
+                    class="now-playing__track-comment">
+                    <em>{{currentTrack?.Reason}}</em>
+                </p>
+            </div>
+        </div>
+
+        <mat-progress-bar
+            color="accent"
+            mode="determinate"
+            [title]="trackElapsedTime$ | async"
+            [value]="trackProgress$ | async">
+        </mat-progress-bar>
+    </section>
+</ng-container>
+<section
+    class="container container--opaque now-playing__queue-card">
+    <mat-tab-group>
+        <mat-tab
+            label="Next up">
+            <p
+                *ngIf="trackQueue$ | async"
+                class="text padding-top-half">
+                <em>There are no tracks in the queue</em>
+            </p>
+            <pm-queued-track
+                *ngFor="let track of trackQueue$ | async"
+                [queuedTrack]="track"
+                (likeTrack)="likeTrack(track)"
+                (vetoTrack)="vetoTrack(track)">
+            </pm-queued-track>
+
+            <a
+                mat-button
+                [routerLink]="['/queue']"
+                *ngIf="trackQueue$ | async">
+                See all queued tracks
+            </a>
+        </mat-tab>
+
+        <mat-tab
+            label="History">
+            <pm-queued-track
+                *ngFor="let track of trackHistory$ | async"
+                [queuedTrack]="track">
+            </pm-queued-track>
+
+            <a
+                mat-button
+                [routerLink]="['/history']">
+                See all history
+            </a>
+        </mat-tab>
+    </mat-tab-group>
+</section>

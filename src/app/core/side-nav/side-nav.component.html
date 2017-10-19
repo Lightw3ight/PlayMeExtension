@@ -1,0 +1,49 @@
+<header
+    class="side-nav__header"
+    fxLayout="row"
+    fxLayoutAlign="start center">
+    <button
+        type="button"
+        mat-icon-button
+        fxFlex="none"
+        (click)="triggerClose()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <div
+        fxFlex
+        fxFlexFill>
+        <img
+            src="/assets/images/play-me.svg"
+            alt="Play Me">
+    </div>
+</header>
+
+<a
+    class="side-nav__nav-item"
+    [routerLink]="['/now-playing']"
+    (click)="triggerClose()">
+    <mat-icon>home</mat-icon>
+    Home
+</a>
+
+<a
+    class="side-nav__nav-item"
+    [routerLink]="['/queue']"
+    (click)="triggerClose()">
+    <mat-icon>queue_music</mat-icon>
+    Queue
+</a>
+
+<a
+    class="side-nav__nav-item"
+    [routerLink]="['/history']"
+    (click)="triggerClose()">
+    <mat-icon>history</mat-icon>
+    History
+</a>
+
+<hr>
+
+<pm-zone-selector
+    (zoneChanged)="triggerClose()">
+</pm-zone-selector>

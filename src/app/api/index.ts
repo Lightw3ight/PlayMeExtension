@@ -5,3 +5,4 @@ export * from './queue.service';
 export * from './search.service';
 export * from './signalr.service';
 export * from './user-info.service';
+export * from './IAudioZone';

@@ -1,39 +1,41 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {SearchService} from '../api';
-import {ISearchResults} from '../models';
+import { routeAnimation } from './../router-animation';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { SearchService } from '../api';
+import { ISearchResults } from '../models';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/do';
 
 @Component({
-	selector: 'app-search',
-	templateUrl: 'search.component.html',
-	styleUrls: ['search.component.css']
+    selector: 'pm-search',
+    templateUrl: 'search.component.html',
+    styleUrls: ['search.component.scss'],
+    animations: [routeAnimation]
 })
 export class SearchComponent implements OnInit {
-	searchQuery: string;
-	provider: string;
-	results: ISearchResults = {};
-	tracksTabActive: boolean = false;
-	albumsTabActive: boolean = false;
-	artistTabActive: boolean = false;
-	constructor(private _route: ActivatedRoute,
-		private _searchService: SearchService) {
-	}
+    @HostBinding('@routerTransition') animate = true;
+    results$: Observable<ISearchResults>;
+    loading = false;
+    searchQuery$: Observable<string>;
 
-	ngOnInit() {
-		this._route.params.subscribe(params => {
-			this.searchQuery = params['searchQuery'];
-			this.provider = params['provider'];
+    constructor(
+        private _route: ActivatedRoute,
+        private _searchService: SearchService
+    ) {
+    }
 
-			this._searchService.search(this.provider, this.searchQuery).then((results: ISearchResults) => {
-				this.results = results;
-				if (results.PagedArtists.Artists.length) {
-					this.artistTabActive = true;
-				} else if (results.PagedAlbums.Albums.length) {
-					this.albumsTabActive = true;
-				} else {
-					this.tracksTabActive = true;
-				}
-			});
-		});
-	}
+    ngOnInit() {
+        this.searchQuery$ = this._route.params
+            .map(params => params['searchQuery'])
+            .do(() => {
+                this.loading = true;
+            });
+
+        this.results$ = this._route.params.switchMap(params => this._searchService.search(params['provider'], params['searchQuery']))
+            .do(results => {
+                this.loading = false;
+            });
+    }
 }

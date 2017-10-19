@@ -1,0 +1,20 @@
+:host {
+	color: white;
+	display: block;
+
+	pm-user-list {
+		display: none;
+	}
+}
+
+.option-buttons__like-container,
+.option-buttons__veto-container {
+	display: inline-block;
+	position: relative;
+
+	&:hover {
+		pm-user-list {
+			display: inline-block;
+		}
+	}
+}

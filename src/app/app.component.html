@@ -1,0 +1,21 @@
+<pm-site-header
+    class="app-container__site-header"
+    (toggleMenu)="sidenav.open()">
+</pm-site-header>
+
+<mat-sidenav-container
+    class="app-container">
+    <mat-sidenav
+        #sidenav
+        (open)="navOpen = true"
+        (close)="navOpen = false">
+        <pm-side-nav
+            (close)="sidenav.close()">
+        </pm-side-nav>
+    </mat-sidenav>
+    
+    <main
+        class="app-container__content">
+        <router-outlet></router-outlet>
+    </main>
+</mat-sidenav-container>

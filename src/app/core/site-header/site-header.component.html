@@ -1,0 +1,48 @@
+<div
+    class="site-header">
+    <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        class="site-header__search-container"
+        [class.site-header__search-container--focus]="hasFocus"
+        tabindex="0">
+        <div
+            fxFlex="none">
+            <button
+                mat-icon-button
+                (click)="onToggleMenuClick()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <div
+                class="site-header__button-divider"
+                *ngIf="enableBack$ | async"></div>
+            <button
+                mat-icon-button
+                (click)="back()"
+                *ngIf="enableBack$ | async">
+                <mat-icon>navigate_before</mat-icon>
+            </button>
+        </div>
+        <div
+            fxFlex
+            fxFlexFill>
+            <form
+                (ngSubmit)="onSubmit()"
+                #searchForm="ngForm">
+                <input
+                    type="text"
+                    [formControl]="searchInput"
+                    placeholder="Search"
+                    class="site-header__search-input material-search"
+                    (focus)="hasFocus = true"
+                    (blur)="hasFocus = false">
+            </form>
+        </div>
+
+        <label
+            fxFlex="none"
+            class="site-header__audio-zone">
+            {{currentAudioZone.name}}
+        </label>
+    </div>
+</div>

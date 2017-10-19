@@ -1,0 +1,39 @@
+:host {
+    padding: 0 .25rem .5rem .25rem;
+
+    &:hover {
+        mat-card {
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.3);
+        }
+    }
+
+    > a, > a:hover {
+        text-decoration: none;
+    }
+
+    >a>mat-card {
+        padding-bottom: .5rem;
+    }
+}
+
+.album-list-item__title {
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+    margin: 0 .25rem;
+}
+
+.album-list-item__artist-name {
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    margin-top: 5px;
+    margin: 0 .25rem;
+}
+
+.album-list-item__content {
+    margin: -.25rem -.5rem;
+}

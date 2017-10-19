@@ -1,38 +1,76 @@
-<div class="app-root">
-	<div class="album-art-background"><img [src]="album?.ArtworkUrlLarge || '/assets/images/pixel.gif'"></div>
-	<div class="content-top search-header">
-		<div class="row nav-bar">
-			<zone-selector class="col-xs-3" [activeZone]="activeZone"></zone-selector>
-			<search-bar class="col-xs-9"></search-bar>
-		</div>
-		<breadcrumbs></breadcrumbs>
+<section
+	class="container container--opaque">
+	<h1
+		class="mat-title">
+		Search results for <em>{{ searchQuery$ | async }}</em>
+	</h1>
 
-		<div class="search-term">
-			Search results for <em>{{searchQuery}}</em>
-		</div>
-	</div>
-	<div class="content-bottom">
-		<tabset>
-			<tab heading="Artists" *ngIf="results?.PagedArtists?.Artists" [active]="artistTabActive" (select)="artistTabActive = true;">
-				<p *ngIf="results?.PagedArtists?.Artists?.length === 0"><em>No artists</em></p>
-				<div class="row">
-					<artist-list-item *ngFor="let artist of results?.PagedArtists?.Artists" [artist]="artist"></artist-list-item>
+	<mat-spinner
+		*ngIf="loading"></mat-spinner>
+	
+	<mat-tab-group
+		*ngIf="results$ | async as results">
+		<mat-tab
+			label="Artists"
+			*ngIf="results?.PagedArtists?.Artists">
+			<div
+				class="search-page_artist-list">
+				<p
+					class="padding-top-half"
+					*ngIf="results?.PagedArtists?.Artists?.length === 0">
+					<em>No artists</em>
+				</p>
+				<div
+					class="search-page__row"
+					fxLayout="row"
+					fxLayoutWrap="wrap">
+					<pm-artist-list-item
+						fxFlex="33.333%"
+						*ngFor="let artist of results?.PagedArtists?.Artists"
+						[artist]="artist">
+					</pm-artist-list-item>
 				</div>
-			</tab>
-			<tab heading="Albums" *ngIf="results?.PagedAlbums?.Albums" [active]="albumsTabActive" (select)="albumsTabActive = true">
-				<p *ngIf="results?.PagedAlbums?.Albums?.length === 0"><em>No albums</em></p>
-				<div class="row">
-					<album-list-item *ngFor="let album of results?.PagedAlbums?.Albums" [album]="album"></album-list-item>
-				</div>
-			</tab>
-			<tab heading="Tracks" *ngIf="results?.PagedTracks?.Tracks" [active]="tracksTabActive" (select)="tracksTabActive = true">
-				<p *ngIf="results?.PagedTracks?.Tracks?.length === 0"><em>No tracks</em></p>
-				<ul class="list-unstyled">
-					<li *ngFor="let track of results?.PagedTracks?.Tracks">
-						<track-list-item [track]="track"></track-list-item>
-					</li>
-				</ul>
-			</tab>
-		</tabset>
-	</div>
-</div>
+			</div>
+		</mat-tab>
+
+		<mat-tab
+			label="Albums"
+			*ngIf="results?.PagedAlbums?.Albums">
+			<p
+				class="padding-top-half"
+				*ngIf="results?.PagedAlbums?.Albums?.length === 0">
+				<em>No albums</em>
+			</p>
+
+			<div
+				fxLayout="row"
+				fxLayoutWrap="wrap"
+				class="search-page__row">
+				<pm-album-list-item
+					fxFlex="33.333%"
+					*ngFor="let album of results?.PagedAlbums?.Albums"
+					[album]="album">
+				</pm-album-list-item>
+			</div>
+		</mat-tab>
+		
+		<mat-tab
+			label="Tracks"
+			*ngIf="results?.PagedTracks?.Tracks">
+			<p
+				class="padding-top-half"
+				*ngIf="results?.PagedTracks?.Tracks?.length === 0">
+				<em>No tracks</em>
+			</p>
+			<ul
+				class="list-unstyled">
+				<li
+					*ngFor="let track of results?.PagedTracks?.Tracks">
+					<pm-track-list-item
+						[track]="track">
+					</pm-track-list-item>
+				</li>
+			</ul>
+		</mat-tab>
+	</mat-tab-group>
+</section>

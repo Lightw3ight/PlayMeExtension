@@ -1,0 +1,11 @@
+<mat-radio-group
+    fxLayout="column"
+    [(ngModel)]="activeZone">
+    <mat-radio-button
+        class="example-radio-button"
+        (change)="changeZone(zone)"
+        *ngFor="let zone of zones"
+        [value]="zone">
+        {{zone.name}}
+    </mat-radio-button>
+</mat-radio-group>

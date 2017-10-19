@@ -1,10 +1,10 @@
-import { NgfinaltestPage } from './app.po';
+import { PlayMeExtensionPage } from './app.po';
 
-describe('ngfinaltest App', function() {
-  let page: NgfinaltestPage;
+describe('play-me-extension App', () => {
+  let page: PlayMeExtensionPage;
 
   beforeEach(() => {
-    page = new NgfinaltestPage();
+    page = new PlayMeExtensionPage();
   });
 
   it('should display message saying app works', () => {

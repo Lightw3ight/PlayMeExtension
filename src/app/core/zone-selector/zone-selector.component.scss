@@ -1,0 +1,24 @@
+:host {
+    display: block;
+
+    .mat-radio-button {
+        height: 48px;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            background-color: #eeeeee;
+        }
+    }
+
+    /deep/ .mat-radio-label {
+        align-items: center;
+    }
+
+    /deep/ .mat-radio-container {
+        margin-left: .5rem;
+        margin-right: .5rem;
+        margin-top: -4px;
+    }
+}
+

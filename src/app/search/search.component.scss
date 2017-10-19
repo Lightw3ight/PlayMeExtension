@@ -1,0 +1,14 @@
+.search-page__row {
+    margin: 0 -.25rem;
+    padding-top: .5rem;
+}
+
+mat-spinner {
+    width: 20px;
+    height: 20px;
+    margin-bottom: .5rem;
+}
+
+::ng-deep .mat-tab-body-content {
+    overflow: initial;
+}

@@ -1,28 +1,55 @@
-<div class="app-root">
-	<div class="album-art-background"><img [src]="album?.ArtworkUrlLarge || '/assets/images/pixel.gif'"></div>
-	<div class="content-top album-header">
-		<div class="row nav-bar">
-			<zone-selector class="col-xs-3" [activeZone]="activeZone"></zone-selector>
-			<search-bar class="col-xs-9"></search-bar>
-		</div>
-		<breadcrumbs></breadcrumbs>
-		<h1 class="text-center">History</h1>
-	</div>
-	<div class="content-bottom">
-		<tabset>
-			<tab heading="All" (select)="loadFullHistory()">
-				<p *ngIf="!loading && history.length === 0">No results</p>
-				<queued-track *ngFor="let track of history" [queuedTrack]="track" (likeTrack)="likeTrack(track)" (vetoTrack)="vetoTrack(track)"></queued-track>
-			</tab>
-			<tab heading="Requested" (select)="loadRequestHistory()">
-				<p *ngIf="!loading && requestHistory.length === 0">No results</p>
-				<queued-track *ngFor="let track of requestHistory" [queuedTrack]="track" (likeTrack)="likeTrack(track)" (vetoTrack)="vetoTrack(track)"></queued-track>
-			</tab>
-			<tab heading="Mine" (select)="loadUserHistory()">
-				<p *ngIf="!loading && userHistory.length === 0">No results</p>
-				<queued-track *ngFor="let track of userHistory" [queuedTrack]="track" (likeTrack)="likeTrack(track)" (vetoTrack)="vetoTrack(track)"></queued-track>
-			</tab>
-		</tabset>
-		<p *ngIf="loading">loading...</p>
-	</div>
-</div>
+<section
+	class="container container--opaque">
+	<h1
+		class="mat-title">
+		History
+	</h1>
+
+	<mat-tab-group
+		(selectChange)="onActiveTabChanged($event)">
+		<mat-tab
+			label="All">
+			<p
+				class="padding-top-half"
+				*ngIf="!loading && !(history$ | async)?.length">
+				No results
+			</p>
+			<mat-spinner
+				*ngIf="loading"></mat-spinner>
+			<pm-queued-track
+				*ngFor="let track of history$ | async"
+				[queuedTrack]="track">
+			</pm-queued-track>
+		</mat-tab>
+
+		<mat-tab
+			label="Requested">
+			<p
+				class="padding-top-half"
+				*ngIf="!loading && !(requestHistory$ | async)?.length">
+				No results
+			</p>
+			<mat-spinner
+				*ngIf="loading"></mat-spinner>
+			<pm-queued-track
+				*ngFor="let track of requestHistory$ | async"
+				[queuedTrack]="track">
+			</pm-queued-track>
+		</mat-tab>
+
+		<mat-tab
+			label="Mine">
+			<p
+				class="padding-top-half"
+				*ngIf="!loading && !(userHistory$ | async)?.length">
+				No results
+			</p>
+			<mat-spinner
+				*ngIf="loading"></mat-spinner>
+			<pm-queued-track
+				*ngFor="let track of userHistory$ | async"
+				[queuedTrack]="track">
+			</pm-queued-track>
+		</mat-tab>
+	</mat-tab-group>
+</section>
