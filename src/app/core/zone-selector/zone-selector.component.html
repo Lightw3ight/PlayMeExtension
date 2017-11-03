@@ -4,7 +4,7 @@
     <mat-radio-button
         class="example-radio-button"
         (change)="changeZone(zone)"
-        *ngFor="let zone of zones"
+        *ngFor="let zone of zones$ | async"
         [value]="zone">
         {{zone.name}}
     </mat-radio-button>

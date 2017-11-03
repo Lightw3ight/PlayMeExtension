@@ -1,3 +1,4 @@
+import { takeUntil, tap } from 'rxjs/operators';
 import { routeAnimation } from './../router-animation';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 
@@ -34,25 +35,25 @@ export class QueueComponent implements OnInit, OnDestroy {
         private _audioZoneService: AudioZoneService
     ) { }
 
-    public ngOnInit() {
-        this.queuedTracks$ = this._queueService.getAllQueuedTracks()
-            .do(() => {
+    public ngOnInit () {
+        this.queuedTracks$ = this._queueService.getAllQueuedTracks().pipe(
+            tap(() => {
                 this.loading = false;
-            });
+            }));
 
-        this._audioZoneService.getCurrentZone()
-            .takeUntil(this._destroyed$)
+        this._audioZoneService.getCurrentZone().pipe(
+            takeUntil(this._destroyed$))
             .subscribe(zone => {
                 this.changeZone(zone.path);
             });
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy () {
         this._destroyed$.next();
         this.closeHubConnection();
     }
 
-    changeZone(zone: string) {
+    public changeZone (zone: string) {
         if (this._activeZone) {
             this.closeHubConnection();
         }
@@ -61,20 +62,20 @@ export class QueueComponent implements OnInit, OnDestroy {
         this.openHubConnection();
     }
 
-    private openHubConnection() {
+    private openHubConnection () {
         this._signalRService.initializeHub(this._activeZone);
     }
 
-    private closeHubConnection() {
+    private closeHubConnection () {
         this._signalRService.closeHubConnection();
     }
 
-    public likeTrack(queuedTrack: IQueuedTrack) {
+    public likeTrack (queuedTrack: IQueuedTrack) {
         queuedTrack.LikeCount++;
         this._signalRService.likeTrack(queuedTrack.Id);
     }
 
-    public vetoTrack(queuedTrack: IQueuedTrack) {
+    public vetoTrack (queuedTrack: IQueuedTrack) {
         queuedTrack.VetoCount++;
         this._signalRService.vetoTrack(queuedTrack.Id);
     }

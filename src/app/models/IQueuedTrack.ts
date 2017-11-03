@@ -10,7 +10,7 @@ export interface IQueuedTrack extends ISavedTrack {
     IsPaused: boolean;
     IsSkipped: boolean;
     LikeCount: number;
-    Likes: ILike[]
+    Likes: ILike[];
     PausedDurationAsMilliseconds: number;
     Reason: string;
     StartedPlayingDateTime: Date;
@@ -18,7 +18,7 @@ export interface IQueuedTrack extends ISavedTrack {
     VetoCount: number;
     Vetoes: IVeto[];
 
-    //Not 100% sure this exists
+    // Not 100% sure this exists
     url: string;
 
     fullName: Observable<string>;

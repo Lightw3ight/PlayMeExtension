@@ -14,11 +14,10 @@ import {
     QueueService
 } from '../api';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-history',
+    selector: 'pm-history',
     templateUrl: 'history.component.html',
     styleUrls: ['history.component.scss'],
     animations: [ routeAnimation ]
@@ -34,38 +33,38 @@ export class HistoryComponent implements OnInit {
         private _queueService: QueueService
     ) { }
 
-    ngOnInit() {
+    public ngOnInit () {
         this.loadFullHistory();
     }
 
-    loadFullHistory() {
+    private loadFullHistory () {
         this.loading = true;
-        this.history$ = this._queueService.getHistory()
-            .map(data => data.PageData)
-            .do(() => {
+        this.history$ = this._queueService.getHistory().pipe(
+            map(data => data.PageData),
+            tap(() => {
                 this.loading = false;
-            });
+            }));
     }
 
-    loadRequestHistory() {
+    private loadRequestHistory () {
         this.loading = true;
-        this.requestHistory$ = this._queueService.getRequestedHistory()
-            .map(data => data.PageData)
-            .do(() => {
+        this.requestHistory$ = this._queueService.getRequestedHistory().pipe(
+            map(data => data.PageData),
+            tap(() => {
                 this.loading = false;
-            });
+            }));
     }
 
-    loadUserHistory() {
+    private loadUserHistory () {
         this.loading = true;
-        this.userHistory$ = this._queueService.getMyHistory()
-            .map(data => data.PageData)
-            .do(() => {
+        this.userHistory$ = this._queueService.getMyHistory().pipe(
+            map(data => data.PageData),
+            tap(() => {
                 this.loading = false;
-            });
+            }));
     }
 
-    onActiveTabChanged(args: MatTabChangeEvent) {
+    public onActiveTabChanged (args: MatTabChangeEvent) {
         switch (args.tab.textLabel) {
             case 'Requested':
                 this.loadRequestHistory();

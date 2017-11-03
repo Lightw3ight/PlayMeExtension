@@ -20,15 +20,15 @@ export class AudioZoneService {
         { name: 'Christchurch', path: 'http://chc-music.trademe.local' }
     ];
 
-    constructor() {
+    constructor () {
         this.zoneChangedObservable = new BehaviorSubject(this.getCurrentZoneSnapshot());
     }
 
-    getAllZones(): Observable<IAudioZone[]> {
+    public getAllZones (): Observable<IAudioZone[]> {
         return Observable.of(this._zones);
     }
 
-    setCurrentZone(zonePath) {
+    public setCurrentZone (zonePath) {
         if (zonePath) {
             const zone = this._zones.find(z => z.path === zonePath);
             localStorage.setItem(this.zoneKey, zonePath);
@@ -36,11 +36,11 @@ export class AudioZoneService {
         }
     }
 
-    getCurrentZone(): Observable<IAudioZone> {
+    public getCurrentZone (): Observable<IAudioZone> {
         return this.zoneChangedObservable;
     }
 
-    getCurrentZoneSnapshot(): IAudioZone {
+    public getCurrentZoneSnapshot (): IAudioZone {
         const zonePath = localStorage.getItem(this.zoneKey);
         const zone = this._zones.find(z => z.path === zonePath) || this._zones[0];
         return zone;

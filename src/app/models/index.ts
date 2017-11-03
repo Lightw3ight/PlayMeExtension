@@ -8,7 +8,7 @@ export * from './IPagedResult';
 export * from './IPlayMeObject';
 export * from './IQueuedTrack';
 export * from './ISavedTrack';
-export * from './ISearchResults'
+export * from './ISearchResults';
 export * from './ITrack';
 export * from './ITrackPagedList';
 export * from './IVeto';

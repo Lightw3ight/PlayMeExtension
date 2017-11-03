@@ -1,4 +1,4 @@
 export interface IMusicProvider {
-	Identifier: string;
-	Name: string;
+    Identifier: string;
+    Name: string;
 }

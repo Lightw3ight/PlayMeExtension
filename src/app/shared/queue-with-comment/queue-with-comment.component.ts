@@ -6,14 +6,14 @@ import { MatDialog, MatDialogRef } from '@angular/material';
     templateUrl: './queue-with-comment.component.html',
     styleUrls: ['./queue-with-comment.component.scss']
 })
-export class QueueWithCommentComponent implements OnInit {
-    comment: string;
-    constructor(private dialogRef: MatDialogRef<QueueWithCommentComponent>) { }
+export class QueueWithCommentComponent {
+    public comment: string;
 
-    ngOnInit() {
-    }
+    constructor (
+        private _dialogRef: MatDialogRef<QueueWithCommentComponent>
+    ) { }
 
-    queueTrack() {
-        this.dialogRef.close(this.comment);
+    public queueTrack () {
+        this._dialogRef.close(this.comment);
     }
 }

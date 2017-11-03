@@ -8,23 +8,18 @@ import { IQueuedTrack } from '../../models';
     templateUrl: 'opinion-buttons.component.html',
     styleUrls: ['opinion-buttons.component.scss']
 })
-export class OpinionButtonsComponent implements OnInit {
-    showVetoNames = false;
-    showLikeNames = false;
-    @Input() track: IQueuedTrack;
-    @Output() veto = new EventEmitter();
-    @Output() like = new EventEmitter();
+export class OpinionButtonsComponent {
+    @Input() public track: IQueuedTrack;
+    @Output() public veto = new EventEmitter();
+    @Output() public like = new EventEmitter();
+    public showVetoNames = false;
+    public showLikeNames = false;
 
-    constructor() { }
-
-    ngOnInit() {
-    }
-
-    vetoTrack() {
+    public vetoTrack () {
         this.veto.emit(null);
     }
 
-    likeTrack() {
+    public likeTrack () {
         this.like.emit(null);
     }
 }

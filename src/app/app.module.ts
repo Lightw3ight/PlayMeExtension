@@ -7,7 +7,6 @@ import { AlbumModule } from './album/album.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
@@ -23,12 +22,7 @@ import {
     UserInfoService,
     SignalRService
 } from './api';
-// import { AlbumComponent } from './album';
-// import { SearchComponent, ArtistListItemComponent, AlbumListItemComponent } from './search';
-// import { ArtistComponent } from './artist';
-// import { QueueComponent } from './queue';
-// import { HistoryComponent } from './history';
-// import { NowPlayingComponent } from './now-playing';
+
 import { AppComponent } from './app.component';
 import { MatSidenavModule } from '@angular/material';
 @NgModule({
@@ -37,7 +31,6 @@ import { MatSidenavModule } from '@angular/material';
         routing,
         CoreModule,
         SharedModule,
-        HttpModule,
         BrowserAnimationsModule,
         AlbumModule,
         ArtistModule,
@@ -49,15 +42,7 @@ import { MatSidenavModule } from '@angular/material';
         HttpClientModule
     ],
     declarations: [
-        AppComponent,
-        // AlbumListItemComponent,
-        // ArtistListItemComponent,
-        // AlbumComponent,
-        // SearchComponent,
-        // ArtistComponent,
-        // QueueComponent,
-        // HistoryComponent,
-        // NowPlayingComponent
+        AppComponent
     ],
     providers: [
         appRoutingProviders,

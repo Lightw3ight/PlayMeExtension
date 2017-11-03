@@ -17,25 +17,21 @@ export class AppComponent {
     private _navOpen = false;
     private _lastScroll = 0;
 
-    public get navOpen(): boolean {
+    public get navOpen (): boolean {
         return this._navOpen;
     }
 
-    public set navOpen(value: boolean) {
+    public set navOpen (value: boolean) {
         this._navOpen = value;
         this._lastScroll = window.scrollY;
         window.document.documentElement.style.overflow = value ? 'hidden' : 'visible';
     }
 
-    constructor(private router: Router, private viewContainerRef: ViewContainerRef) {
+    constructor (private router: Router, private viewContainerRef: ViewContainerRef) {
         // You need this small hack in order to catch application root view container ref
         this.viewContainerRef = viewContainerRef;
 
         window.addEventListener('scroll', this.onWindowScroll);
-    }
-
-    blah() {
-        console.log('oi');
     }
 
     onWindowScroll = (args: Event) => {

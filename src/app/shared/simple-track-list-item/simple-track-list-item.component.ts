@@ -13,18 +13,19 @@ import { QueueWithCommentComponent } from '../queue-with-comment/queue-with-comm
     ]
 })
 export class SimpleTrackListItemComponent {
-    @Input() track: ITrack;
-    @Input() trackNumber: number;
+    @Input() public track: ITrack;
+    @Input() public trackNumber: number;
 
-    constructor(protected _queueService: QueueService, public dialog: MatDialog) {
+    constructor (
+        protected _queueService: QueueService,
+        public dialog: MatDialog
+    ) { }
 
-    }
-
-    queueTrack() {
+    public queueTrack () {
         this._queueService.queueTrack(this.track);
     }
 
-    queueWithComment() {
+    public queueWithComment () {
         const dialogRef = this.dialog.open(QueueWithCommentComponent);
             dialogRef.afterClosed().subscribe(comment => {
                 if (comment) {
@@ -33,7 +34,7 @@ export class SimpleTrackListItemComponent {
             });
     }
 
-    formatTime(time: string) {
+    public formatTime (time: string) {
         return time.indexOf('00:') === 0 ? time.substr(3) : time;
     }
 }

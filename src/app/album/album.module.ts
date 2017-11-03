@@ -1,6 +1,6 @@
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { SharedModule } from '../shared/index';
+import { SharedModule } from '../shared';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 

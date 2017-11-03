@@ -2,10 +2,8 @@ import { routeAnimation } from './../router-animation';
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-// import { Subscription } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/observable/interval';
 import * as moment from 'moment';
 import {
@@ -20,6 +18,7 @@ import {
     SearchService
 } from '../api';
 import { trigger, transition, animate, style } from '@angular/animations';
+import { switchMap, takeUntil, map } from 'rxjs/operators';
 
 @Component({
     selector: 'pm-now-playing',
@@ -37,55 +36,56 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
     public trackElapsedTime$: Observable<string>;
     private _destroyed$: Subject<any> = new Subject<any>();
 
-    constructor(private _searchService: SearchService,
+    constructor (
+        private _searchService: SearchService,
         private _audioZoneService: AudioZoneService,
         private _userInfoService: UserInfoService,
         private _signalRService: SignalRService,
-        private _domSanitizationService: DomSanitizer) {
-    }
+        private _domSanitizationService: DomSanitizer
+    ) { }
 
-    createSpotifyUrl(track: IQueuedTrack) {
+    public createSpotifyUrl (track: IQueuedTrack) {
         if (!track) {
             return null;
         }
         return this._domSanitizationService.bypassSecurityTrustUrl(`spotify:track:${track.Track.Link}`);
     }
 
-    ngOnInit() {
+    public ngOnInit () {
         this.trackHistory$ = this._signalRService.getRecentlyPlayed();
         this.trackQueue$ = this._signalRService.getNextUp();
         this.currentTrack$ = this._signalRService.getNowPlaying();
         this.trackProgress$ = Observable
-            .interval(500)
-            .switchMap(() => this.currentTrack$)
-            .map(track => this.getElapsedPercent(track));
+            .interval(500).pipe(
+                switchMap(() => this.currentTrack$),
+                map(track => this.getElapsedPercent(track)));
 
         this.trackElapsedTime$ = Observable
-            .interval(500)
-            .switchMap(() => this.currentTrack$)
-            .map(track => this.getElapsedTime(track));
+            .interval(500).pipe(
+                switchMap(() => this.currentTrack$),
+                map(track => this.getElapsedTime(track)));
 
-        this._audioZoneService.getCurrentZone()
-            .takeUntil(this._destroyed$)
+        this._audioZoneService.getCurrentZone().pipe(
+            takeUntil(this._destroyed$))
             .subscribe(zone => {
                 this.changeZone(zone.path);
             });
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy () {
         this._destroyed$.next();
         this.closeHubConnection();
     }
 
-    private openHubConnection() {
+    private openHubConnection () {
         this._signalRService.initializeHub(this.activeZone);
     }
 
-    private closeHubConnection() {
+    private closeHubConnection () {
         this._signalRService.closeHubConnection();
     }
 
-    changeZone(zone: string) {
+    public changeZone (zone: string) {
         if (this.activeZone) {
             this.closeHubConnection();
         }
@@ -94,15 +94,15 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
         this.openHubConnection();
     }
 
-    likeTrack(queuedTrack: IQueuedTrack) {
+    public likeTrack (queuedTrack: IQueuedTrack) {
         this._signalRService.likeTrack(queuedTrack.Id);
     }
 
-    vetoTrack(queuedTrack: IQueuedTrack) {
+    public vetoTrack (queuedTrack: IQueuedTrack) {
         this._signalRService.vetoTrack(queuedTrack.Id);
     }
 
-    getElapsedMilliseconds(track: IQueuedTrack) {
+    getElapsedMilliseconds (track: IQueuedTrack) {
         if (!track) {
             return 0;
         }
@@ -112,7 +112,7 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
         return Math.min(now - (timeStarted + track.PausedDurationAsMilliseconds), track.Track.DurationMilliseconds);
     }
 
-    getElapsedPercent(track: IQueuedTrack): number {
+    getElapsedPercent (track: IQueuedTrack): number {
         if (!track) {
             return 0;
         }
@@ -121,7 +121,7 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
         return (elapsed / track.Track.DurationMilliseconds) * 100;
     }
 
-    getElapsedTime(track: IQueuedTrack): string {
+    getElapsedTime (track: IQueuedTrack): string {
         if (!track) {
             return '';
         }

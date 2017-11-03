@@ -5,8 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SearchService } from '../api';
 import { ISearchResults } from '../models';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/do';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
     selector: 'pm-search',
@@ -16,26 +15,26 @@ import 'rxjs/add/operator/do';
 })
 export class SearchComponent implements OnInit {
     @HostBinding('@routerTransition') animate = true;
-    results$: Observable<ISearchResults>;
-    loading = false;
-    searchQuery$: Observable<string>;
+    public results$: Observable<ISearchResults>;
+    public loading = false;
+    public searchQuery$: Observable<string>;
 
-    constructor(
+    constructor (
         private _route: ActivatedRoute,
         private _searchService: SearchService
-    ) {
-    }
+    ) { }
 
-    ngOnInit() {
-        this.searchQuery$ = this._route.params
-            .map(params => params['searchQuery'])
-            .do(() => {
+    public ngOnInit () {
+        this.searchQuery$ = this._route.params.pipe(
+            map(params => params['searchQuery']),
+            tap(() => {
                 this.loading = true;
-            });
+            }));
 
-        this.results$ = this._route.params.switchMap(params => this._searchService.search(params['provider'], params['searchQuery']))
-            .do(results => {
+        this.results$ = this._route.params.pipe(
+            switchMap(params => this._searchService.search(params['provider'], params['searchQuery'])),
+            tap(results => {
                 this.loading = false;
-            });
+            }));
     }
 }
