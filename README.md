@@ -4,4 +4,4 @@ This project is Angular based chrome extension for the [Play Me](https://github.
 
 The chrome extension can be installed [here](https://chrome.google.com/webstore/detail/play-me/ocanfmcdoeehenjbgpjmdgahjokogcob)
 
-![alt tag](https://github.com/Lightw3ight/PlayMeExtension/master/screenshot.png)
+![alt tag](https://raw.githubusercontent.com/Lightw3ight/PlayMeExtension/master/screenshot.PNG)
