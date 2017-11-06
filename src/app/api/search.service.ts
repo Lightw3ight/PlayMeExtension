@@ -15,4 +15,9 @@ export class SearchService {
         const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/search?provider=${provider}&searchTerm=${query}`;
         return this._http.get<ISearchResults>(url);
     }
+
+    public suggestions (partialSearchTerm: string): Observable<string> {
+        const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/search/suggestions?partialSearchTerm=${partialSearchTerm}`;
+        return this._http.get<string>(url);
+    }
 }

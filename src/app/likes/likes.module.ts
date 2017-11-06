@@ -1,8 +1,8 @@
-import { SharedModule } from '../shared/index';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SharedModule } from '../shared';
 
-import { QueueComponent } from './queue.component';
+import { LikesComponent } from './likes.component';
 import { MatProgressBarModule } from '@angular/material';
 
 @NgModule({
@@ -11,7 +11,7 @@ import { MatProgressBarModule } from '@angular/material';
         SharedModule,
         MatProgressBarModule
     ],
-    exports: [QueueComponent],
-    declarations: [QueueComponent]
+    declarations: [LikesComponent],
+    exports: [LikesComponent],
 })
-export class QueueModule { }
+export class LikesModule { }

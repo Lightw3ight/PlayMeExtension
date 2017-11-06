@@ -1,10 +1,10 @@
-import { IAudioZone } from './../../api/IAudioZone';
-import { Component, OnInit, Output, EventEmitter, HostBinding, Input } from '@angular/core';
+import { Component, EventEmitter, HostBinding, HostListener, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { AudioZoneService } from '../../api';
+import { AudioZoneService, IAudioZone, SearchService } from '../../api';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/empty';
 import { filter, map, switchMap, debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -14,33 +14,36 @@ import { filter, map, switchMap, debounceTime } from 'rxjs/operators';
 })
 export class SiteHeaderComponent implements OnInit {
     @Output() toggleMenu = new EventEmitter();
-    @HostBinding('class.site-header--opaque')
-    public scrolled = false;
-    @HostBinding('class.site-header--forced-opaque')
-    public forceOpaqueView = false;
+    @HostBinding('class.site-header--opaque') public scrolled = false;
+    @HostBinding('class.site-header--forced-opaque') public forceOpaqueView = false;
     public enableBack$: Observable<boolean>;
     public hasFocus = false;
     public searchInput = new FormControl();
-    public currentAudioZone: IAudioZone;
+    public currentAudioZone$: Observable<string>;
+    public zones$: Observable<IAudioZone[]>;
+    public suggestions$: Observable<string>;
 
     constructor (
         private router: Router,
         private _audioZoneService: AudioZoneService,
         private _location: Location,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _searchService: SearchService
     ) { }
 
     public ngOnInit () {
-        window.addEventListener('scroll', this.onWindowScroll);
+        this.zones$ = this._audioZoneService.getAllZones();
+        this.currentAudioZone$ = this._audioZoneService.getCurrentZone().pipe(
+            map(zone => zone.name));
 
-         this.searchInput.valueChanges
-            .pipe(debounceTime(1000))
-            .subscribe(this.onSearchChanged);
+        this.suggestions$ = this.searchInput.valueChanges.pipe(
+            debounceTime(200),
+            map(val => <string>val),
+            switchMap(value => {
+                return !value ? Observable.empty() : this._searchService.suggestions(value);
+            })
+        );
 
-        this._audioZoneService.getCurrentZone()
-            .subscribe(zone => {
-                this.currentAudioZone = zone;
-            });
 
         const routeData$ = this.router.events.pipe(
             filter(event => event instanceof NavigationEnd),
@@ -61,9 +64,9 @@ export class SiteHeaderComponent implements OnInit {
             map(data => !data.isHome));
     }
 
-    public onSearchChanged = (newValue: string) => {
-        if (newValue) {
-            this.router.navigate(['/search', 'sp', newValue]);
+    public search (searchValue: string) {
+        if (searchValue) {
+            this.router.navigate(['/search', 'sp', searchValue]);
         }
     }
 
@@ -72,10 +75,11 @@ export class SiteHeaderComponent implements OnInit {
     }
 
     public onSubmit () {
-        this.router.navigate(['/search', 'sp', this.searchInput.value]);
+        this.search(this.searchInput.value);
     }
 
-    public onWindowScroll = (args: Event) => {
+    @HostListener('window:scroll', ['$event'])
+    public onWindowScroll (args: Event) {
         this.scrolled = window.scrollY >= 64;
     }
 
@@ -83,7 +87,7 @@ export class SiteHeaderComponent implements OnInit {
         this._location.back();
     }
 
-    public home () {
-        this.router.navigateByUrl('/');
+    public changeZone (zone: IAudioZone) {
+        this._audioZoneService.setCurrentZone(zone.path);
     }
 }

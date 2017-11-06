@@ -40,34 +40,10 @@ export class QueueComponent implements OnInit, OnDestroy {
             tap(() => {
                 this.loading = false;
             }));
-
-        this._audioZoneService.getCurrentZone().pipe(
-            takeUntil(this._destroyed$))
-            .subscribe(zone => {
-                this.changeZone(zone.path);
-            });
     }
 
     public ngOnDestroy () {
         this._destroyed$.next();
-        this.closeHubConnection();
-    }
-
-    public changeZone (zone: string) {
-        if (this._activeZone) {
-            this.closeHubConnection();
-        }
-
-        this._activeZone = zone;
-        this.openHubConnection();
-    }
-
-    private openHubConnection () {
-        this._signalRService.initializeHub(this._activeZone);
-    }
-
-    private closeHubConnection () {
-        this._signalRService.closeHubConnection();
     }
 
     public likeTrack (queuedTrack: IQueuedTrack) {

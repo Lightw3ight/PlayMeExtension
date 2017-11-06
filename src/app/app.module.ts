@@ -1,3 +1,5 @@
+import { KarmaService } from './api/karma.service';
+import { LikesModule } from './likes/likes.module';
 import { SearchModule } from './search/search.module';
 import { QueueModule } from './queue/queue.module';
 import { NowPlayingModule } from './now-playing/now-playing.module';
@@ -39,7 +41,8 @@ import { MatSidenavModule } from '@angular/material';
         QueueModule,
         SearchModule,
         MatSidenavModule,
-        HttpClientModule
+        HttpClientModule,
+        LikesModule
     ],
     declarations: [
         AppComponent
@@ -52,7 +55,8 @@ import { MatSidenavModule } from '@angular/material';
         QueueService,
         AudioZoneService,
         UserInfoService,
-        SignalRService
+        SignalRService,
+        KarmaService
     ],
     bootstrap: [AppComponent]
 })

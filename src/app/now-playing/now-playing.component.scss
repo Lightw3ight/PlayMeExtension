@@ -46,3 +46,13 @@
 	display: block;
 	margin-bottom: 8px;
 }
+
+.now-playing__karma {
+	position: absolute;
+	right: 0.5rem;
+	top: 0;
+}
+
+.now-playing__karma--bad {
+	color: #FF0000 !important;
+}

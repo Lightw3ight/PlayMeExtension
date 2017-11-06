@@ -1,4 +1,4 @@
-import { IAudioZone } from './../../api/IAudioZone';
+import { IAudioZone } from './../../api';
 import { Component, EventEmitter, Input, Output, OnInit, ViewEncapsulation } from '@angular/core';
 import { AudioZoneService } from '../../api/audio-zone.service';
 import { Observable } from 'rxjs/Observable';
@@ -26,8 +26,6 @@ export class ZoneSelectorComponent implements OnInit {
 
     public ngOnInit () {
         this.activeZone = this._audioZoneService.getCurrentZoneSnapshot();
-        this.zones$ = this._audioZoneService.getAllZones().pipe(
-            map(zones => zones.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1))
-        );
+        this.zones$ = this._audioZoneService.getAllZones();
     }
 }

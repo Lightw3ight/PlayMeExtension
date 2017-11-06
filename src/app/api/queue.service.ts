@@ -31,10 +31,15 @@ export class QueueService {
 
         return this._http.get<IPagedResult<IQueuedTrack>>(url).pipe(
                 map(results => {
-                    results.PageData.forEach(this.parseQueuedTrack);
+                    results.PageData.forEach(this.parseQueuedTrack.bind(this));
                     return results;
                 }));
-            // .catch(this.handleError);
+    }
+
+    public getMyLikes (): Observable<IPagedResult<ITrack>> {
+        const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/likes/mylikes?start=0&take=50`;
+
+        return this._http.get<IPagedResult<ITrack>>(url);
     }
 
     public getAllQueuedTracks (): Observable<IQueuedTrack[]> {
@@ -42,11 +47,9 @@ export class QueueService {
 
         return this._http.get<IQueuedTrack[]>(url).pipe(
             map(results => {
-                // const results = (<IQueuedTrack[]>response.json());
-                results.forEach(this.parseQueuedTrack);
+                results.forEach(this.parseQueuedTrack.bind(this));
                 return results;
             }));
-            // .catch(this.handleError);
     }
 
     public queueTrack (track: ITrack, comment: string = null): void {
@@ -63,18 +66,13 @@ export class QueueService {
             reason: track.Reason
         };
 
-        // const options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
-
-        this._http.post(url, JSON.stringify(data), {
-                headers: new HttpHeaders().set('Content-Type', 'application/json')
-            })
-            .take(1)
+        this._http.post(url, data)
             .subscribe(() => {
                 track.IsAlreadyQueued = true;
             });
     }
 
-    public parseQueuedTrack = (queueItem: IQueuedTrack) => {
+    public parseQueuedTrack (queueItem: IQueuedTrack) {
         queueItem.StartedPlayingDateTime = queueItem.StartedPlayingDateTime ? moment(queueItem.StartedPlayingDateTime).toDate() : null;
         queueItem.fullName = this._userInfoService.getUserFullName(queueItem.User);
         queueItem.userId = this._userInfoService.parseUserId(queueItem.User);

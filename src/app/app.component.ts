@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { SearchService } from './api/search.service';
 import { ArtistService } from './api/artist.service';
@@ -11,34 +11,19 @@ import { SignalRService } from './api/signalr.service';
 @Component({
     selector: 'pm-app',
     templateUrl: 'app.component.html',
-    styleUrls: ['app.component.scss']
+    styleUrls: ['app.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
-    private _navOpen = false;
-    private _lastScroll = 0;
+export class AppComponent implements OnInit {
+    constructor (
+        private _signalRService: SignalRService,
+        private _audioZoneService: AudioZoneService
+    ) { }
 
-    public get navOpen (): boolean {
-        return this._navOpen;
-    }
-
-    public set navOpen (value: boolean) {
-        this._navOpen = value;
-        this._lastScroll = window.scrollY;
-        window.document.documentElement.style.overflow = value ? 'hidden' : 'visible';
-    }
-
-    constructor (private router: Router, private viewContainerRef: ViewContainerRef) {
-        // You need this small hack in order to catch application root view container ref
-        this.viewContainerRef = viewContainerRef;
-
-        window.addEventListener('scroll', this.onWindowScroll);
-    }
-
-    onWindowScroll = (args: Event) => {
-        if (this.navOpen) {
-            args.preventDefault();
-            args.stopPropagation();
-            window.scrollTo(0, this._lastScroll);
-        }
+    public ngOnInit () {
+        this._audioZoneService.getCurrentZone()
+            .subscribe(zone => {
+                this._signalRService.initializeHub(zone.path);
+            });
     }
 }

@@ -11,11 +11,11 @@ import {
     IPagedResult
 } from '../models';
 import {
-    AudioZoneService,
     IAudioZone,
     UserInfoService,
     SignalRService,
-    SearchService
+    SearchService,
+    KarmaService
 } from '../api';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { switchMap, takeUntil, map } from 'rxjs/operators';
@@ -26,22 +26,21 @@ import { switchMap, takeUntil, map } from 'rxjs/operators';
     styleUrls: ['now-playing.component.scss'],
     animations: [ routeAnimation ]
 })
-export class NowPlayingComponent implements OnInit, OnDestroy {
+export class NowPlayingComponent implements OnInit {
     @HostBinding('@routerTransition') animate = true;
     public currentTrack$: Observable<IQueuedTrack>;
-    public activeZone: string;
     public trackQueue$: Observable<IQueuedTrack[]>;
     public trackHistory$: Observable<IQueuedTrack[]>;
     public trackProgress$: Observable<number>;
     public trackElapsedTime$: Observable<string>;
-    private _destroyed$: Subject<any> = new Subject<any>();
+    public karma$: Observable<number>;
 
     constructor (
         private _searchService: SearchService,
-        private _audioZoneService: AudioZoneService,
         private _userInfoService: UserInfoService,
         private _signalRService: SignalRService,
-        private _domSanitizationService: DomSanitizer
+        private _domSanitizationService: DomSanitizer,
+        private _karmaService: KarmaService
     ) { }
 
     public createSpotifyUrl (track: IQueuedTrack) {
@@ -52,6 +51,7 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit () {
+        this.karma$ = this._karmaService.getCurrentKarma();
         this.trackHistory$ = this._signalRService.getRecentlyPlayed();
         this.trackQueue$ = this._signalRService.getNextUp();
         this.currentTrack$ = this._signalRService.getNowPlaying();
@@ -64,34 +64,6 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
             .interval(500).pipe(
                 switchMap(() => this.currentTrack$),
                 map(track => this.getElapsedTime(track)));
-
-        this._audioZoneService.getCurrentZone().pipe(
-            takeUntil(this._destroyed$))
-            .subscribe(zone => {
-                this.changeZone(zone.path);
-            });
-    }
-
-    public ngOnDestroy () {
-        this._destroyed$.next();
-        this.closeHubConnection();
-    }
-
-    private openHubConnection () {
-        this._signalRService.initializeHub(this.activeZone);
-    }
-
-    private closeHubConnection () {
-        this._signalRService.closeHubConnection();
-    }
-
-    public changeZone (zone: string) {
-        if (this.activeZone) {
-            this.closeHubConnection();
-        }
-
-        this.activeZone = zone;
-        this.openHubConnection();
     }
 
     public likeTrack (queuedTrack: IQueuedTrack) {

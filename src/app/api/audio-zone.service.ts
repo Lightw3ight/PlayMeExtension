@@ -1,8 +1,9 @@
-import { IAudioZone } from './IAudioZone';
+import { IAudioZone } from './audio-zone.interface';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/of';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AudioZoneService {
@@ -25,7 +26,9 @@ export class AudioZoneService {
     }
 
     public getAllZones (): Observable<IAudioZone[]> {
-        return Observable.of(this._zones);
+        return Observable.of(this._zones).pipe(
+            map(zones => zones.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1))
+        );
     }
 
     public setCurrentZone (zonePath) {

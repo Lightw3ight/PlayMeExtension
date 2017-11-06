@@ -2,44 +2,10 @@
 	height: 100%;
 }
 
-.app-container__site-header {
-
-}
-
-.app-container {
-	height: 100%;
-	background-color: #FFF;
-	position: static;
-
-	// Transforms disable any children's fixed position
-	transform: none !important;
-
-	&.mat-sidenav-opened {
-		//overflow: hidden;
-	}
-
-	&.mat-sidenav-container {
-		overflow: visible;
-	}
-
-	// Disable the sidenav's internal scroll, we want to use the window's scroll
-	/deep/ .mat-sidenav-content {
-		position: static;
-		height: auto;
-		overflow: visible;
-		transform: none !important;
-	}
-
-	mat-sidenav {
-		z-index: 110;
-	}
-
-	// .mat-sidenav-backdrop {
-	// 	z-index: 110;
-	// 	position: fixed;
-	// }
-}
-
 .app-container__content {
 	padding-top: 2rem;
+}
+
+.cdk-global-scrollblock {
+	position: static;
 }
