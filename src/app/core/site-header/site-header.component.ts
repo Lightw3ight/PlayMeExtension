@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AudioZoneService, IAudioZone, SearchService } from '../../api';
@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/empty';
 import { filter, map, switchMap, debounceTime } from 'rxjs/operators';
+import { MatAutocompleteTrigger } from '@angular/material';
 
 @Component({
     selector: 'pm-site-header',
@@ -16,6 +17,7 @@ export class SiteHeaderComponent implements OnInit {
     @Output() toggleMenu = new EventEmitter();
     @HostBinding('class.site-header--opaque') public scrolled = false;
     @HostBinding('class.site-header--forced-opaque') public forceOpaqueView = false;
+    @ViewChild('trigger', { read: MatAutocompleteTrigger }) private _autocompleteTrigger: MatAutocompleteTrigger;
     public enableBack$: Observable<boolean>;
     public hasFocus = false;
     public searchInput = new FormControl();
@@ -67,6 +69,7 @@ export class SiteHeaderComponent implements OnInit {
     public search (searchValue: string) {
         if (searchValue) {
             this.router.navigate(['/search', 'sp', searchValue]);
+            this._autocompleteTrigger.closePanel();
         }
     }
 
