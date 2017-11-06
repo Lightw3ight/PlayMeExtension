@@ -2,10 +2,8 @@ import { routeAnimation } from './../router-animation';
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-// import { Subscription } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/observable/interval';
 import * as moment from 'moment';
 import {
@@ -13,13 +11,14 @@ import {
     IPagedResult
 } from '../models';
 import {
-    AudioZoneService,
     IAudioZone,
     UserInfoService,
     SignalRService,
-    SearchService
+    SearchService,
+    KarmaService
 } from '../api';
 import { trigger, transition, animate, style } from '@angular/animations';
+import { switchMap, takeUntil, map } from 'rxjs/operators';
 
 @Component({
     selector: 'pm-now-playing',
@@ -27,82 +26,55 @@ import { trigger, transition, animate, style } from '@angular/animations';
     styleUrls: ['now-playing.component.scss'],
     animations: [ routeAnimation ]
 })
-export class NowPlayingComponent implements OnInit, OnDestroy {
+export class NowPlayingComponent implements OnInit {
     @HostBinding('@routerTransition') animate = true;
     public currentTrack$: Observable<IQueuedTrack>;
-    public activeZone: string;
     public trackQueue$: Observable<IQueuedTrack[]>;
     public trackHistory$: Observable<IQueuedTrack[]>;
     public trackProgress$: Observable<number>;
     public trackElapsedTime$: Observable<string>;
-    private _destroyed$: Subject<any> = new Subject<any>();
+    public karma$: Observable<number>;
 
-    constructor(private _searchService: SearchService,
-        private _audioZoneService: AudioZoneService,
+    constructor (
+        private _searchService: SearchService,
         private _userInfoService: UserInfoService,
         private _signalRService: SignalRService,
-        private _domSanitizationService: DomSanitizer) {
-    }
+        private _domSanitizationService: DomSanitizer,
+        private _karmaService: KarmaService
+    ) { }
 
-    createSpotifyUrl(track: IQueuedTrack) {
+    public createSpotifyUrl (track: IQueuedTrack) {
         if (!track) {
             return null;
         }
         return this._domSanitizationService.bypassSecurityTrustUrl(`spotify:track:${track.Track.Link}`);
     }
 
-    ngOnInit() {
+    public ngOnInit () {
+        this.karma$ = this._karmaService.getCurrentKarma();
         this.trackHistory$ = this._signalRService.getRecentlyPlayed();
         this.trackQueue$ = this._signalRService.getNextUp();
         this.currentTrack$ = this._signalRService.getNowPlaying();
         this.trackProgress$ = Observable
-            .interval(500)
-            .switchMap(() => this.currentTrack$)
-            .map(track => this.getElapsedPercent(track));
+            .interval(500).pipe(
+                switchMap(() => this.currentTrack$),
+                map(track => this.getElapsedPercent(track)));
 
         this.trackElapsedTime$ = Observable
-            .interval(500)
-            .switchMap(() => this.currentTrack$)
-            .map(track => this.getElapsedTime(track));
-
-        this._audioZoneService.getCurrentZone()
-            .takeUntil(this._destroyed$)
-            .subscribe(zone => {
-                this.changeZone(zone.path);
-            });
+            .interval(500).pipe(
+                switchMap(() => this.currentTrack$),
+                map(track => this.getElapsedTime(track)));
     }
 
-    ngOnDestroy() {
-        this._destroyed$.next();
-        this.closeHubConnection();
-    }
-
-    private openHubConnection() {
-        this._signalRService.initializeHub(this.activeZone);
-    }
-
-    private closeHubConnection() {
-        this._signalRService.closeHubConnection();
-    }
-
-    changeZone(zone: string) {
-        if (this.activeZone) {
-            this.closeHubConnection();
-        }
-
-        this.activeZone = zone;
-        this.openHubConnection();
-    }
-
-    likeTrack(queuedTrack: IQueuedTrack) {
+    public likeTrack (queuedTrack: IQueuedTrack) {
         this._signalRService.likeTrack(queuedTrack.Id);
     }
 
-    vetoTrack(queuedTrack: IQueuedTrack) {
+    public vetoTrack (queuedTrack: IQueuedTrack) {
         this._signalRService.vetoTrack(queuedTrack.Id);
     }
 
-    getElapsedMilliseconds(track: IQueuedTrack) {
+    getElapsedMilliseconds (track: IQueuedTrack) {
         if (!track) {
             return 0;
         }
@@ -112,7 +84,7 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
         return Math.min(now - (timeStarted + track.PausedDurationAsMilliseconds), track.Track.DurationMilliseconds);
     }
 
-    getElapsedPercent(track: IQueuedTrack): number {
+    getElapsedPercent (track: IQueuedTrack): number {
         if (!track) {
             return 0;
         }
@@ -121,7 +93,7 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
         return (elapsed / track.Track.DurationMilliseconds) * 100;
     }
 
-    getElapsedTime(track: IQueuedTrack): string {
+    getElapsedTime (track: IQueuedTrack): string {
         if (!track) {
             return '';
         }

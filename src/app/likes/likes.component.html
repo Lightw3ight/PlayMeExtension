@@ -1,0 +1,21 @@
+<mat-progress-bar
+    *ngIf="loading"
+    mode="indeterminate"></mat-progress-bar>
+
+<section
+    class="container container--opaque">
+    <h1
+        class="mat-title">
+        Likes
+    </h1>
+
+    <ul
+        class="list-unstyled">
+        <li
+            *ngFor="let track of likes$ | async">
+            <pm-track-list-item
+                [track]="track">
+            </pm-track-list-item>
+        </li>
+    </ul>
+</section>

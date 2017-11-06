@@ -1,3 +1,5 @@
+import { KarmaService } from './api/karma.service';
+import { LikesModule } from './likes/likes.module';
 import { SearchModule } from './search/search.module';
 import { QueueModule } from './queue/queue.module';
 import { NowPlayingModule } from './now-playing/now-playing.module';
@@ -7,7 +9,6 @@ import { AlbumModule } from './album/album.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
@@ -23,12 +24,7 @@ import {
     UserInfoService,
     SignalRService
 } from './api';
-// import { AlbumComponent } from './album';
-// import { SearchComponent, ArtistListItemComponent, AlbumListItemComponent } from './search';
-// import { ArtistComponent } from './artist';
-// import { QueueComponent } from './queue';
-// import { HistoryComponent } from './history';
-// import { NowPlayingComponent } from './now-playing';
+
 import { AppComponent } from './app.component';
 import { MatSidenavModule } from '@angular/material';
 @NgModule({
@@ -37,7 +33,6 @@ import { MatSidenavModule } from '@angular/material';
         routing,
         CoreModule,
         SharedModule,
-        HttpModule,
         BrowserAnimationsModule,
         AlbumModule,
         ArtistModule,
@@ -46,18 +41,11 @@ import { MatSidenavModule } from '@angular/material';
         QueueModule,
         SearchModule,
         MatSidenavModule,
-        HttpClientModule
+        HttpClientModule,
+        LikesModule
     ],
     declarations: [
-        AppComponent,
-        // AlbumListItemComponent,
-        // ArtistListItemComponent,
-        // AlbumComponent,
-        // SearchComponent,
-        // ArtistComponent,
-        // QueueComponent,
-        // HistoryComponent,
-        // NowPlayingComponent
+        AppComponent
     ],
     providers: [
         appRoutingProviders,
@@ -67,7 +55,8 @@ import { MatSidenavModule } from '@angular/material';
         QueueService,
         AudioZoneService,
         UserInfoService,
-        SignalRService
+        SignalRService,
+        KarmaService
     ],
     bootstrap: [AppComponent]
 })

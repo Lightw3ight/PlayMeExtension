@@ -1,3 +1,4 @@
+import { catchError, switchMap } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -25,13 +26,13 @@ export class AlbumComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.album$ = this._route.params
-            .switchMap(params => this._albumService.getAlbum(params['id'], params['provider']))
-            .catch(error => {
+        this.album$ = this._route.paramMap.pipe(
+            switchMap(params => this._albumService.getAlbum(params.get('id'), params.get('provider'))),
+            catchError(error => {
                 alert('Error loading album');
                 this._location.back();
                 return Observable.of(error);
-            });
+            }));
     }
 
     queueTrack(track: ITrack) {

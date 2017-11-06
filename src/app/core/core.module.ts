@@ -7,32 +7,14 @@ import { CommonModule } from '@angular/common';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { SiteHeaderComponent } from './site-header/site-header.component';
 import { ZoneSelectorComponent } from './zone-selector/zone-selector.component';
-// import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { RouterModule } from '@angular/router';
-// import { FlexLayoutModule } from '@angular/flex-layout';
-// import { SideNavComponent } from './side-nav/side-nav.component';
-// import { SiteHeaderComponent } from './site-header/site-header.component';
-// import { ZoneSelectorComponent } from './zone-selector/zone-selector.component';
-// import { MatDialogModule } from '@angular/material';
 
 @NgModule({
     imports: [
         BrowserModule,
         CommonModule,
-        // FormsModule,
-        // ReactiveFormsModule,
-        // RouterModule,
-        // MatDialogModule,
-        // FlexLayoutModule
-
         ZoneSelectorModule,
         SiteHeaderModule,
         SideNavModule
-    ],
-    declarations: [
-        // SideNavComponent,
-        // SiteHeaderComponent,
-        // ZoneSelectorComponent
     ],
     exports: [
         SideNavComponent,
@@ -42,6 +24,4 @@ import { ZoneSelectorComponent } from './zone-selector/zone-selector.component';
     providers: [
     ]
 })
-export class CoreModule {
-
-}
+export class CoreModule { }

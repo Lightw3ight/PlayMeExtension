@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SearchComponent } from './search.component';
-import { MatTabsModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatTabsModule, MatProgressBarModule } from '@angular/material';
 
 @NgModule({
     imports: [
@@ -14,9 +14,9 @@ import { MatTabsModule, MatProgressSpinnerModule } from '@angular/material';
         SharedModule,
         FlexLayoutModule,
         MatTabsModule,
-        MatProgressSpinnerModule,
         ArtistListItemModule,
-        AlbumListItemModule
+        AlbumListItemModule,
+        MatProgressBarModule
     ],
     exports: [SearchComponent],
     declarations: [SearchComponent]

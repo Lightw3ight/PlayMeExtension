@@ -13,32 +13,30 @@ import { MatDialog, MatDialogRef } from '@angular/material';
         './queued-track.component.scss'
     ]
 })
-export class QueuedTrackComponent implements OnInit {
-    @Input() queuedTrack: IQueuedTrack;
-    @Output() likeTrack = new EventEmitter();
-    @Output() vetoTrack = new EventEmitter();
-    isMoreInfoVisible = false;
+export class QueuedTrackComponent {
+    @Input() public queuedTrack: IQueuedTrack;
+    @Output() public likeTrack = new EventEmitter();
+    @Output() public vetoTrack = new EventEmitter();
+    public isMoreInfoVisible = false;
 
-    constructor(private _queueService: QueueService, public dialog: MatDialog) {
+    constructor (
+        private _queueService: QueueService,
+        public dialog: MatDialog
+    ) { }
 
-    }
-
-    ngOnInit() {
-    }
-
-    like() {
+    public like () {
         this.likeTrack.emit(null);
     }
 
-    veto() {
+    public veto () {
         this.vetoTrack.emit(null);
     }
 
-    queueTrack() {
+    public queueTrack () {
         this._queueService.queueTrack(this.queuedTrack.Track);
     }
 
-    queueWithComment() {
+    public queueWithComment () {
         const dialogRef = this.dialog.open(QueueWithCommentComponent);
             dialogRef.afterClosed().subscribe(comment => {
                 if (comment) {
@@ -47,7 +45,7 @@ export class QueuedTrackComponent implements OnInit {
             });
     }
 
-    public get hasQueuedTrack(): boolean {
+    public get hasQueuedTrack (): boolean {
         return !this.queuedTrack.StartedPlayingDateTime;
     }
 }

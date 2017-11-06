@@ -30,19 +30,42 @@
                 (ngSubmit)="onSubmit()"
                 #searchForm="ngForm">
                 <input
+                    matInput
+                    [matAutocomplete]="auto"
                     type="text"
                     [formControl]="searchInput"
                     placeholder="Search"
                     class="site-header__search-input material-search"
                     (focus)="hasFocus = true"
                     (blur)="hasFocus = false">
+
+                <mat-autocomplete
+                    (optionSelected)="search($event.option.value)"
+                    #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of suggestions$ | async" [value]="option">
+                        {{ option }}
+                    </mat-option>
+                </mat-autocomplete>
             </form>
         </div>
 
-        <label
+        <a
+            href="javascript:void(0)"
             fxFlex="none"
+            [matMenuTriggerFor]="zoneMenu"
             class="site-header__audio-zone">
-            {{currentAudioZone.name}}
-        </label>
+            {{ currentAudioZone$ | async }}
+        </a>
     </div>
 </div>
+
+<mat-menu
+    #zoneMenu="matMenu">
+    <button
+        *ngFor="let zone of zones$ | async"
+        (click)="changeZone(zone)"
+        mat-menu-item>
+        <mat-icon>speaker</mat-icon>
+        <span>{{ zone.name }}</span>
+    </button>
+</mat-menu>

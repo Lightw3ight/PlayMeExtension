@@ -1,5 +1,11 @@
-mat-spinner {
-    width: 20px;
-    height: 20px;
-    margin-bottom: .5rem;
+:host {
+    display: block;
+}
+
+.history__container--loading {
+    margin-top: -5px;
+}
+
+.history__loading-bar {
+    z-index: 1;
 }

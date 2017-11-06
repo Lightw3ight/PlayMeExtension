@@ -5,7 +5,9 @@
 		class="track-item__col"
 		fxFlex="none"
 		*ngIf="!track.IsAlreadyQueued">
-		<label class="track-item__icon-size-text track-item--hover-hide">{{ trackNumber }}</label>
+		<label
+			class="track-item__icon-size-text track-item--hover-hide">{{ trackNumber }}</label>
+
 		<button type="button"
 			class="track-item--hover-show"
 			mat-icon-button

@@ -6,8 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ArtistService } from '../api';
 import { IArtist } from '../models';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/catch';
+import { catchError, switchMap } from 'rxjs/operators';
 
 @Component({
     selector: 'pm-artist',
@@ -27,17 +26,17 @@ export class ArtistComponent implements OnInit {
         private _location: Location
     ) { }
 
-    ngOnInit() {
-        this.artist$ = this._route.params
-            .switchMap(params => this._artistService.getArtist(params['id'], params['provider']))
-            .catch(error => {
+    public ngOnInit () {
+        this.artist$ = this._route.paramMap.pipe(
+            switchMap(params => this._artistService.getArtist(params.get('id'), params.get('provider'))),
+            catchError(error => {
                 alert('Error loading artist');
                 this._location.back();
                 return Observable.of(error);
-            });
+            }));
     }
 
-    back() {
+    public back () {
         this._location.back();
     }
 }

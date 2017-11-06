@@ -1,8 +1,9 @@
-import { IAudioZone } from './IAudioZone';
+import { IAudioZone } from './audio-zone.interface';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/of';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AudioZoneService {
@@ -20,15 +21,17 @@ export class AudioZoneService {
         { name: 'Christchurch', path: 'http://chc-music.trademe.local' }
     ];
 
-    constructor() {
+    constructor () {
         this.zoneChangedObservable = new BehaviorSubject(this.getCurrentZoneSnapshot());
     }
 
-    getAllZones(): Observable<IAudioZone[]> {
-        return Observable.of(this._zones);
+    public getAllZones (): Observable<IAudioZone[]> {
+        return Observable.of(this._zones).pipe(
+            map(zones => zones.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1))
+        );
     }
 
-    setCurrentZone(zonePath) {
+    public setCurrentZone (zonePath) {
         if (zonePath) {
             const zone = this._zones.find(z => z.path === zonePath);
             localStorage.setItem(this.zoneKey, zonePath);
@@ -36,11 +39,11 @@ export class AudioZoneService {
         }
     }
 
-    getCurrentZone(): Observable<IAudioZone> {
+    public getCurrentZone (): Observable<IAudioZone> {
         return this.zoneChangedObservable;
     }
 
-    getCurrentZoneSnapshot(): IAudioZone {
+    public getCurrentZoneSnapshot (): IAudioZone {
         const zonePath = localStorage.getItem(this.zoneKey);
         const zone = this._zones.find(z => z.path === zonePath) || this._zones[0];
         return zone;

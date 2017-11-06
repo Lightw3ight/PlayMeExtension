@@ -1,3 +1,4 @@
+import { LikesComponent } from './likes/likes.component';
 import { NowPlayingComponent } from './now-playing/now-playing.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AlbumComponent } from './album/album.component';
@@ -17,7 +18,8 @@ const appRoutes: Routes = [
     { path: 'search/:provider/:searchQuery', component: SearchComponent, data: { opaqueHeader: true, preserveSearch: true } },
     { path: 'artist/:provider/:id', component: ArtistComponent },
     { path: 'queue', component: QueueComponent, data: { opaqueHeader: true } },
-    { path: 'history', component: HistoryComponent, data: { opaqueHeader: true } }
+    { path: 'history', component: HistoryComponent, data: { opaqueHeader: true } },
+    { path: 'likes', component: LikesComponent, data: { opaqueHeader: true } }
 ];
 
 export const appRoutingProviders: any[] = [

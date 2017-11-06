@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
+import { map } from 'rxjs/operators';
 import { ITrack } from '../models/ITrack';
 import * as moment from 'moment';
 import { AudioZoneService } from './audio-zone.service';
@@ -13,41 +12,47 @@ import { UserInfoService } from './user-info.service';
 
 @Injectable()
 export class QueueService {
-    constructor(private _http: HttpClient, private _audioZoneService: AudioZoneService, private _userInfoService: UserInfoService) {
-    }
+    constructor (
+        private _http: HttpClient,
+        private _audioZoneService: AudioZoneService,
+        private _userInfoService: UserInfoService
+    ) { }
 
-    getMyHistory(): Observable<IPagedResult<IQueuedTrack>> {
+    public getMyHistory (): Observable<IPagedResult<IQueuedTrack>> {
         return this.getHistory('mine');
     }
 
-    getRequestedHistory(): Observable<IPagedResult<IQueuedTrack>> {
+    public getRequestedHistory (): Observable<IPagedResult<IQueuedTrack>> {
         return this.getHistory('requested');
     }
 
-    getHistory(type: string = 'all'): Observable<IPagedResult<IQueuedTrack>> {
+    public getHistory (type: string = 'all'): Observable<IPagedResult<IQueuedTrack>> {
         const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/history?filter=${type}&start=0&take=50`;
 
-        return this._http.get<IPagedResult<IQueuedTrack>>(url)
-            .map(results => {
-                results.PageData.forEach(this.parseQueuedTrack);
-                return results;
-            });
-            // .catch(this.handleError);
+        return this._http.get<IPagedResult<IQueuedTrack>>(url).pipe(
+                map(results => {
+                    results.PageData.forEach(this.parseQueuedTrack.bind(this));
+                    return results;
+                }));
     }
 
-    getAllQueuedTracks(): Observable<IQueuedTrack[]> {
+    public getMyLikes (): Observable<IPagedResult<ITrack>> {
+        const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/likes/mylikes?start=0&take=50`;
+
+        return this._http.get<IPagedResult<ITrack>>(url);
+    }
+
+    public getAllQueuedTracks (): Observable<IQueuedTrack[]> {
         const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/Queue`;
 
-        return this._http.get<IQueuedTrack[]>(url)
-            .map(results => {
-                // const results = (<IQueuedTrack[]>response.json());
-                results.forEach(this.parseQueuedTrack);
+        return this._http.get<IQueuedTrack[]>(url).pipe(
+            map(results => {
+                results.forEach(this.parseQueuedTrack.bind(this));
                 return results;
-            });
-            // .catch(this.handleError);
+            }));
     }
 
-    queueTrack(track: ITrack, comment: string = null): void {
+    public queueTrack (track: ITrack, comment: string = null): void {
         const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/Queue/Enqueue/${track.MusicProvider.Identifier}/${track.Link}`;
 
         if (track.IsAlreadyQueued) {
@@ -61,19 +66,13 @@ export class QueueService {
             reason: track.Reason
         };
 
-        // const options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
-
-        this._http.post(url, JSON.stringify(data), {
-                headers: new HttpHeaders().set('Content-Type', 'application/json')
-            })
-            .toPromise()
-            // .catch(this.handleError)
-            .then(() => {
+        this._http.post(url, data)
+            .subscribe(() => {
                 track.IsAlreadyQueued = true;
             });
     }
 
-    parseQueuedTrack = (queueItem: IQueuedTrack) => {
+    public parseQueuedTrack (queueItem: IQueuedTrack) {
         queueItem.StartedPlayingDateTime = queueItem.StartedPlayingDateTime ? moment(queueItem.StartedPlayingDateTime).toDate() : null;
         queueItem.fullName = this._userInfoService.getUserFullName(queueItem.User);
         queueItem.userId = this._userInfoService.parseUserId(queueItem.User);
@@ -96,7 +95,7 @@ export class QueueService {
         return queueItem;
     }
 
-    private handleError(error: Response) {
+    private handleError (error: Response) {
         console.error(error);
         return Observable.throw(error.json().error || 'Server error');
     }

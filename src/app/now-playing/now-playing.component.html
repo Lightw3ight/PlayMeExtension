@@ -24,6 +24,13 @@
             </span>
         </small>
 
+        <small
+            title="Your likes minus your vetos"
+            [class.now-playing__karma--bad]="(karma$ | async) < 0"
+            class="now-playing__karma">
+            Karma: {{ karma$ | async }}
+        </small>
+
         <div
             fxLayout="row"
             fxLayoutAlign="start start">
@@ -82,7 +89,7 @@
         </div>
 
         <mat-progress-bar
-            color="accent"
+            color="warn"
             mode="determinate"
             [title]="trackElapsedTime$ | async"
             [value]="trackProgress$ | async">

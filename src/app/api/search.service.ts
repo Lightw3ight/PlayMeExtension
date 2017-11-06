@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
 import { ISearchResults } from '../models';
 import { AudioZoneService } from './audio-zone.service';
 
 @Injectable()
 export class SearchService {
-    constructor(private _http: HttpClient, private _audioZoneService: AudioZoneService) {
-    }
+    constructor (
+        private _http: HttpClient,
+        private _audioZoneService: AudioZoneService
+    ) { }
 
-    search(provider, query): Observable<ISearchResults> {
+    public search (provider, query): Observable<ISearchResults> {
         const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/search?provider=${provider}&searchTerm=${query}`;
         return this._http.get<ISearchResults>(url);
     }
 
-    // private handleError(error: Response) {
-    //     console.error(error);
-    //     return Observable.throw(error.json().error || 'Server error');
-    // }
+    public suggestions (partialSearchTerm: string): Observable<string> {
+        const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/search/suggestions?partialSearchTerm=${partialSearchTerm}`;
+        return this._http.get<string>(url);
+    }
 }

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SiteHeaderComponent } from './site-header.component';
-import { MatButtonModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatMenuModule, MatAutocompleteModule, MatInputModule } from '@angular/material';
 
 @NgModule({
     imports: [
@@ -13,7 +13,10 @@ import { MatButtonModule, MatIconModule } from '@angular/material';
         MatButtonModule,
         MatIconModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatMenuModule,
+        MatAutocompleteModule,
+        MatInputModule
     ],
     exports: [SiteHeaderComponent],
     declarations: [SiteHeaderComponent]

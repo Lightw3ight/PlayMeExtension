@@ -17,14 +17,8 @@ import { trigger, transition, animate, style } from '@angular/animations';
         ])
     ]) ]
 })
-export class FixedBackgroundComponent implements OnInit {
-    @Input() blurred = false;
-    @Input() src: string;
-    @HostBinding('@routerTransition') animate = true;
-
-    constructor() { }
-
-    ngOnInit() {
-    }
-
+export class FixedBackgroundComponent {
+    @Input() public blurred = false;
+    @Input() public src: string;
+    @HostBinding('@routerTransition') public animate = true;
 }

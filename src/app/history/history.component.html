@@ -1,4 +1,10 @@
+<mat-progress-bar
+	*ngIf="loading"
+	class="history__loading-bar"
+	mode="indeterminate"></mat-progress-bar>
+
 <section
+	[class.history__container--loading]="loading"
 	class="container container--opaque">
 	<h1
 		class="mat-title">
@@ -14,8 +20,6 @@
 				*ngIf="!loading && !(history$ | async)?.length">
 				No results
 			</p>
-			<mat-spinner
-				*ngIf="loading"></mat-spinner>
 			<pm-queued-track
 				*ngFor="let track of history$ | async"
 				[queuedTrack]="track">
@@ -29,8 +33,6 @@
 				*ngIf="!loading && !(requestHistory$ | async)?.length">
 				No results
 			</p>
-			<mat-spinner
-				*ngIf="loading"></mat-spinner>
 			<pm-queued-track
 				*ngFor="let track of requestHistory$ | async"
 				[queuedTrack]="track">
@@ -44,8 +46,6 @@
 				*ngIf="!loading && !(userHistory$ | async)?.length">
 				No results
 			</p>
-			<mat-spinner
-				*ngIf="loading"></mat-spinner>
 			<pm-queued-track
 				*ngFor="let track of userHistory$ | async"
 				[queuedTrack]="track">

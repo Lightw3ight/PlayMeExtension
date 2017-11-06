@@ -1,3 +1,7 @@
+<mat-progress-bar
+    *ngIf="loading"
+    mode="indeterminate"></mat-progress-bar>
+
 <section
     class="container container--opaque">
     <h1
@@ -10,10 +14,6 @@
         class="text">
         <em>There are no tracks in the queue</em>
     </p>
-    
-    <mat-spinner
-        *ngIf="loading">
-    </mat-spinner>
 
     <pm-queued-track
         *ngFor="let track of queuedTracks$ | async"

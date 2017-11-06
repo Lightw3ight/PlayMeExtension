@@ -1,4 +1,5 @@
 <header
+    [@navDrawer]="isOpen"
     class="side-nav__header"
     fxLayout="row"
     fxLayoutAlign="start center">
@@ -6,7 +7,7 @@
         type="button"
         mat-icon-button
         fxFlex="none"
-        (click)="triggerClose()">
+        (click)="close()">
         <mat-icon>menu</mat-icon>
     </button>
     <div
@@ -18,32 +19,60 @@
     </div>
 </header>
 
-<a
-    class="side-nav__nav-item"
-    [routerLink]="['/now-playing']"
-    (click)="triggerClose()">
-    <mat-icon>home</mat-icon>
-    Home
-</a>
+<div
+    [@navDrawer]="isOpen"
+    class="side-nav__container">
+    <a
+        class="side-nav__nav-item"
+        [routerLink]="['/now-playing']"
+        (click)="close()">
+        <mat-icon>home</mat-icon>
+        Home
+    </a>
 
-<a
-    class="side-nav__nav-item"
-    [routerLink]="['/queue']"
-    (click)="triggerClose()">
-    <mat-icon>queue_music</mat-icon>
-    Queue
-</a>
+    <a
+        class="side-nav__nav-item"
+        [routerLink]="['/queue']"
+        (click)="close()">
+        <mat-icon>queue_music</mat-icon>
+        Queue
+    </a>
 
-<a
-    class="side-nav__nav-item"
-    [routerLink]="['/history']"
-    (click)="triggerClose()">
-    <mat-icon>history</mat-icon>
-    History
-</a>
+    <a
+        class="side-nav__nav-item"
+        [routerLink]="['/history']"
+        (click)="close()">
+        <mat-icon>history</mat-icon>
+        History
+    </a>
+    
+    <a
+        class="side-nav__nav-item"
+        [routerLink]="['/likes']"
+        (click)="close()">
+        <mat-icon>mood</mat-icon>
+        Likes
+    </a>
+    
+    <a
+        class="side-nav__nav-item"
+        target="_blank"
+        [href]="$currentZonePath | async">
+        <mat-icon>public</mat-icon>
+        Play Me Web
+    </a>
 
-<hr>
+    <hr>
 
-<pm-zone-selector
-    (zoneChanged)="triggerClose()">
-</pm-zone-selector>
+    <pm-zone-selector
+        *ngIf="isOpen"
+        (zoneChanged)="close()">
+    </pm-zone-selector>
+</div>
+
+<div
+    *ngIf="isOpen"
+    [@shieldFadeIn]="true"
+    (click)="close()"
+    class="side-nav__shield">
+</div>
