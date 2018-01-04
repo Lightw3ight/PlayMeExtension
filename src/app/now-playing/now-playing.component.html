@@ -9,19 +9,21 @@
         class="container container--top now-playing__track-summary">
         <small
             class="now-playing__queued-by">
-            Queued by 
+            <img
+                *ngIf="currentTrack?.url"
+                [src]="currentTrack?.userPhotoUrl">
             <a
                 [href]="currentTrack?.url"
-                class="user-link"
                 *ngIf="currentTrack?.url"
                 target="_blank" disabled>
                 {{currentTrack?.fullName | async}}
-                <img [src]="currentTrack?.userPhotoUrl">
             </a>
             <span
                 *ngIf="!currentTrack?.url">
                 {{currentTrack?.fullName | async}}
             </span>
+
+            queued:
         </small>
 
         <small
@@ -35,14 +37,14 @@
             fxLayout="row"
             fxLayoutAlign="start start">
             <div
-                fxFlex="25%">
+                fxFlex="27%">
                 <img
                     [src]="currentTrack?.Track?.Album?.ArtworkUrlLarge || '/assets/images/pixel.gif'"
                     class="img-responsive">
             </div>
 
             <div
-                fxFlex="75%"
+                fxFlex="73%"
                 class="now-playing__track-info">
                 <h1
                     class="mat-display-1">
@@ -87,14 +89,14 @@
                 </p>
             </div>
         </div>
-
-        <mat-progress-bar
-            color="warn"
-            mode="determinate"
-            [title]="trackElapsedTime$ | async"
-            [value]="trackProgress$ | async">
-        </mat-progress-bar>
     </section>
+
+    <mat-progress-bar
+        color="warn"
+        mode="determinate"
+        [title]="trackElapsedTime$ | async"
+        [value]="trackProgress$ | async">
+    </mat-progress-bar>
 </ng-container>
 <section
     class="container container--opaque now-playing__queue-card">
@@ -102,7 +104,7 @@
         <mat-tab
             label="Next up">
             <p
-                *ngIf="trackQueue$ | async"
+                *ngIf="!(trackQueue$ | async)?.length"
                 class="text padding-top-half">
                 <em>There are no tracks in the queue</em>
             </p>
@@ -115,6 +117,7 @@
 
             <a
                 mat-button
+                class="now-playing__see-all-link"
                 [routerLink]="['/queue']"
                 *ngIf="trackQueue$ | async">
                 See all queued tracks
@@ -130,6 +133,7 @@
 
             <a
                 mat-button
+                class="now-playing__see-all-link"
                 [routerLink]="['/history']">
                 See all history
             </a>

@@ -51,7 +51,7 @@
         [routerLink]="['/likes']"
         (click)="close()">
         <mat-icon>mood</mat-icon>
-        Likes
+        Your Likes
     </a>
     
     <a
@@ -60,6 +60,22 @@
         [href]="$currentZonePath | async">
         <mat-icon>public</mat-icon>
         Play Me Web
+    </a>
+    
+    <a
+        class="side-nav__nav-item"
+        target="_blank"
+        href="https://github.com/Lightw3ight/PlayMeExtension">
+        <mat-icon svgIcon="github"></mat-icon>
+        Github Project
+    </a>
+    
+    <a
+        class="side-nav__nav-item"
+        target="_blank"
+        [href]="'mai' + 'lto' + ':kris' + '@' + 'trademe' + '.co.nz'">
+        <mat-icon>mail_outline</mat-icon>
+        Features / Bugs
     </a>
 
     <hr>

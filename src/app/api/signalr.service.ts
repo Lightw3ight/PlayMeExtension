@@ -1,3 +1,4 @@
+import { take, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -16,6 +17,8 @@ export class SignalRService {
     private _nowPlaying$ = new ReplaySubject<IQueuedTrack>();
     private _recentlyPlayed$ = new ReplaySubject<IQueuedTrack[]>();
     private _upNext$ = new ReplaySubject<IQueuedTrack[]>();
+    private _activeLikes: string[] = [];
+    private _activeVetos: string[] = [];
 
     constructor (
         private _queueService: QueueService,
@@ -51,13 +54,43 @@ export class SignalRService {
     }
 
     public likeTrack (trackId: string) {
-        this._karmaService.addKarma();
+        if (!this._activeLikes.some(id => id === trackId)) {
+            this._activeLikes.push(trackId);
+            this._karmaService.addKarma();
+        }
         this._hub.server.likeTrack(trackId);
     }
 
     public vetoTrack (trackId: string) {
-        this._karmaService.removeKarma();
+        if (!this._activeVetos.some(id => id === trackId)) {
+            this._activeVetos.push(trackId);
+            this._karmaService.removeKarma();
+        }
         this._hub.server.vetoTrack(trackId);
+    }
+
+    private cleanVetoLikeLog () {
+        const removeUnused = (opinionList: string[], activeTracks: IQueuedTrack[]) => {
+            for (let i = opinionList.length - 1; i >= 0; i--) {
+                const id = opinionList[i];
+
+                if (!activeTracks.some(t => t.Id === id)) {
+                    opinionList.splice(i, 1);
+                }
+            }
+        };
+
+        return Observable.combineLatest(
+            this.getNowPlaying(),
+            this.getNextUp()).pipe(
+                take(1),
+                map(([nowPlaying, upNext]) => {
+                    return [nowPlaying, ...upNext];
+                })
+            ).subscribe(tracks => {
+                removeUnused(this._activeLikes, tracks);
+                removeUnused(this._activeVetos, tracks);
+            });
     }
 
     public getRecentlyPlayed (): Observable<IQueuedTrack[]> {
@@ -75,11 +108,13 @@ export class SignalRService {
     private onUpdateCurrentTrack = (track: IQueuedTrack) => {
         this._queueService.parseQueuedTrack(track);
         this._nowPlaying$.next(track);
+        this.cleanVetoLikeLog();
     }
 
     private onUpdatePlayingSoon = (data: IQueuedTrack[]) => {
         data.forEach(t => this._queueService.parseQueuedTrack(t));
         this._upNext$.next(data);
+        this.cleanVetoLikeLog();
     }
 
     private onUpdateRecentlyPlayed = (data: IPagedResult<IQueuedTrack>) => {

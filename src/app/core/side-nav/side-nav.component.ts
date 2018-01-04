@@ -1,8 +1,10 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { trigger, state, style, transition, animate, AnimationTriggerMetadata } from '@angular/animations';
 import { AudioZoneService, IAudioZone } from 'app/api';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
+import { MatIconRegistry } from '@angular/material';
 
 @Component({
     selector: 'pm-side-nav',
@@ -45,8 +47,12 @@ export class SideNavComponent implements OnInit {
     private _lastScroll = 0;
 
     constructor (
-        private _audioZoneService: AudioZoneService
-    ) { }
+        private _audioZoneService: AudioZoneService,
+        iconRegistry: MatIconRegistry,
+        sanitizer: DomSanitizer
+    ) {
+        iconRegistry.addSvgIcon('github', sanitizer.bypassSecurityTrustResourceUrl('/assets/images/github-icon.svg'));
+    }
 
     public ngOnInit () {
         this.$currentZonePath = this._audioZoneService.getCurrentZone().pipe(map(z => `${z.path}/`));

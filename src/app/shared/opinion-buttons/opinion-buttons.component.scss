@@ -1,20 +1,51 @@
 :host {
 	color: white;
 	display: block;
-
-	pm-user-list {
-		display: none;
-	}
+	margin-left: -9px;
+	margin-top: 6px;
 }
 
-.option-buttons__like-container,
-.option-buttons__veto-container {
+.option-buttons__veto-count,
+.option-buttons__like-count,
+.option-buttons__user {
+	border-radius: 50%;
 	display: inline-block;
-	position: relative;
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	background-color: rgba(0,0,0,.5);
+	text-align: center;
+	color: white;
+	vertical-align: middle;
+	font-size: 12px;
+}
 
-	&:hover {
-		pm-user-list {
-			display: inline-block;
-		}
-	}
+.option-buttons__user {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	margin-right: 5px;
+}
+
+.option-buttons__no-likes,
+.option-buttons__no-vetos {
+	font-style: italic;
+	opacity: 0.6;
+}
+
+.option-buttons__veto-divider,
+.option-buttons__like-divider {
+	display: inline-block;
+	width: 5px;
+	height: 24px;
+	vertical-align: middle;
+	margin-right: 8px;
+}
+
+.option-buttons__like-divider {
+	background-color: #3775ab;
+}
+
+.option-buttons__veto-divider {
+	background-color: #b94a48;
 }

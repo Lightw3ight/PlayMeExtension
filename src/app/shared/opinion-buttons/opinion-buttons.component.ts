@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
 
 import { IQueuedTrack } from '../../models';
 
@@ -8,12 +8,13 @@ import { IQueuedTrack } from '../../models';
     templateUrl: 'opinion-buttons.component.html',
     styleUrls: ['opinion-buttons.component.scss']
 })
-export class OpinionButtonsComponent {
+export class OpinionButtonsComponent implements OnChanges {
     @Input() public track: IQueuedTrack;
     @Output() public veto = new EventEmitter();
     @Output() public like = new EventEmitter();
     public showVetoNames = false;
     public showLikeNames = false;
+    public maxUserCount = 10;
 
     public vetoTrack () {
         this.veto.emit(null);
@@ -21,5 +22,11 @@ export class OpinionButtonsComponent {
 
     public likeTrack () {
         this.like.emit(null);
+    }
+
+    public ngOnChanges (changes: SimpleChanges): void {
+        if (changes.track) {
+            // this.track.Likes[0].userPhotoUrl;
+        }
     }
 }
