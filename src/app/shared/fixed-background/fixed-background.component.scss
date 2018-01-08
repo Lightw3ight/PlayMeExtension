@@ -1,0 +1,38 @@
+.album-art-background {
+	position: fixed;
+	overflow: hidden;
+	width: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	//bottom: 0;
+    background-size: cover;
+    background-position: top center;
+    height: calc(220px + 2rem);
+	background-color: #000;
+
+	&:after {
+		content: "";
+		width: 1000px;
+		background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 1%, rgba(0, 0, 0, 0) 100%);
+		position: absolute;
+		top: -250px;
+		left: -250px;
+		bottom: -250px;
+	}
+}
+
+.album-art-background img {
+	//position: absolute;
+	width: 100%;
+}
+
+.album-art-background--blurred {
+    //height: auto;
+	img {
+        width: 1000px;
+        -webkit-filter: blur(20px);
+        margin-top: -250px;
+        margin-left: -250px;
+	}
+}

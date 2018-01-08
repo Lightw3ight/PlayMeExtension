@@ -1,13 +1,20 @@
+import { KarmaService } from './api/karma.service';
+import { LikesModule } from './likes/likes.module';
+import { SearchModule } from './search/search.module';
+import { QueueModule } from './queue/queue.module';
+import { NowPlayingModule } from './now-playing/now-playing.module';
+import { HistoryModule } from './history/history.module';
+import { ArtistModule } from './artist/artist.module';
+import { AlbumModule } from './album/album.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 import { routing, appRoutingProviders } from './app.routes';
-import 'bootstrap';
-import { TabsModule } from 'ng2-bootstrap/tabs';
-import { DropdownModule } from 'ng2-bootstrap/dropdown';
-import { ModalModule } from 'ng2-bootstrap/modal';
-
+import {HttpClientModule} from '@angular/common/http';
 import {
     SearchService,
     ArtistService,
@@ -18,40 +25,27 @@ import {
     SignalRService
 } from './api';
 
-import { AlbumComponent } from './album';
-import { SearchComponent } from './search';
-import { ArtistComponent } from './artist';
-import { QueueComponent } from './queue';
-import { HistoryComponent } from './history';
-import { NowPlayingComponent } from './now-playing';
-import { PlayMeExtensionAppComponent } from './play-me-extension.component';
-import { ArtistListItemComponent } from './search/artist-list-item';
-import { AlbumListItemComponent } from './search/album-list-item'
-import { ZoneSelectorComponent } from './now-playing';
-import { SharedModule } from './shared/shared.module';
-
+import { AppComponent } from './app.component';
+import { MatSidenavModule } from '@angular/material';
 @NgModule({
     imports: [
         BrowserModule,
-        FormsModule,
         routing,
+        CoreModule,
         SharedModule,
-        HttpModule,
-        TabsModule.forRoot(),
-        DropdownModule.forRoot(),
-        ModalModule.forRoot()
+        BrowserAnimationsModule,
+        AlbumModule,
+        ArtistModule,
+        HistoryModule,
+        NowPlayingModule,
+        QueueModule,
+        SearchModule,
+        MatSidenavModule,
+        HttpClientModule,
+        LikesModule
     ],
     declarations: [
-        PlayMeExtensionAppComponent,
-        ZoneSelectorComponent,
-        AlbumListItemComponent,
-        ArtistListItemComponent,
-        AlbumComponent,
-        SearchComponent,
-        ArtistComponent,
-        QueueComponent,
-        HistoryComponent,
-        NowPlayingComponent,
+        AppComponent
     ],
     providers: [
         appRoutingProviders,
@@ -61,8 +55,9 @@ import { SharedModule } from './shared/shared.module';
         QueueService,
         AudioZoneService,
         UserInfoService,
-        SignalRService
+        SignalRService,
+        KarmaService
     ],
-    bootstrap: [PlayMeExtensionAppComponent]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

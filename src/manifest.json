@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Play Me",
 	"description": "Chrome Extension for Play Me",
-	"version": "0.5.1.0",
+	"version": "1.3.6.0",
 	"browser_action": {
 		"default_icon": "assets/images/icon.png",
 		"default_popup": "index.html"
@@ -11,6 +11,7 @@
 	"permissions": [
 		"http://music.trademe.local/*/*",
 		"http://guesswho/*/*",
-		"http://chc-music.trademe.local/*/*"
+		"http://chc-music.trademe.local/*/*",
+		"https://fonts.googleapis.com/icon"
 	]
 }

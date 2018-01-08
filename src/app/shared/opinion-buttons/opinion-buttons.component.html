@@ -1,11 +1,66 @@
-<button class="btn btn-like user-list-container" (click)="likeTrack(track)" title="Like">
-	<i class="icon-heart"></i>
-	<span class="badge badge-like">{{track?.LikeCount}}</span>
-	<user-list title="Likes" [opinions]="track?.Likes" *ngIf="track?.LikeCount"></user-list>
-</button>
+<div
+	class="option-buttons__like-container">
+	<button
+		mat-icon-button
+		(click)="likeTrack()"
+		title="Like">
+		<mat-icon>mood</mat-icon>
+	</button>
 
-<button class="btn btn-veto user-list-container" (click)="vetoTrack(track)" title="Veto">
-	<i class="icon-heart-broken"></i>
-	<span class="badge badge-veto">{{track?.VetoCount}}</span>
-	<user-list title="Vetoes" [opinions]="track?.Vetoes" *ngIf="track?.VetoCount"></user-list>
-</button>
+	<div class="option-buttons__like-divider"></div>
+
+	<div
+		*ngFor="let like of track?.Likes; let ix = index"
+		[style.display]="(ix >= maxUserCount - 1) ? 'none' : ''"
+		[matTooltip]="like.fullName | async"
+		[style.background-image]="'url(' + like.userPhotoUrl + ')'"
+		class="option-buttons__user">
+		&nbsp;
+	</div>
+
+	<div
+		*ngIf="track?.LikeCount >= maxUserCount"
+		class="option-buttons__like-count">
+		{{track?.LikeCount}}
+	</div>
+
+	<span
+		class="option-buttons__no-likes"
+		*ngIf="track?.LikeCount === 0">
+		No Likes
+	</span>
+</div>
+
+<div
+	class="option-buttons__veto-container">
+	<button
+		class="option-buttons__veto-button"
+		mat-icon-button
+		(click)="vetoTrack()"
+		title="Veto">
+		<mat-icon>mood_bad</mat-icon>
+	</button>
+
+	<div class="option-buttons__veto-divider"></div>
+
+	<div
+		*ngFor="let veto of track?.Vetoes; let ix = index"
+		[style.display]="(ix >= maxUserCount - 1) ? 'none' : ''"
+		[matTooltip]="veto.fullName | async"
+		[style.background-image]="'url(' + veto.userPhotoUrl + ')'"
+		class="option-buttons__user">
+		&nbsp;
+	</div>
+
+	<div
+		*ngIf="track?.VetoCount >= maxUserCount"
+		class="option-buttons__veto-count">
+		{{track?.VetoCount}}
+	</div>
+
+	<span
+		class="option-buttons__no-vetos"
+		*ngIf="track?.VetoCount === 0">
+		No Vetos
+	</span>
+</div>

@@ -1,55 +1,53 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-
-export interface IUserInfo{
-	name: string,
-	userId: string
-}
+import { publishReplay, refCount } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+import { IUserInfo } from './user-info.interface';
 
 @Injectable()
-export class UserInfoService{
-	guessWhoUrl = 'http://guesswho/EmployeeData.ashx';
-	private users: Promise<IUserInfo[]>; 
-	
-	constructor(private _http: Http){
-		
-	}
-	
-	parseUserId(userId: string): string{
-		if (!userId || userId === 'Autoplay'){
-			return null;
-		}
-		
-		return userId.replace('TRADEME\\', '');
-	}
-	
-	getUserFullName(userId: string){
-		if (!userId || userId === 'Autoplay'){
-			return Promise.resolve(userId);
-		}
-		
-		userId = this.parseUserId(userId);
-		
-		return this.getAllUsers().then(users =>{
-			return users.find(u => u.userId === userId).name || userId;
-		});
-	}
-	
-	getAllUsers(): Promise<IUserInfo[]>{
-		var result = this.users || (this.users = this._http.get(this.guessWhoUrl)
-			.map(response => {
-				return <IUserInfo[]>response.json()
-			})
-			.toPromise()
-			.catch(this.handleError));
-			
-		return result;
-	}
-	
-	private handleError(error: Response){
-		console.error(error);
-		return Observable.throw(error.json().error || 'Server error');
-	}
+export class UserInfoService {
+    private _guessWhoUrl = 'http://guesswho/EmployeeData.ashx';
+    private _users: Observable<IUserInfo[]>;
+
+    constructor (
+        private _http: HttpClient
+    ) { }
+
+    public parseUserId (userId: string): string {
+        if (!userId || this.isAutoplay(userId)) {
+            return null;
+        }
+
+        return userId.replace('TRADEME\\', '');
+    }
+
+    public getUserFullName (userId: string): Observable<string> {
+        if (!userId || this.isAutoplay(userId)) {
+            return Observable.of(userId);
+        }
+
+        userId = this.parseUserId(userId);
+
+        return this.getAllUsers().pipe(
+            map(users => {
+                const user = users.find(u => u.userId === userId);
+                return user ? user.name : userId;
+            }));
+    }
+
+    public getAllUsers (): Observable<IUserInfo[]> {
+        if (!this._users) {
+            this._users = this._http.get<IUserInfo[]>(this._guessWhoUrl).pipe(
+                publishReplay(1),
+                refCount()
+            );
+        }
+
+        return this._users;
+    }
+
+    private isAutoplay (userId: string): boolean {
+        return !!userId && userId.startsWith('Autoplay');
+    }
 }

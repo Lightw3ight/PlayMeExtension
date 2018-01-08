@@ -1,0 +1,56 @@
+:host {
+    display: block;
+}
+
+.side-nav__shield {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 100;
+}
+
+.side-nav__container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    z-index: 110;
+    background-color: white;
+    overflow-y: auto;
+    padding-top: 64px;
+}
+
+.side-nav__header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: .25rem;
+    background-color: white;
+    z-index: 111;
+
+    img {
+        margin-left: .25rem;
+        width: 150px;
+    }
+}
+
+.side-nav__nav-item {
+    display: block;
+    height: 48px;
+    display: flex;
+    align-items: center;
+
+    mat-icon {
+        margin: 0 .5rem;
+        vertical-align: top;
+    }
+
+    &:hover {
+        background-color: #eeeeee;
+        text-decoration: none;
+    }
+}

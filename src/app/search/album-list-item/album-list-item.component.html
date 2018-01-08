@@ -1,8 +1,23 @@
-<div class="album-tile col-xs-4">
-	<a [routerLink]="['/album', album.MusicProvider.Identifier, album.Link]" [attr.title]="album.Name">
-		<img src="/assets/images/pixel.gif" [ngStyle]="{'background-image': 'url('+album.ArtworkUrlLarge+')'}" [attr.alt]="album.Name">
-	</a>
-	<div>
-		<a [routerLink]="['/album', album.MusicProvider.Identifier, album.Link]">{{album.Name}}</a>
-	</div>
-</div>
+<a
+	[routerLink]="['/album', album.MusicProvider.Identifier, album?.Link]"
+	[attr.title]="album.Name">
+	<mat-card>
+		<img
+			mat-card-image
+			[src]="album.ArtworkUrlLarge">
+		<mat-card-content
+			class="album-list-item__content">
+			<a
+				class="album-list-item__title"
+				[routerLink]="['/album', album.MusicProvider.Identifier, album?.Link]">
+				{{album.Name}}
+			</a>
+			<a
+				class="album-list-item__artist-name"
+				*ngIf="album.Artist"
+				[routerLink]="['/artist', album.MusicProvider.Identifier, album?.Artist?.Link]">
+				{{album.Artist.Name}}
+			</a>
+		</mat-card-content>
+	</mat-card>
+</a>

@@ -1,29 +1,18 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import {IAlbum} from '../models/IAlbum'
-import {AudioZoneService} from './audio-zone.service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { IAlbum } from '../models/IAlbum';
+import { AudioZoneService } from './audio-zone.service';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AlbumService {
-	constructor(private _http: Http, private _audioZoneService: AudioZoneService) {
-	}
+    constructor (
+        private _http: HttpClient,
+        private _audioZoneService: AudioZoneService
+    ) { }
 
-	getAlbum(id: string, provider: string) : Promise<IAlbum> {
-		var url = `${this._audioZoneService.getCurrentZone()}/api/browse/album/${provider}/${id}`;
-
-		var result =this._http.get(url);
-		return result
-			.map(response => {
-				return <IAlbum>response.json()
-			})
-			.toPromise();
-			//.catch(this.handleError);
-	}
-	
-	private handleError(error: Response){
-		console.error(error);
-		return Observable.throw(error.json().error || 'Server error');
-	}
+    public getAlbum (id: string, provider: string): Observable<IAlbum> {
+        const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/browse/album/${provider}/${id}`;
+        return this._http.get<IAlbum>(url);
+    }
 }

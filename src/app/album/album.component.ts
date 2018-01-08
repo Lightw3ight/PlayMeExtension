@@ -1,38 +1,41 @@
-import {Component, OnInit, OnDestroy } from '@angular/core';
-import {Router, ActivatedRoute } from '@angular/router';
-import {Location} from '@angular/common';
-
-import {AlbumService, QueueService} from '../api';
-import {IAlbum, ITrack} from '../models';
+import { catchError, switchMap } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { Subscription } from 'rxjs/Subscription';
+import { AlbumService, QueueService } from '../api';
+import { routeAnimation } from './../router-animation';
+import { IAlbum, ITrack } from '../models';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
-	selector: 'album',
-	templateUrl: 'album.component.html',
-	styleUrls: ['album.component.css']
+    selector: 'pm-album',
+    templateUrl: 'album.component.html',
+    styleUrls: ['album.component.scss'],
+    animations: [routeAnimation]
 })
 export class AlbumComponent implements OnInit {
-	artistId: string;
-	provider: string;
-	album: IAlbum;
-	backgroundColor: '#FFF';
-	foregroundColor: '#FFF';
-	constructor(private _route: ActivatedRoute, private _albumService: AlbumService, private _queueService: QueueService, private _location: Location) {
+    @HostBinding('@routerTransition') animate = true;
+    provider: string;
+    public album$: Observable<IAlbum>;
 
-	}
-	ngOnInit() {
-		var id = this._route.snapshot.params['id'];
-		var provider = this._route.snapshot.params['provider'];
+    constructor(private _route: ActivatedRoute,
+        private _albumService: AlbumService,
+        private _queueService: QueueService,
+        private _location: Location) {
+    }
 
-		this._albumService.getAlbum(id, provider).then((album: IAlbum) => {
-			this.album = album;
-		})
-		.catch(() => {
-			alert('Error loading artist');
-			this._location.back();
-		});
-	}
+    ngOnInit() {
+        this.album$ = this._route.paramMap.pipe(
+            switchMap(params => this._albumService.getAlbum(params.get('id'), params.get('provider'))),
+            catchError(error => {
+                alert('Error loading album');
+                this._location.back();
+                return Observable.of(error);
+            }));
+    }
 
-	queueTrack(track: ITrack) {
-		this._queueService.queueTrack(track);
-	}
+    queueTrack(track: ITrack) {
+        this._queueService.queueTrack(track);
+    }
 }

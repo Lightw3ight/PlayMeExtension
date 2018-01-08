@@ -1,109 +1,131 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import {AudioZoneService, IAudioZone} from './audio-zone.service';
-import {IQueuedTrack} from '../models/IQueuedTrack';
-import {IPagedResult} from '../models/IPagedResult';
-import {UserInfoService} from './user-info.service';
-import {QueueService} from './queue.service';
+import { take, map } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { AudioZoneService } from './audio-zone.service';
+import { IQueuedTrack } from '../models/IQueuedTrack';
+import { IPagedResult } from '../models/IPagedResult';
+import { UserInfoService } from './user-info.service';
+import { QueueService } from './queue.service';
 import * as moment from 'moment';
+import { KarmaService } from './karma.service';
 
 @Injectable()
 export class SignalRService {
-	$: any;
-	_hub: any;
-	private nowPlayingObservable: Observable<IQueuedTrack>;
-	private nowPlayingObserver: any;
+    private _hub: any;
+    private _nowPlaying$ = new ReplaySubject<IQueuedTrack>();
+    private _recentlyPlayed$ = new ReplaySubject<IQueuedTrack[]>();
+    private _upNext$ = new ReplaySubject<IQueuedTrack[]>();
+    private _activeLikes: string[] = [];
+    private _activeVetos: string[] = [];
 
-	private upNextObservable: Observable<IQueuedTrack[]>;
-	private upNextObserver: any;
+    constructor (
+        private _queueService: QueueService,
+        private _karmaService: KarmaService
+    ) { }
 
-	private recentlyPlayedObservable: Observable<IQueuedTrack[]>;
-	private recentlyPlayedObserver: any;
+    private get connection () {
+        return window['$'].connection;
+    }
 
-	constructor(private _audioZoneService: AudioZoneService, private _queueService: QueueService) {
-		this.$ = window['$'];
+    public initializeHub (audioZoneUrl: string) {
+        this.closeHubConnection();
 
-		this.nowPlayingObservable = <Observable<IQueuedTrack>>Observable.create(observer => {
-			this.nowPlayingObserver = observer;
-		});
+        this._hub = this.connection.queueHub;
+        this.connection.hub.url = `${audioZoneUrl}/signalr`;
+        this._hub.on('updateCurrentTrack', this.onUpdateCurrentTrack);
+        this._hub.on('updatePlayingSoon', this.onUpdatePlayingSoon);
+        this._hub.on('updateRecentlyPlayed', this.onUpdateRecentlyPlayed);
 
-		this.upNextObservable = <Observable<IQueuedTrack[]>>Observable.create(observer => {
-			this.upNextObserver = observer;
-		});
+        this.connection.hub.start({ transport: ['webSockets', 'serverSentEvents', 'longPolling'] })
+            .done(() => {
+                this.startSockets();
+            });
+    }
 
-		this.recentlyPlayedObservable = <Observable<IQueuedTrack[]>>Observable.create(observer => {
-			this.recentlyPlayedObserver = observer;
-		});
-	}
+    public closeHubConnection () {
+        if (this._hub) {
+            this._hub.off('updateCurrentTrack', this.onUpdateCurrentTrack);
+            this._hub.off('updatePlayingSoon', this.onUpdatePlayingSoon);
+            this._hub.off('updateRecentlyPlayed', this.onUpdateRecentlyPlayed);
+            this.connection.hub.stop();
+        }
+    }
 
-	initializeHub() {
-		this._hub = this.$.connection.queueHub;
-		this.$.connection.hub.url = `${this._audioZoneService.getCurrentZone()}/signalr`;
-		this._hub.on('updateCurrentTrack', this.onUpdateCurrentTrack);
-		this._hub.on('updatePlayingSoon', this.onUpdatePlayingSoon);
-		this._hub.on('updateRecentlyPlayed', this.onUpdateRecentlyPlayed);
+    public likeTrack (trackId: string) {
+        if (!this._activeLikes.some(id => id === trackId)) {
+            this._activeLikes.push(trackId);
+            this._karmaService.addKarma();
+        }
+        this._hub.server.likeTrack(trackId);
+    }
 
-		this.$.connection.hub.start({ transport: ['webSockets', 'serverSentEvents', 'longPolling'] })
-			.done(() => {
-				this.startSockets();
-			});
-	}
+    public vetoTrack (trackId: string) {
+        if (!this._activeVetos.some(id => id === trackId)) {
+            this._activeVetos.push(trackId);
+            this._karmaService.removeKarma();
+        }
+        this._hub.server.vetoTrack(trackId);
+    }
 
-	closeHubConnection() {
-		this._hub.off('updateCurrentTrack', this.onUpdateCurrentTrack);
-		this._hub.off('updatePlayingSoon', this.onUpdatePlayingSoon);
-		this._hub.off('updateRecentlyPlayed', this.onUpdateRecentlyPlayed);
-		this.$.connection.hub.stop()
-	}
+    private cleanVetoLikeLog () {
+        const removeUnused = (opinionList: string[], activeTracks: IQueuedTrack[]) => {
+            for (let i = opinionList.length - 1; i >= 0; i--) {
+                const id = opinionList[i];
 
-	likeTrack(trackId: string) {
-		this._hub.server.likeTrack(trackId);
-	}
+                if (!activeTracks.some(t => t.Id === id)) {
+                    opinionList.splice(i, 1);
+                }
+            }
+        };
 
-	vetoTrack(trackId: string) {
-		this._hub.server.vetoTrack(trackId);
-	}
+        return Observable.combineLatest(
+            this.getNowPlaying(),
+            this.getNextUp()).pipe(
+                take(1),
+                map(([nowPlaying, upNext]) => {
+                    return [nowPlaying, ...upNext];
+                })
+            ).subscribe(tracks => {
+                removeUnused(this._activeLikes, tracks);
+                removeUnused(this._activeVetos, tracks);
+            });
+    }
 
-	getRecentlyPlayed(): Observable<IQueuedTrack[]> {
-		return this.recentlyPlayedObservable;
-	}
+    public getRecentlyPlayed (): Observable<IQueuedTrack[]> {
+        return this._recentlyPlayed$.asObservable();
+    }
 
-	getNextUp(): Observable<IQueuedTrack[]> {
-		return this.upNextObservable;
-	}
+    public getNextUp (): Observable<IQueuedTrack[]> {
+        return this._upNext$.asObservable();
+    }
 
-	getNowPlaying(): Observable<IQueuedTrack> {
-		return this.nowPlayingObservable;
-	}
+    public getNowPlaying (): Observable<IQueuedTrack> {
+        return this._nowPlaying$.asObservable();
+    }
 
-	private onUpdateCurrentTrack = (track: IQueuedTrack) => {
-		if (this.nowPlayingObserver) {
-			this._queueService.parseQueuedTrack(track);
-			this.nowPlayingObserver.next(track);
-		}
-	}
+    private onUpdateCurrentTrack = (track: IQueuedTrack) => {
+        this._queueService.parseQueuedTrack(track);
+        this._nowPlaying$.next(track);
+        this.cleanVetoLikeLog();
+    }
 
-	private onUpdatePlayingSoon = (data: IQueuedTrack[]) => {
-		data.forEach(this._queueService.parseQueuedTrack);
-		if (this.upNextObserver) {
-			this.upNextObserver.next(data);
-		}
-	}
+    private onUpdatePlayingSoon = (data: IQueuedTrack[]) => {
+        data.forEach(t => this._queueService.parseQueuedTrack(t));
+        this._upNext$.next(data);
+        this.cleanVetoLikeLog();
+    }
 
-	private onUpdateRecentlyPlayed = (data: IPagedResult<IQueuedTrack>) => {
-		data.PageData.forEach(this._queueService.parseQueuedTrack);
-		if (this.recentlyPlayedObserver) {
-			this.recentlyPlayedObserver.next(data.PageData);
-		}
-	}
+    private onUpdateRecentlyPlayed = (data: IPagedResult<IQueuedTrack>) => {
+        data.PageData.forEach(t => this._queueService.parseQueuedTrack(t));
+        this._recentlyPlayed$.next(data.PageData);
+    }
 
-	private startSockets() {
-		//setInterval(this.setCurrentTime, 500);
-		this._hub.server.getCurrentTrack();
+    private startSockets () {
+        this._hub.server.getCurrentTrack();
         this._hub.server.getPlayingSoon();
         this._hub.server.getRecentlyPlayed();
         this._hub.server.getCurrentVolume();
-	}
+    }
 }

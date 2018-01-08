@@ -1,0 +1,13 @@
+<pm-site-header
+    class="app-container__site-header"
+    (toggleMenu)="sideNav.open()">
+</pm-site-header>
+
+<pm-side-nav
+    #sideNav>
+</pm-side-nav>
+    
+<main
+    class="app-container__content">
+    <router-outlet></router-outlet>
+</main>

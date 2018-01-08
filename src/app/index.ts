@@ -1,5 +1,5 @@
-export {environment} from './environment';
-export {PlayMeExtensionAppComponent} from './play-me-extension.component';
+export * from './environment';
+export * from './app.component';
 export * from './app.routes';
 export * from './app.module';
 

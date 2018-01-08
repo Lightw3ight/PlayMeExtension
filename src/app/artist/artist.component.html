@@ -1,16 +1,29 @@
-<div class="app-root">
-	<div class="artist-art-background" [ngStyle]="{'background-image': 'url(' + artist?.PortraitUrlLarge + ')'}"></div>
-	<div class="content-top artist-header">
-		<div class="row nav-bar">
-			<zone-selector class="col-xs-3" [activeZone]="activeZone"></zone-selector>
-			<search-bar class="col-xs-9"></search-bar>
-		</div>
-		<breadcrumbs></breadcrumbs>
-		<h1>{{artist?.Name}}</h1>
+<ng-container
+	*ngIf="artist$ | async as artist">
+
+	<pm-fixed-background
+		[src]="artist?.PortraitUrlLarge">
+	</pm-fixed-background>
+
+	<div
+		class="hero">
+		<h1
+			class="md-display-1">
+			{{artist?.Name}}
+		</h1>
 	</div>
-	<div class="content-bottom">
-		<div class="row">
-			<album-list-item *ngFor="let album of artist?.Albums" [album]="album"></album-list-item>
+
+	<section
+		class="container container--opaque">
+		<div
+			class="flex-row-container"
+			fxLayout="row"
+			fxLayoutWrap="wrap">
+			<pm-album-list-item
+				fxFlex="33.333%"
+				*ngFor="let album of artist?.Albums"
+				[album]="album">
+			</pm-album-list-item>
 		</div>
-	</div>
-</div>
+	</section>
+</ng-container>

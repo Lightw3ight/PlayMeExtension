@@ -1,122 +1,105 @@
-import {Component, OnInit, OnDestroy } from '@angular/core';
+import { routeAnimation } from './../router-animation';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import {Router } from '@angular/router';
-import {Subscription} from 'rxjs';
-//import { TOOLTIP_DIRECTIVES, TAB_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap'
-
-
-
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/interval';
+import * as moment from 'moment';
 import {
-	IQueuedTrack,
-	IPagedResult
+    IQueuedTrack,
+    IPagedResult
 } from '../models';
 import {
-	AudioZoneService,
-	IAudioZone,
-	UserInfoService,
-	SignalRService,
-	SearchService
+    IAudioZone,
+    UserInfoService,
+    SignalRService,
+    SearchService,
+    KarmaService
 } from '../api';
-import {
-	UserListComponent,
-	SearchBarComponent,
-	QueuedTrackComponent,
-	OpinionButtonsComponent
-} from '../shared';
-
-
-
-import {ZoneSelectorComponent} from './zone-selector/zone-selector.component';
+import { trigger, transition, animate, style } from '@angular/animations';
+import { switchMap, takeUntil, map } from 'rxjs/operators';
 
 @Component({
-	selector: 'now-playing',
-	templateUrl: 'now-playing.component.html',
-	styleUrls: ['now-playing.component.css']
+    selector: 'pm-now-playing',
+    templateUrl: 'now-playing.component.html',
+    styleUrls: ['now-playing.component.scss'],
+    animations: [ routeAnimation ]
 })
-export class NowPlayingComponent implements OnInit, OnDestroy {
-	currentTrack: IQueuedTrack = null;
-	currentTime: number;
-	activeZone: string;
-	trackQueue: IQueuedTrack[] = [];
-	trackHistory: IQueuedTrack[] = [];
-	trackProgress: string;
-	progressIntervalId: number;
+export class NowPlayingComponent implements OnInit {
+    @HostBinding('@routerTransition') animate = true;
+    public currentTrack$: Observable<IQueuedTrack>;
+    public trackQueue$: Observable<IQueuedTrack[]>;
+    public trackHistory$: Observable<IQueuedTrack[]>;
+    public trackProgress$: Observable<number>;
+    public trackElapsedTime$: Observable<string>;
+    public karma$: Observable<number>;
 
-	backgroundColor: '#FFF';
-	foregroundColor: '#000';
-	private subscriptions: Subscription[] = [];
+    constructor (
+        private _searchService: SearchService,
+        private _userInfoService: UserInfoService,
+        private _signalRService: SignalRService,
+        private _domSanitizationService: DomSanitizer,
+        private _karmaService: KarmaService
+    ) { }
 
-	constructor(private _searchService: SearchService,
-		private _audioZoneService: AudioZoneService,
-		private _userInfoService: UserInfoService,
-		private _signalRService: SignalRService,
-		private _domSanitizationService: DomSanitizer) {
-	}
+    public createSpotifyUrl (track: IQueuedTrack) {
+        if (!track) {
+            return null;
+        }
+        return this._domSanitizationService.bypassSecurityTrustUrl(`spotify:track:${track.Track.Link}`);
+    }
 
-	createSpotifyUrl(track: IQueuedTrack){
-		if (!track){
-			return null;
-		}
-		return this._domSanitizationService.bypassSecurityTrustUrl(`spotify:track:${track.Track.Link}`);
-	}
+    public ngOnInit () {
+        this.karma$ = this._karmaService.getCurrentKarma();
+        this.trackHistory$ = this._signalRService.getRecentlyPlayed();
+        this.trackQueue$ = this._signalRService.getNextUp();
+        this.currentTrack$ = this._signalRService.getNowPlaying();
+        this.trackProgress$ = Observable
+            .interval(500).pipe(
+                switchMap(() => this.currentTrack$),
+                map(track => this.getElapsedPercent(track)));
 
-	ngOnInit() {
-		this.activeZone = this._audioZoneService.getCurrentZone();
-		this.openHubConnection();
-		this.subscriptions.push(this._signalRService.getRecentlyPlayed().subscribe(history => {
-			this.trackHistory = history;
-		}));
-		this.subscriptions.push(this._signalRService.getNextUp().subscribe(queue => {
-			this.trackQueue = queue;
-		}));
-		this.subscriptions.push(this._signalRService.getNowPlaying().subscribe(track => {
-			this.currentTrack = track;
-		}));
-		this.progressIntervalId = window.setInterval(this.calculatePercentComplete, 500);
-	}
+        this.trackElapsedTime$ = Observable
+            .interval(500).pipe(
+                switchMap(() => this.currentTrack$),
+                map(track => this.getElapsedTime(track)));
+    }
 
-	ngOnDestroy() {
-		this.subscriptions.forEach(s => s.unsubscribe());
-		window.clearInterval(this.progressIntervalId);
-		this.closeHubConnection();
-	}
+    public likeTrack (queuedTrack: IQueuedTrack) {
+        this._signalRService.likeTrack(queuedTrack.Id);
+    }
 
-	private openHubConnection() {
-		this._signalRService.initializeHub();
-	}
+    public vetoTrack (queuedTrack: IQueuedTrack) {
+        this._signalRService.vetoTrack(queuedTrack.Id);
+    }
 
-	private closeHubConnection() {
-		this._signalRService.closeHubConnection();
-	}
+    getElapsedMilliseconds (track: IQueuedTrack) {
+        if (!track) {
+            return 0;
+        }
 
-	changeZone(zone: string) {
-		this.closeHubConnection();
-		this.activeZone = zone;
-		this.openHubConnection();
-	}
+        const timeStarted = track.StartedPlayingDateTime.getTime();
+        const now = new Date().getTime();
+        return Math.min(now - (timeStarted + track.PausedDurationAsMilliseconds), track.Track.DurationMilliseconds);
+    }
 
-	likeTrack(queuedTrack: IQueuedTrack) {
-		this._signalRService.likeTrack(queuedTrack.Id);
-	}
+    getElapsedPercent (track: IQueuedTrack): number {
+        if (!track) {
+            return 0;
+        }
 
-	vetoTrack(queuedTrack: IQueuedTrack) {
-		this._signalRService.vetoTrack(queuedTrack.Id);
-	}
+        const elapsed = this.getElapsedMilliseconds(track);
+        return (elapsed / track.Track.DurationMilliseconds) * 100;
+    }
 
-	calculatePercentComplete = () => {
-		var percent = 0;
-		if (this.currentTrack) {
+    getElapsedTime (track: IQueuedTrack): string {
+        if (!track) {
+            return '';
+        }
 
-			var timeStarted = this.currentTrack.StartedPlayingDateTime.getTime();
-			var now = new Date().getTime();
-			var elapsed = now - (timeStarted + this.currentTrack.PausedDurationAsMilliseconds);
-
-			if (elapsed > this.currentTrack.Track.DurationMilliseconds) {
-				elapsed = this.currentTrack.Track.DurationMilliseconds;
-			}
-
-			percent = (elapsed / this.currentTrack.Track.DurationMilliseconds) * 100;
-		}
-		this.trackProgress = percent + '%';
-	}
+        const elapsedDuration = moment.duration(this.getElapsedMilliseconds(track));
+        const totalDuration = moment.duration(track.Track.DurationMilliseconds);
+        return `${elapsedDuration.minutes()}:${elapsedDuration.seconds()} / ${totalDuration.minutes()}:${totalDuration.seconds()}`;
+    }
 }
