@@ -1,0 +1,45 @@
+
+<section
+class="container container--opaque">
+
+<div
+  *ngIf="(currentUser$ | async) as currentUser">
+  Logged in as {{ currentUser.display_name }}
+  <img
+    *ngIf="currentUser.images.length"
+    [src]="currentUser.images[0].url"
+    width="40"
+    height="40"
+    />
+
+    <div
+      fxLayout="row"
+      fxLayoutWrap="wrap"
+      class="search-page__row">
+      <div
+        *ngIf="playlists">
+        <h3>
+          Playlists
+        </h3>
+        <pm-playlist-list-item
+          *ngFor="let playlist of playlists.items"
+          [playlist]="playlist">
+        </pm-playlist-list-item>
+      </div>
+
+    </div>
+</div>
+
+<div
+  *ngIf="!(currentUser$ | async)">
+  Is not logged in
+
+  <button
+    *ngIf="!user"
+    (click)="login()"
+    type="button"
+    mat-icon-button>
+    Login
+  </button>
+</div>
+</section>

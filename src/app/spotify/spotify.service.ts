@@ -1,6 +1,6 @@
-// Take from: https://github.com/eddiemoore/angular-spotify
+// Taken from: https://github.com/eduardolima93/angular2-spotify
 // Will improve, then send pull request later...
-// TODO: 
+// TODO:
 // - Add interfaces for return types...
 
 import {Injectable, Inject, Optional} from '@angular/core';
@@ -12,7 +12,7 @@ export interface SpotifyConfig {
   clientId: string,
   redirectUri: string,
   scope: string,
-  authToken?: string,
+  userAuthToken?: string,
   apiBase: string,
 }
 
@@ -42,11 +42,11 @@ interface HttpRequestOptions {
 }
 
 @Injectable()
-//export default class SpotifyService {
+// export default class SpotifyService {
 export class SpotifyService {
-  constructor( 
-    @Inject("SpotifyConfig") private config: SpotifyConfig, 
-    private http: Http) {    
+  constructor (
+    @Inject('SpotifyConfig') private config: SpotifyConfig,
+    private http: Http) {
         config.apiBase = 'https://api.spotify.com/v1';
   }
 
@@ -373,9 +373,9 @@ export class SpotifyService {
   }
 
   //#endregion
-  
+
   //#region personalization
-  
+
   getUserTopArtists(options?: SpotifyOptions) {
       return this.api({
       method: 'get',
@@ -401,7 +401,7 @@ export class SpotifyService {
       search: options,
       headers: this.getHeaders()
     }).map(res => res.json());
-  }  
+  }
 
   //#endregion
 
@@ -577,7 +577,7 @@ export class SpotifyService {
         search: { ids: trackList.toString() }
     }).map(res => res.json());
   }
-  
+
   getTrackAudioAnalysis(track: string) {
     track = this.getIdFromUri(track);
     return this.api({
@@ -585,8 +585,8 @@ export class SpotifyService {
       url: `/audio-analysis/${track}`,
       headers: this.getHeaders()
     }).map(res => res.json());
-  }  
-  
+  }
+
   getTrackAudioFeatures(track: string) {
       track = this.getIdFromUri(track);
       return this.api({
@@ -595,7 +595,7 @@ export class SpotifyService {
         headers: this.getHeaders()
       }).map(res => res.json());
   }
-  
+
 
   getTracksAudioFeatures(tracks: string | Array<string>) {
     var trackList = this.mountItemList(tracks);
@@ -646,7 +646,7 @@ export class SpotifyService {
           }
           authCompleted = true;
 
-          this.config.authToken = e.newValue;
+          this.config.userAuthToken = e.newValue;
           window.removeEventListener('storage', storageChanged, false);
 
           return resolve(e.newValue);
@@ -687,7 +687,7 @@ export class SpotifyService {
 
   private auth(isJson?: boolean): Object {
     var auth = {
-      'Authorization': 'Bearer ' + this.config.authToken
+      'Authorization': 'Bearer ' + this.config.userAuthToken
     };
     if (isJson) {
       auth['Content-Type'] = 'application/json';

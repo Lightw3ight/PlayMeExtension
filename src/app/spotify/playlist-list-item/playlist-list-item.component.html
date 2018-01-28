@@ -1,0 +1,20 @@
+<a
+  href="#"
+	[attr.title]="playlist.name">
+	<mat-card>
+		<img
+			mat-card-image
+      [src]="playlistImage"
+      height="60"
+      width="60"
+      style="width: 60px">
+		<mat-card-content>
+      {{ playlist.name }}
+
+      <aside>
+        {{ playlist.tracks.total}}
+      </aside>
+		</mat-card-content>
+	</mat-card>
+</a>
+
