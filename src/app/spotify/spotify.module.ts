@@ -1,17 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SpotifyService, SpotifyConfig } from './spotify.service';
 import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
+
+import { MatCardModule, MatIconModule, MatButtonModule, MatMenuModule } from '@angular/material';
+
+import { SpotifyService, SpotifyConfig } from './spotify.service';
 import { PlaylistListItemComponent } from './playlist-list-item/playlist-list-item.component';
 import { SpotifyUserService } from 'app/spotify/spotify-user.service';
 import { SpotifyHomeComponent } from './spotify-home/spotify-home.component';
-import { MatCardModule } from '@angular/material';
+import { PlaylistComponent } from './playlist/playlist.component';
+import { SpotifyTrackItemComponent } from './spotify-track-item/spotify-track-item.component';
 
 @NgModule({
     imports: [
         CommonModule,
         HttpModule,
-        MatCardModule
+        RouterModule,
+
+        MatCardModule,
+        MatIconModule,
+        MatButtonModule,
+        MatMenuModule
     ],
     providers: [
         SpotifyService,
@@ -28,7 +38,9 @@ import { MatCardModule } from '@angular/material';
     ],
     declarations: [
       PlaylistListItemComponent,
-      SpotifyHomeComponent
+      SpotifyHomeComponent,
+      PlaylistComponent,
+      SpotifyTrackItemComponent
     ],
     exports: [
       SpotifyHomeComponent

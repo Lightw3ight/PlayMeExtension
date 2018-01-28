@@ -1,0 +1,74 @@
+<div
+	fxLayout="row"
+	fxLayoutAlign="start center">
+	<div
+		class="track-item__col"
+		fxFlex="none">
+		<img
+			[src]="trackImage"
+			class="track-item__album-image">
+
+		<button
+			mat-icon-button
+			class="track-item--hover-fade-in track-item__play-button"
+			type="button"
+			(click)="queueTrack()">
+			<mat-icon>play_arrow</mat-icon>
+		</button>
+	</div>
+
+	<div
+		class="track-item__col"
+		*ngIf="isAlreadyQueued"
+		fxFlex="none">
+		<mat-icon class="track-item__display-icon">volume_up</mat-icon>
+	</div>
+
+	<div
+		class="track-item__col track-item__details"
+		fxFlex
+		fxFlexFill>
+		<div class="track-item__wrap-trap">
+			<div class="track-item__wrap-trap-inner">
+				<label>
+          {{track.track.name}}
+        </label>
+				<ul class="comma-separated">
+					<li *ngFor="let artist of track.track.artists">
+            <a [routerLink]="['/artist', 'sp', artist.id]">
+              {{artist.name}}
+            </a>
+          </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div
+		class="track-item__col track-item--hover-fade-in"
+		fxFlex="none"
+		*ngIf="!isAlreadyQueued">
+		<button
+			mat-icon-button
+			[matMenuTriggerFor]="menu">
+  			<mat-icon>more_vert</mat-icon>
+		</button>
+
+		<mat-menu
+			#menu="matMenu">
+			<button mat-menu-item (click)="queueTrack()">
+				<mat-icon>play_arrow</mat-icon>
+				<span>Queue</span>
+			</button>
+			<button mat-menu-item (click)="queueWithComment()">
+				<mat-icon>comment</mat-icon>
+				<span>Queue with comment</span>
+			</button>
+
+			<button mat-menu-item [routerLink]="['/album', 'sp', track.track.album.link]">
+				<mat-icon>album</mat-icon>
+				<span>View album</span>
+			</button>
+		</mat-menu>
+	</div>
+</div>
