@@ -1,5 +1,6 @@
-import { LIKE_COUNT_KEY } from './../../api/karma.service';
 import { Component, OnInit, Input } from '@angular/core';
+
+import { QueueService } from 'app/api';
 
 @Component({
   selector: 'pm-spotify-track-item',
@@ -8,15 +9,21 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SpotifyTrackItemComponent implements OnInit {
 
-  @Input() track;
+  @Input() trackContainer;
 
-  constructor () { }
+  constructor (
+    private _queueService: QueueService
+  ) { }
 
   ngOnInit () {
   }
 
+  get track () {
+    return this.trackContainer.track;
+  }
+
   get trackImage () {
-    let images = this.track.track.album.images;
+    const images = this.trackContainer.track.album.images;
 
     if (!images) {
       return null;
@@ -29,9 +36,13 @@ export class SpotifyTrackItemComponent implements OnInit {
     return false;
   }
 
-  queueTrack () { }
+  queueTrack () {
+    this._queueService
+        .queueTrackById('sp', this.trackContainer.track.id)
+        .subscribe();
+  }
 
-  queueWithComment () { }
+  // queueWithComment () { }
 
 
 
