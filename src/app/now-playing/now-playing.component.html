@@ -138,5 +138,22 @@
                 See all history
             </a>
         </mat-tab>
+        <mat-tab
+            label="Spotify">
+            Hello
+            <button *ngIf="!user" (click)="login()">Login</button>
+            <p *ngIf="!!user">
+                You are logged in as: {{user.display_name}}
+            </p>
+
+            <div
+                *ngIf="playlists">
+                <p
+                    *ngFor="let playlist of playlists.items">
+                    {{ playlist.name }} / {{ playlist.owner.display_name }}
+                </p>
+
+            </div>
+        </mat-tab>
     </mat-tab-group>
 </section>

@@ -14,7 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { routing, appRoutingProviders } from './app.routes';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import {
     SearchService,
     ArtistService,
@@ -27,6 +27,7 @@ import {
 
 import { AppComponent } from './app.component';
 import { MatSidenavModule } from '@angular/material';
+import { SpotifyModule } from './spotify/spotify.module';
 @NgModule({
     imports: [
         BrowserModule,
@@ -42,7 +43,8 @@ import { MatSidenavModule } from '@angular/material';
         SearchModule,
         MatSidenavModule,
         HttpClientModule,
-        LikesModule
+        LikesModule,
+        SpotifyModule
     ],
     declarations: [
         AppComponent

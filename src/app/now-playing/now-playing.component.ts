@@ -19,12 +19,23 @@ import {
 } from '../api';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { switchMap, takeUntil, map } from 'rxjs/operators';
+import { SpotifyService } from 'app/spotify/spotify.service';
 
 @Component({
     selector: 'pm-now-playing',
     templateUrl: 'now-playing.component.html',
     styleUrls: ['now-playing.component.scss'],
-    animations: [ routeAnimation ]
+    animations: [ routeAnimation ],
+    providers: [SpotifyService,
+        { provide: "SpotifyConfig" , useValue: {
+                clientId: 'e027323d365849d89bf0ad486f56b2e2',
+                redirectUri: document.location.origin + '/assets/spotify/callback.html',
+                scope: 'user-follow-modify user-follow-read playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private user-library-read user-library-modify user-read-private user-top-read user-read-recently-played',
+                    // If you already have an authToken
+                authToken: localStorage.getItem('angular2-spotify-token')
+            }
+        }
+    ]
 })
 export class NowPlayingComponent implements OnInit {
     @HostBinding('@routerTransition') animate = true;
@@ -40,7 +51,8 @@ export class NowPlayingComponent implements OnInit {
         private _userInfoService: UserInfoService,
         private _signalRService: SignalRService,
         private _domSanitizationService: DomSanitizer,
-        private _karmaService: KarmaService
+        private _karmaService: KarmaService,
+        private _spotifyService: SpotifyService
     ) { }
 
     public createSpotifyUrl (track: IQueuedTrack) {
@@ -102,4 +114,34 @@ export class NowPlayingComponent implements OnInit {
         const totalDuration = moment.duration(track.Track.DurationMilliseconds);
         return `${elapsedDuration.minutes()}:${elapsedDuration.seconds()} / ${totalDuration.minutes()}:${totalDuration.seconds()}`;
     }
+
+    // -- Spotify test stuff
+    
+    login() {
+        this._spotifyService.login().subscribe(
+            token => {
+                console.log(token);
+                this.getUser();
+
+                this._spotifyService.getCurrentUserPlaylists().take(1).subscribe(x => {
+                    this.playlists = x;
+                });
+            },
+            err => console.error(err),
+            () => { });
+    }
+
+    private user: Object;
+    private userId;
+    public playlists;
+
+
+    getUser() {
+        this._spotifyService.getCurrentUser().subscribe(data => {
+            console.log(data);
+            this.user = data;
+            this.userId = data.id;
+        }, err=> { console.log(err); });
+    }
+
 }
