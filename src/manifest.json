@@ -9,6 +9,9 @@
 	},
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 	"permissions": [
+		"identity",
+		"https://accounts.spotify.com/authorize",
+		"https://api.spotify.com/*",
 		"http://music.trademe.local/*/*",
 		"http://guesswho/*/*",
 		"http://chc-music.trademe.local/*/*",

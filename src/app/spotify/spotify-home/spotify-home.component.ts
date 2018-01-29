@@ -39,12 +39,18 @@ export class SpotifyHomeComponent implements OnInit {
   }
 
   login () {
-    // TODO: Some useful error handling?
-    this._spotifyService.login().subscribe(
-      token => { },
-      err => console.error(err),
-      () => { }
-    );
+
+    if (document.location.protocol.indexOf('chrome') >= 0) {
+      this._spotifyUserService.loginForChromeExtension();
+    } else {
+      // TODO: Some useful error handling?
+      this._spotifyService.login().subscribe(
+        token => { },
+        err => console.error(err),
+        () => { }
+      );
+    }
+    
   }
 
 }

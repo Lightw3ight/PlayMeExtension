@@ -12,7 +12,7 @@ export interface SpotifyConfig {
   clientId: string,
   redirectUri: string,
   scope: string,
-  userAuthToken?: string,
+  getUserAuthToken: Function,
   apiBase: string,
 }
 
@@ -614,6 +614,17 @@ export class SpotifyService {
 
   //#region login
 
+  makeLoginUrl (config?) {
+    var params = {
+      client_id: this.config.clientId,
+      redirect_uri: (config && config.redirectUri) || this.config.redirectUri,
+      scope: this.config.scope || '',
+      response_type: 'token'
+    };
+
+    return 'https://accounts.spotify.com/authorize?' + this.toQueryString(params);
+  }
+
   login() {
     var promise = new Promise((resolve, reject) => {
       var w = 400,
@@ -621,15 +632,11 @@ export class SpotifyService {
         left = (screen.width / 2) - (w / 2),
         top = (screen.height / 2) - (h / 2);
 
-      var params = {
-        client_id: this.config.clientId,
-        redirect_uri: this.config.redirectUri,
-        scope: this.config.scope || '',
-        response_type: 'token'
-      };
+      var loginUrl = this.makeLoginUrl();
+
       var authCompleted = false;
       var authWindow = this.openDialog(
-        'https://accounts.spotify.com/authorize?' + this.toQueryString(params),
+        loginUrl,
         'Spotify',
         'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no,width=' + w + ',height=' + h + ',top=' + top + ',left=' + left,
         () => {
@@ -646,7 +653,7 @@ export class SpotifyService {
           }
           authCompleted = true;
 
-          this.config.userAuthToken = e.newValue;
+          // this.config.userAuthToken = e.newValue;
           window.removeEventListener('storage', storageChanged, false);
 
           return resolve(e.newValue);
@@ -687,7 +694,7 @@ export class SpotifyService {
 
   private auth(isJson?: boolean): Object {
     var auth = {
-      'Authorization': 'Bearer ' + this.config.userAuthToken
+      'Authorization': 'Bearer ' + this.config.getUserAuthToken()
     };
     if (isJson) {
       auth['Content-Type'] = 'application/json';

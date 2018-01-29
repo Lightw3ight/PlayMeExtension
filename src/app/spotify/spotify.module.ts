@@ -32,7 +32,7 @@ import { SpotifyTrackItemComponent } from './spotify-track-item/spotify-track-it
             redirectUri: document.location.origin + '/assets/spotify/callback.html',
             scope: 'user-follow-modify user-follow-read playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private user-library-read user-library-modify user-read-private user-top-read user-read-recently-played',
                 // If you already have an authToken
-            userAuthToken: localStorage.getItem('angular2-spotify-token')
+            getUserAuthToken: () => localStorage.getItem('angular2-spotify-token')
           }
         }
     ],
