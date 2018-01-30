@@ -6,6 +6,9 @@ import { request } from 'http';
 
 const LOCALSTORAGEKEY_Auth_Token = 'angular2-spotify-token';
 
+// FOR TESTING: To see the Spotify 'allow access' modal, revoke app access from:
+//  https://www.spotify.com/nz/account/apps/
+
 @Injectable()
 export class SpotifyUserService {
 
@@ -19,11 +22,21 @@ export class SpotifyUserService {
     this._checkForSavedAuth();
 
     this.currentUser = this._currentUser.asObservable();
+
+    window.addEventListener('storage', (e) => this._storageChangedHandler(e), false);
+
+  }
+
+  private _storageChangedHandler (e) {
+    if (e.key === 'angular2-spotify-token') {
+      this._checkForSavedAuth();
+    }
   }
 
   private _checkForSavedAuth () {
     // TODO: Add some wrapper service for local service access?
     if (!window.localStorage.getItem(LOCALSTORAGEKEY_Auth_Token)) {
+      this._currentUser.next(null);
       return;
     }
 
@@ -60,6 +73,7 @@ export class SpotifyUserService {
       );
   }
 
-  
-
+  public clearAuthToken () {
+    window.localStorage.setItem(LOCALSTORAGEKEY_Auth_Token, null);
+  }
 }

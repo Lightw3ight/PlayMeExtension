@@ -1,11 +1,11 @@
-import { SpotifyService } from "app/spotify/spotify.service";
-import { SpotifyUserService } from "./../spotify-user.service";
-import { Component, OnInit } from "@angular/core";
+import { SpotifyService } from 'app/spotify/spotify.service';
+import { SpotifyUserService } from './../spotify-user.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: "pm-spotify-home",
-  templateUrl: "./spotify-home.component.html",
-  styleUrls: ["./spotify-home.component.scss"]
+  selector: 'pm-spotify-home',
+  templateUrl: './spotify-home.component.html',
+  styleUrls: ['./spotify-home.component.scss']
 })
 export class SpotifyHomeComponent implements OnInit {
   public currentUser$;
@@ -50,7 +50,11 @@ export class SpotifyHomeComponent implements OnInit {
         () => { }
       );
     }
-    
+
+  }
+
+  logout () {
+    this._spotifyUserService.clearAuthToken();
   }
 
 }

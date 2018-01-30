@@ -1,45 +1,70 @@
 
 <section
-class="container container--opaque">
+  class="container container--opaque">
 
-<div
-  *ngIf="(currentUser$ | async) as currentUser">
-  Logged in as {{ currentUser.display_name }}
-  <img
-    *ngIf="currentUser.images.length"
-    [src]="currentUser.images[0].url"
-    width="40"
-    height="40"
-    />
+  <div
+    *ngIf="(currentUser$ | async) as currentUser">
+    <div>
+      <span
+        class="sh-ffs">
+        Logged in as {{ currentUser.display_name }}
+      </span>
+      <img
+        *ngIf="currentUser.images.length"
+        [src]="currentUser.images[0].url"
+        width="40"
+        height="40"/>
+
+        <div
+          fxFlex="none">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu
+            #menu="matMenu">
+            <button
+              mat-menu-item
+              (click)="logout()">
+              <mat-icon>call_missed_outgoing</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
+    </div>
+    <div
+      *ngIf="playlists">
+      <h3>
+        Playlists
+      </h3>
+
+      <pm-playlist-list-item
+        *ngFor="let playlist of playlists.items"
+        [playlist]="playlist">
+      </pm-playlist-list-item>
+    </div>
+
+
+  </div>
+
+  <div
+    *ngIf="!(currentUser$ | async)">
+    <div
+      fxLayout="row">
+      Some sick features await
+    </div>
 
     <div
-      fxLayout="row"
-      fxLayoutWrap="wrap"
-      class="search-page__row">
-      <div
-        *ngIf="playlists">
-        <h3>
-          Playlists
-        </h3>
-        <pm-playlist-list-item
-          *ngFor="let playlist of playlists.items"
-          [playlist]="playlist">
-        </pm-playlist-list-item>
-      </div>
-
+      class="sh-ffs">
+      <button
+        *ngIf="!user"
+        (click)="login()"
+        type="button"
+        mat-raised-button>
+        Login
+      </button>
     </div>
-</div>
-
-<div
-  *ngIf="!(currentUser$ | async)">
-  Is not logged in
-
-  <button
-    *ngIf="!user"
-    (click)="login()"
-    type="button"
-    mat-raised-button>
-    Login
-  </button>
-</div>
+  </div>
 </section>
