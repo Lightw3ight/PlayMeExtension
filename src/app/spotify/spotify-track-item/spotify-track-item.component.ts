@@ -5,7 +5,10 @@ import { QueueService } from 'app/api';
 @Component({
   selector: 'pm-spotify-track-item',
   templateUrl: './spotify-track-item.component.html',
-  styleUrls: ['./spotify-track-item.component.scss']
+  styleUrls: [
+    '../../shared/track-item/track-item.scss',
+    './spotify-track-item.component.scss'
+  ]
 })
 export class SpotifyTrackItemComponent implements OnInit {
 

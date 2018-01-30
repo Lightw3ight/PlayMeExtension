@@ -1,20 +1,27 @@
-<a
-  [routerLink]="['/spotify/playlist', playlist.owner.id, playlist.id]"
-	[attr.title]="playlist.name">
-	<mat-card>
-		<img
-			mat-card-image
-      [src]="playlistImage"
-      height="60"
-      width="60"
-      style="width: 60px">
-		<mat-card-content>
-      {{ playlist.name }}
+<div
+  fxLayout="row"
+  fxLayoutWrap="start centre">
+  <a
+    [routerLink]="['/spotify/playlist', playlist.owner.id, playlist.id]"
+    [attr.title]="playlist.name">
+    <div
+      class="track-item__col"
+      fxFlex="none">
+      <img
+        [src]="playlistImage"
+        width="60">
+      </div>
+      <div
+        class="track-item__col track-item__details"
+        fxFlex
+        fxFlexFill>
 
-      <aside>
+        {{ playlist.name }}
+      </div>
+
+      <!-- <aside>
         {{ playlist.tracks.total}}
-      </aside>
-		</mat-card-content>
-	</mat-card>
-</a>
+      </aside> -->
+  </a>
+</div>
 

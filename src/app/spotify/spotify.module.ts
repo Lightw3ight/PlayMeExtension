@@ -1,3 +1,4 @@
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
@@ -18,6 +19,7 @@ import { SpotifyTrackItemComponent } from './spotify-track-item/spotify-track-it
         HttpModule,
         RouterModule,
 
+        FlexLayoutModule,
         MatCardModule,
         MatIconModule,
         MatButtonModule,

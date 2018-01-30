@@ -9,7 +9,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
     selector: 'pm-queued-track',
     templateUrl: 'queued-track.component.html',
     styleUrls: [
-        '../simple-track-list-item/track-item.scss',
+        '../track-item/track-item.scss',
         './queued-track.component.scss'
     ]
 })
