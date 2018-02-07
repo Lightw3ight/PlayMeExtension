@@ -41,6 +41,9 @@ interface HttpRequestOptions {
   headers?: Headers,
 }
 
+const LOCALSTORAGEKEY_Auth_Token = 'angular2-spotify-token';
+const LOCALSTORAGEKEY_Auth_Token_expiry = 'angular2-spotify-token-expiry';
+
 @Injectable()
 // export default class SpotifyService {
 export class SpotifyService {
@@ -647,7 +650,7 @@ export class SpotifyService {
       );
 
       var storageChanged = (e) => {
-        if (e.key === 'angular2-spotify-token') {
+        if (e.key === LOCALSTORAGEKEY_Auth_Token) {
           if (authWindow) {
             authWindow.close();
           }
@@ -663,6 +666,54 @@ export class SpotifyService {
     });
 
     return Observable.fromPromise(promise).catch(this.handleError);
+  }
+
+  readonly TOKEN_REFRESH_BUFFER_MINS = 2;
+  shouldRefreshToken (): boolean {
+    if (!window.localStorage.getItem(LOCALSTORAGEKEY_Auth_Token)) {
+      return false;
+    }
+
+    let tokenExpiryStr = window.localStorage.getItem(LOCALSTORAGEKEY_Auth_Token_expiry);
+    if (!tokenExpiryStr) { return false; }
+
+    let tokenExpiry = new Date(tokenExpiryStr);
+    if (!tokenExpiry) { return false; }
+
+    let maxBufferPeriod = new Date(new Date().getTime() - this.TOKEN_REFRESH_BUFFER_MINS * 60 * 1000);
+    return maxBufferPeriod > tokenExpiry;
+  }
+
+  silentTokenRefresh () {
+
+    let promise = new Promise((resolve, reject) => {
+
+      let iframe = document.createElement('iframe');
+      iframe.style.display = "none";
+      iframe.src = this.makeLoginUrl();
+
+      let authCompleted = false;
+
+      let storageChanged = (e) => {
+        if (e.key === 'angular2-spotify-token') {
+          if (iframe) {
+            document.body.removeChild(iframe);
+          }
+          authCompleted = true;
+
+          // this.config.userAuthToken = e.newValue;
+          window.removeEventListener('storage', storageChanged, false);
+
+          return resolve(e.newValue);
+        }
+      };
+      window.addEventListener('storage', storageChanged, false);
+
+      // TODO: Add some kinda timeout (3s?) to send a reject()
+      document.body.appendChild(iframe);
+    });
+
+    return Observable.fromPromise(promise).catch(this.handleError);    
   }
 
   //#endregion

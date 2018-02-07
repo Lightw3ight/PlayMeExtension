@@ -11,8 +11,14 @@
             if (window.location.search.substring(1).indexOf("error") !== -1) {
                 window.close();
             } else if (hash) {
-                var token = window.location.hash.split('&')[0].split('=')[1];
+
+                let hashParams = window.location.hash.split('&');
+                var token = hashParams[0].split('=')[1];
                 localStorage.setItem('angular2-spotify-token', token);
+
+                let tokenExpiryResult = +(hashParams[2].split('=')[1]);
+                let tokenExpiry = new Date(new Date().getTime() + tokenExpiryResult * 1000);
+                localStorage.setItem('angular2-spotify-token-expiry', tokenExpiry.toJSON());
             }
         }
     </script>
