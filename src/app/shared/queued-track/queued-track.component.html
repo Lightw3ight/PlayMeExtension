@@ -125,24 +125,40 @@
 		class="track-item__col"
 		fxFlex="none">
 		<div
+			[pmTooltipTrigger]="queuedTrack?.LikeCount ? likeList : null"
 			class="badge badge-like user-list-container">
 			{{queuedTrack.LikeCount}}
-			<pm-user-list
+			<pm-tooltip
+				position="middle left"
+				#likeList>
+				<pm-user-list
+					title="Likes"
+					[opinions]="queuedTrack?.Likes"
+					*ngIf="queuedTrack?.LikeCount"
+					position="left">
+				</pm-user-list>
+			</pm-tooltip>
+			<!-- <pm-user-list
 				title="Likes"
 				[opinions]="queuedTrack?.Likes"
 				*ngIf="queuedTrack?.LikeCount"
 				position="left">
-			</pm-user-list>
+			</pm-user-list> -->
 		</div>
 		<div
+			[pmTooltipTrigger]="queuedTrack?.VetoCount ? vetoList : null"
 			class="badge badge-veto user-list-container">
 			{{queuedTrack.VetoCount}}
-			<pm-user-list
-				title="Vetoes"
-				[opinions]="queuedTrack?.Vetoes"
-				*ngIf="queuedTrack?.VetoCount"
-				position="left">
-			</pm-user-list>
+			<pm-tooltip
+				position="middle left"
+				#vetoList>
+				<pm-user-list
+					title="Vetoes"
+					[opinions]="queuedTrack?.Vetoes"
+					*ngIf="queuedTrack?.VetoCount"
+					position="left">
+				</pm-user-list>
+			</pm-tooltip>
 		</div>
 	</div>
 </div>

@@ -16,6 +16,9 @@ import { QueuedTrackComponent } from './queued-track/queued-track.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { QueueWithCommentComponent } from './queue-with-comment/queue-with-comment.component';
 import { SimpleTrackListItemComponent } from './simple-track-list-item/simple-track-list-item.component';
+import { TooltipModule } from './tooltip/tooltip.module';
+import { TooltipComponent } from './tooltip/tooltip.component';
+import { TooltipTriggerDirective } from './tooltip/tooltip-trigger.directive';
 
 @NgModule({
     imports: [
@@ -27,7 +30,8 @@ import { SimpleTrackListItemComponent } from './simple-track-list-item/simple-tr
         UserListModule,
         QueueWithCommentModule,
         OpinionButtonsModule,
-        FixedBackgroundModule
+        FixedBackgroundModule,
+        TooltipModule
     ],
     exports: [
         OpinionButtonsComponent,
@@ -36,7 +40,9 @@ import { SimpleTrackListItemComponent } from './simple-track-list-item/simple-tr
         TrackListItemComponent,
         UserListComponent,
         FixedBackgroundComponent,
-        QueueWithCommentComponent
+        QueueWithCommentComponent,
+        TooltipComponent,
+        TooltipTriggerDirective
     ],
     providers: [
     ]
