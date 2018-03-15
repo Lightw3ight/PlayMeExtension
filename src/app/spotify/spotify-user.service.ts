@@ -13,9 +13,9 @@ const LOCALSTORAGEKEY_Auth_Token_expiry = 'angular2-spotify-token-expiry';
 @Injectable()
 export class SpotifyUserService {
 
-  public currentUser: Observable<any>;
+  public currentUser: Observable<IHttpAsyncItem<any>>;
 
-  private _currentUser: BehaviorSubject<any> = new BehaviorSubject(null);
+  private _currentUser: BehaviorSubject<IHttpAsyncItem<any>> = new BehaviorSubject(null);
 
   constructor (
     private _spotifyService: SpotifyService
@@ -35,9 +35,11 @@ export class SpotifyUserService {
   }
 
   private _checkForSavedAuth () {
+    this._currentUser.next({ isLoading: true, result: null });
+
     // TODO: Add some wrapper service for local service access?
     if (!window.localStorage.getItem(LOCALSTORAGEKEY_Auth_Token)) {
-      this._currentUser.next(null);
+      this._currentUser.next({ isLoading: false, result: null });
       return;
     }
 
@@ -52,7 +54,7 @@ export class SpotifyUserService {
     this._spotifyService.getCurrentUser()
         .take(1)
         .subscribe(user => {
-          this._currentUser.next(user);
+          this._currentUser.next({ isLoading: false, result: user });
         });
   }
 

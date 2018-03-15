@@ -1,17 +1,23 @@
 
 <section
+  *ngIf="(currentUser$ | async) as currentUser"
   class="container container--opaque">
 
   <div
-    *ngIf="(currentUser$ | async) as currentUser">
+    *ngIf="currentUser.isLoading">
+    Loading ... ...
+  </div>
+
+  <div
+    *ngIf="(!currentUser.isLoading && currentUser.result) as user">
     <div>
       <span
         class="sh-ffs">
-        Logged in as {{ currentUser.display_name }}
+        Logged in as {{ user.display_name }}
       </span>
       <img
-        *ngIf="currentUser.images.length"
-        [src]="currentUser.images[0].url"
+        *ngIf="user.images.length"
+        [src]="user.images[0].url"
         width="40"
         height="40"/>
 
@@ -35,22 +41,27 @@
         </div>
     </div>
     <div
-      *ngIf="playlists">
+      *ngIf="(playlists$ | async) as playlists">
       <h3>
         Playlists
       </h3>
+      <div
+        *ngIf="playlists.isLoading">
+        Loading!@#...
+      </div>
 
-      <pm-playlist-list-item
-        *ngFor="let playlist of playlists.items"
-        [playlist]="playlist">
-      </pm-playlist-list-item>
+      <div
+        *ngIf="!playlists.isLoading">
+        <pm-playlist-list-item
+          *ngFor="let playlist of playlists.result.items"
+          [playlist]="playlist">
+        </pm-playlist-list-item>
+      </div>
     </div>
-
-
   </div>
 
   <div
-    *ngIf="!(currentUser$ | async)">
+    *ngIf="!currentUser.isLoading && !currentUser.result">
     <div
       fxLayout="row">
       Some sick features await

@@ -1,6 +1,7 @@
 import { SpotifyService } from 'app/spotify/spotify.service';
 import { SpotifyUserService } from './../spotify-user.service';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'pm-spotify-home',
@@ -10,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class SpotifyHomeComponent implements OnInit {
   public currentUser$;
 
-  public playlists;
+  public playlists$: Observable<IHttpAsyncItem<any>>;
 
   constructor (
     private _spotifyService: SpotifyService,
@@ -25,16 +26,24 @@ export class SpotifyHomeComponent implements OnInit {
         if (user) {
           this._loadPlaylists();
         } else {
-          this.playlists = null;
+          this.playlists$ = Observable.of({
+            isLoading: false,
+            result: null
+          });
         }
       });
   }
 
   private _loadPlaylists () {
-    this._spotifyService.getCurrentUserPlaylists()
-        .take(1)
-        .subscribe(result => {
-          this.playlists = result;
+    this.playlists$ = this._spotifyService.getCurrentUserPlaylists()
+      .take(1)
+      .map((result) => ({
+        isLoading: false,
+        result: result
+      }))
+      .startWith({
+        isLoading: true,
+        result: null
       });
   }
 

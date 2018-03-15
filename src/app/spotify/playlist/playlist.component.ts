@@ -2,6 +2,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { SpotifyService } from 'app/spotify/spotify.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'pm-playlist',
@@ -10,7 +11,7 @@ import { SpotifyService } from 'app/spotify/spotify.service';
 })
 export class PlaylistComponent implements OnInit {
 
-  public playlist;
+  public playlist$: Observable<IHttpAsyncItem<any>>;
 
   constructor (
     private _route: ActivatedRoute,
@@ -23,11 +24,17 @@ export class PlaylistComponent implements OnInit {
         .subscribe(params => {
           const playlistId = params['id'];
           const playlistOwnerId = params['user'];
-          this._spotifyService
+
+          this.playlist$ = this._spotifyService
               .getPlaylist(playlistOwnerId, playlistId)
               .take(1)
-              .subscribe(playlist => {
-                this.playlist = playlist;
+              .map(playlist => ({
+                isLoading: false,
+                result: playlist
+              }))
+              .startWith({
+                isLoading: true,
+                result: null
               });
 
     });

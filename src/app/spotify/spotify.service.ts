@@ -713,7 +713,7 @@ export class SpotifyService {
       document.body.appendChild(iframe);
     });
 
-    return Observable.fromPromise(promise).catch(this.handleError);    
+    return Observable.fromPromise(promise).catch(this.handleError);
   }
 
   //#endregion

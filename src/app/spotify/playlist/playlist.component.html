@@ -1,14 +1,18 @@
 <div
-  *ngIf="!playlist">
-</div>
-<div
-  *ngIf="playlist">
-  <h1>
-    {{ playlist.name }}
-  </h1>
+  *ngIf="(playlist$ | async) as playlist">
+  <div
+    *ngIf="playlist.isLoading">
+    Loading .. .. ..
+  </div>
+  <div
+    *ngIf="!playlist.isLoading">
+    <h1>
+      {{ playlist.result.name }}
+    </h1>
 
-  <pm-spotify-track-item
-    *ngFor="let track of playlist.tracks.items"
-    [trackContainer]="track">
-  </pm-spotify-track-item>
+    <pm-spotify-track-item
+      *ngFor="let track of playlist.result.tracks.items"
+      [trackContainer]="track">
+    </pm-spotify-track-item>
+  </div>
 </div>
