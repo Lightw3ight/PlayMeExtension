@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { QueueService } from 'app/api';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'pm-spotify-track-item',
@@ -10,15 +11,24 @@ import { QueueService } from 'app/api';
     './spotify-track-item.component.scss'
   ]
 })
-export class SpotifyTrackItemComponent implements OnInit {
+export class SpotifyTrackItemComponent implements OnInit, OnDestroy {
+
 
   @Input() trackContainer;
+
+  private _isQueued = false;
+
+  private _destroyed$: Subject<any> = new Subject<any>();
 
   constructor (
     private _queueService: QueueService
   ) { }
 
   ngOnInit () {
+  }
+
+  ngOnDestroy (): void {
+    this._destroyed$.next();
   }
 
   get track () {
@@ -36,17 +46,23 @@ export class SpotifyTrackItemComponent implements OnInit {
   }
 
   get isAlreadyQueued () {
-    return false;
+    return this._isQueued;
   }
 
   queueTrack () {
     this._queueService
         .queueTrackById('sp', this.trackContainer.track.id)
-        .subscribe();
+        .takeUntil(this._destroyed$)
+        .subscribe(() => {
+
+          // Note: Show this is only temporary (for this playlist view).
+          // We'd need more from the API to figure this one out.
+          // (Namely the current user's name, and cross-reference it to the currently playing + queued list...)
+          this._isQueued = true;
+        });
   }
 
+  // TODO
   // queueWithComment () { }
-
-
 
 }

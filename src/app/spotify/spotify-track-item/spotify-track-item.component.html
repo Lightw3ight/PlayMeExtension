@@ -2,10 +2,11 @@
 	fxLayout="row"
 	fxLayoutAlign="start center">
 	<div
+		*ngIf="!isAlreadyQueued"
 		class="track-item__col"
 		fxFlex="none">
 		<img
-      [src]="trackImage"
+			[src]="trackImage"
 			class="track-item__album-image">
 
 		<button
@@ -18,10 +19,11 @@
 	</div>
 
 	<div
-		class="track-item__col"
 		*ngIf="isAlreadyQueued"
+		class="track-item__col"
 		fxFlex="none">
-		<mat-icon class="track-item__display-icon">volume_up</mat-icon>
+		<mat-icon
+			class="track-item__display-icon">volume_up</mat-icon>
 	</div>
 
 	<div
@@ -31,14 +33,14 @@
 		<div class="track-item__wrap-trap">
 			<div class="track-item__wrap-trap-inner">
 				<label>
-          {{track.name}}
-        </label>
+					{{track.name}}
+				</label>
 				<ul class="comma-separated">
 					<li *ngFor="let artist of track.artists">
-            <a [routerLink]="['/artist', 'sp', artist.id]">
-              {{artist.name}}
-            </a>
-          </li>
+						<a [routerLink]="['/artist', 'sp', artist.id]">
+							{{artist.name}}
+						</a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -48,14 +50,11 @@
 		class="track-item__col track-item--hover-fade-in"
 		fxFlex="none"
 		*ngIf="!isAlreadyQueued">
-		<button
-			mat-icon-button
-			[matMenuTriggerFor]="menu">
-  			<mat-icon>more_vert</mat-icon>
+		<button mat-icon-button [matMenuTriggerFor]="menu">
+			<mat-icon>more_vert</mat-icon>
 		</button>
 
-		<mat-menu
-			#menu="matMenu">
+		<mat-menu #menu="matMenu">
 			<button mat-menu-item (click)="queueTrack()">
 				<mat-icon>play_arrow</mat-icon>
 				<span>Queue</span>
