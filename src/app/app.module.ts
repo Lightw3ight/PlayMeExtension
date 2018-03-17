@@ -37,7 +37,7 @@ Raven
   .install();
 
 export class RavenErrorHandler implements ErrorHandler {
-  handleError(err:any) : void {
+  handleError (err:any) : void {
     Raven.captureException(err);
   }
 }
@@ -72,7 +72,7 @@ export class RavenErrorHandler implements ErrorHandler {
         UserInfoService,
         SignalRService,
         KarmaService,
-        // { provide: ErrorHandler, useClass: RavenErrorHandler }
+        { provide: ErrorHandler, useClass: RavenErrorHandler }
     ],
     bootstrap: [AppComponent]
 })
