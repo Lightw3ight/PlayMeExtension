@@ -79,7 +79,7 @@ export class SpotifyUserService {
 
           window.localStorage.setItem(LOCALSTORAGEKEY_Auth_Token, result.access_token);
 
-          let tokenExpiryDate = new Date(new Date().getTime() + result.expires_in * 1000)
+          let tokenExpiryDate = new Date(new Date().getTime() + result.expires_in * 1000);
           window.localStorage.setItem(LOCALSTORAGEKEY_Auth_Token_expiry, tokenExpiryDate.toJSON());
 
           this._checkForSavedAuth();
@@ -88,6 +88,7 @@ export class SpotifyUserService {
   }
 
   public clearAuthToken () {
-    window.localStorage.setItem(LOCALSTORAGEKEY_Auth_Token, null);
+    window.localStorage.removeItem(LOCALSTORAGEKEY_Auth_Token);
+    this._currentUser.next({ isLoading: false, result: null });
   }
 }
