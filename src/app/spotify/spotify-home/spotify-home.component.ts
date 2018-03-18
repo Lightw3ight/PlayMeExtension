@@ -13,12 +13,26 @@ export class SpotifyHomeComponent implements OnInit {
 
   public playlists$: Observable<IHttpAsyncItem<any>>;
 
+  public hasAppErrorMessage: string;
+
   constructor (
     private _spotifyService: SpotifyService,
     private _spotifyUserService: SpotifyUserService
   ) {}
 
   ngOnInit () {
+
+    // If window.chrome.identity is missing, then it hasn't been correctly requested from the manifest.json
+    // We've seen this when:
+    // - Crashing auth stuff during dev (fix = restart Chrome)
+    // - Switching branches/versions of the plugin. (Load version without 'identity', then switch to this one needing it)
+    // --- Fix: Increment version number w/deploy, or maybe restart Chrome.
+    if (this.isRunningAsChromeExtension()
+        && !window.chrome.identity) {
+
+        this.hasAppErrorMessage = 'Error loading \'chrome auth stuff\' - soz! Please try reloading Chrome, or contact us to say it\'s stuffed.';
+      }
+
     this.currentUser$ = this._spotifyUserService.currentUser;
 
     this.currentUser$
@@ -49,7 +63,7 @@ export class SpotifyHomeComponent implements OnInit {
 
   login () {
 
-    if (document.location.protocol.indexOf('chrome') >= 0) {
+    if (this.isRunningAsChromeExtension()) {
       this._spotifyUserService.loginForChromeExtension();
     } else {
       // TODO: Some useful error handling?
@@ -64,6 +78,10 @@ export class SpotifyHomeComponent implements OnInit {
 
   logout () {
     this._spotifyUserService.clearAuthToken();
+  }
+
+  isRunningAsChromeExtension () {
+    return document.location.protocol.indexOf('chrome') >= 0;
   }
 
 }

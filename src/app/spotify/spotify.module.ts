@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
-import { MatCardModule, MatIconModule, MatButtonModule, MatMenuModule } from '@angular/material';
+import { MatCardModule, MatIconModule, MatButtonModule, MatMenuModule, MatChipsModule } from '@angular/material';
 
 import { SpotifyService, SpotifyConfig } from './spotify.service';
 import { PlaylistListItemComponent } from './playlist-list-item/playlist-list-item.component';
@@ -23,7 +23,8 @@ import { SpotifyTrackItemComponent } from './spotify-track-item/spotify-track-it
         MatCardModule,
         MatIconModule,
         MatButtonModule,
-        MatMenuModule
+        MatMenuModule,
+        MatChipsModule
     ],
     providers: [
         SpotifyService,

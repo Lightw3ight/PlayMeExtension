@@ -1,6 +1,18 @@
+<div
+  *ngIf="hasAppErrorMessage">
+  <mat-chip-list
+    class="sh-ffs">
+    <mat-chip color="warn" selected="true">
+      Something's not right
+    </mat-chip>
+  </mat-chip-list>
+  <div>
+    {{ hasAppErrorMessage }}
+  </div>
+</div>
 
 <section
-  *ngIf="(currentUser$ | async) as currentUser"
+  *ngIf="!hasAppErrorMessage && (currentUser$ | async) as currentUser"
   class="container container--opaque">
 
   <div
