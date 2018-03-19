@@ -1,0 +1,88 @@
+$arrow-size: 6px;
+
+:host {
+    position: absolute;
+    display: none;
+    background-color: black;
+    z-index: 100;
+    color: white;
+    padding: 3px 7px;
+    border-radius: 3px;
+
+
+    &.isActive {
+        display: block;
+    }
+
+    &:after {
+        position: absolute;
+        content: '';
+        border: $arrow-size solid transparent;
+    }
+
+    &.pos-vert-top.pos-hoz-middle:after {
+        border-top-color: black;
+    }
+
+    &.pos-vert-middle.pos-hoz-right:after {
+        border-right-color: black;
+    }
+
+    &.pos-vert-bottom.pos-hoz-middle:after {
+        border-bottom-color: black;
+    }
+
+    &.pos-vert-middle.pos-hoz-left:after {
+        border-left-color: black;
+    }
+
+    &.pos-vert-top {
+        top: -($arrow-size * 2);
+        transform: translateY(-$arrow-size * 2);
+        &:after {
+            top: 100%;
+            margin-top: 0;
+        }
+    }
+
+    &.pos-vert-middle {
+        &:after {
+            top: 50%;
+            margin-top: -$arrow-size;
+        }
+    }
+
+    &.pos-vert-bottom {
+        transform: translateY($arrow-size * 2);
+
+        &:after {
+            top: 0;
+            margin-top: -($arrow-size * 2);
+        }
+    }
+
+    &.pos-hoz-left {
+        transform: translateX(-$arrow-size * 2);
+
+        &:after {
+            left: 100%;
+            margin-left: 0;
+        }
+    }
+
+    &.pos-hoz-middle {
+        &:after {
+            left: 50%;
+            margin-left: -($arrow-size / 2);
+        }
+    }
+
+    &.pos-hoz-right {
+        transform: translateX($arrow-size * 2);
+        &:after {
+            left: 0;
+            margin-left: -($arrow-size * 2);
+        }
+    }
+}
+
