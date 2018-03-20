@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { QueuedTrackComponent } from './queued-track.component';
 import { MatIconModule, MatMenuModule, MatButtonModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
+import { TooltipModule } from '../tooltip/tooltip.module';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { CommonModule } from '@angular/common';
         FlexLayoutModule,
         MatIconModule,
         MatMenuModule,
-        MatButtonModule
+        MatButtonModule,
+        TooltipModule
     ],
     exports: [QueuedTrackComponent],
     declarations: [QueuedTrackComponent]
