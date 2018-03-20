@@ -58,6 +58,7 @@ $item-padding: 4px;
 }
 
 .track-item__album-image,
+.track-item__playlist-image,
 .track-item__user-image {
     width: $item-height - ($item-padding * 2);
     margin: $item-padding 0;

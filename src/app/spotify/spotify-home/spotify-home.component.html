@@ -1,93 +1,70 @@
 <div
-  *ngIf="hasAppErrorMessage">
-  <mat-chip-list
-    class="sh-ffs">
-    <mat-chip color="warn" selected="true">
-      Something's not right
-    </mat-chip>
-  </mat-chip-list>
-  <div>
-    {{ hasAppErrorMessage }}
-  </div>
+    *ngIf="hasAppErrorMessage">
+    <mat-chip-list
+        class="sh-ffs">
+        <mat-chip color="warn" selected="true">
+        Something's not right
+        </mat-chip>
+    </mat-chip-list>
+    <div>
+        {{ hasAppErrorMessage }}
+    </div>
 </div>
 
 <section
-  *ngIf="!hasAppErrorMessage && (currentUser$ | async) as currentUser"
-  class="container container--opaque">
+    *ngIf="!hasAppErrorMessage && (currentUser$ | async) as currentUser">
 
-  <div
-    *ngIf="currentUser.isLoading">
-    Loading ... ...
-  </div>
+    <p
+        class="padding-top-half"
+        *ngIf="currentUser.isLoading">
+        Loading profile...
+    </p>
 
-  <div
-    *ngIf="(!currentUser.isLoading && currentUser.result) as user">
-    <div>
-      <span
-        class="sh-ffs">
-        Logged in as {{ user.display_name }}
-      </span>
-      <img
-        *ngIf="user.images.length"
-        [src]="user.images[0].url"
-        width="40"
-        height="40"/>
-
+    <div
+        *ngIf="(!currentUser.isLoading && currentUser.result) as user">
         <div
-          fxFlex="none">
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="menu">
-              <mat-icon>more_vert</mat-icon>
-          </button>
+            *ngIf="(playlists$ | async) as playlists">
+            <p
+                class="padding-top-half"
+                *ngIf="playlists.isLoading">
+                Loading playlists...
+            </p>
 
-          <mat-menu
-            #menu="matMenu">
-            <button
-              mat-menu-item
-              (click)="logout()">
-              <mat-icon>call_missed_outgoing</mat-icon>
-              <span>Logout</span>
-            </button>
-          </mat-menu>
+            <div
+                *ngIf="!playlists.isLoading">
+                <pm-playlist-list-item
+                    *ngFor="let playlist of playlists.result.items"
+                    [playlist]="playlist">
+                </pm-playlist-list-item>
+            </div>
         </div>
-    </div>
-    <div
-      *ngIf="(playlists$ | async) as playlists">
-      <h3>
-        Playlists
-      </h3>
-      <div
-        *ngIf="playlists.isLoading">
-        Loading!@#...
-      </div>
 
-      <div
-        *ngIf="!playlists.isLoading">
-        <pm-playlist-list-item
-          *ngFor="let playlist of playlists.result.items"
-          [playlist]="playlist">
-        </pm-playlist-list-item>
-      </div>
-    </div>
-  </div>
-
-  <div
-    *ngIf="!currentUser.isLoading && !currentUser.result">
-    <div
-      fxLayout="row">
-      Some sick features await
+        <p
+            class="spotify-home__login-info">
+            <img
+                *ngIf="user.images.length"
+                [src]="user.images[0].url"
+                width="40"
+                height="40"/>
+            You are currently logged into Spotify as {{ user.display_name }}
+            <a
+                class="spotify-home__link-button"
+                (click)="logout()">
+                log out</a>
+        </p>
     </div>
 
-    <div
-      class="sh-ffs">
-      <button
-        *ngIf="!user"
-        (click)="login()"
-        type="button"
-        mat-raised-button>
-        Login
-      </button>
-    </div>
-  </div>
+    <p
+        *ngIf="!currentUser.isLoading && !currentUser.result"
+        class="padding-top-half">
+        <img
+            class="spotify-logo"
+            src="/assets/images/spotify-logo.svg">
+        <a
+            class="spotify-home__link-button"
+            *ngIf="!user"
+            (click)="login()">
+            Click here</a>
+        to connect your Spotify account to access your playlists
+    </p>
 </section>
