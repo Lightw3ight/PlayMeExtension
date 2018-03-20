@@ -1,0 +1,93 @@
+<div
+  *ngIf="hasAppErrorMessage">
+  <mat-chip-list
+    class="sh-ffs">
+    <mat-chip color="warn" selected="true">
+      Something's not right
+    </mat-chip>
+  </mat-chip-list>
+  <div>
+    {{ hasAppErrorMessage }}
+  </div>
+</div>
+
+<section
+  *ngIf="!hasAppErrorMessage && (currentUser$ | async) as currentUser"
+  class="container container--opaque">
+
+  <div
+    *ngIf="currentUser.isLoading">
+    Loading ... ...
+  </div>
+
+  <div
+    *ngIf="(!currentUser.isLoading && currentUser.result) as user">
+    <div>
+      <span
+        class="sh-ffs">
+        Logged in as {{ user.display_name }}
+      </span>
+      <img
+        *ngIf="user.images.length"
+        [src]="user.images[0].url"
+        width="40"
+        height="40"/>
+
+        <div
+          fxFlex="none">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu
+            #menu="matMenu">
+            <button
+              mat-menu-item
+              (click)="logout()">
+              <mat-icon>call_missed_outgoing</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
+    </div>
+    <div
+      *ngIf="(playlists$ | async) as playlists">
+      <h3>
+        Playlists
+      </h3>
+      <div
+        *ngIf="playlists.isLoading">
+        Loading!@#...
+      </div>
+
+      <div
+        *ngIf="!playlists.isLoading">
+        <pm-playlist-list-item
+          *ngFor="let playlist of playlists.result.items"
+          [playlist]="playlist">
+        </pm-playlist-list-item>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!currentUser.isLoading && !currentUser.result">
+    <div
+      fxLayout="row">
+      Some sick features await
+    </div>
+
+    <div
+      class="sh-ffs">
+      <button
+        *ngIf="!user"
+        (click)="login()"
+        type="button"
+        mat-raised-button>
+        Login
+      </button>
+    </div>
+  </div>
+</section>

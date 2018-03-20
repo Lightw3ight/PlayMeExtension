@@ -19,6 +19,7 @@ import {
 } from '../api';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { switchMap, takeUntil, map } from 'rxjs/operators';
+import { SpotifyService } from 'app/spotify/spotify.service';
 
 @Component({
     selector: 'pm-now-playing',
@@ -40,7 +41,8 @@ export class NowPlayingComponent implements OnInit {
         private _userInfoService: UserInfoService,
         private _signalRService: SignalRService,
         private _domSanitizationService: DomSanitizer,
-        private _karmaService: KarmaService
+        private _karmaService: KarmaService,
+        private _spotifyService: SpotifyService
     ) { }
 
     public createSpotifyUrl (track: IQueuedTrack) {
@@ -102,4 +104,5 @@ export class NowPlayingComponent implements OnInit {
         const totalDuration = moment.duration(track.Track.DurationMilliseconds);
         return `${elapsedDuration.minutes()}:${elapsedDuration.seconds()} / ${totalDuration.minutes()}:${totalDuration.seconds()}`;
     }
+
 }

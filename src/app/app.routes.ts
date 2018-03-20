@@ -6,6 +6,7 @@ import { SearchComponent } from './search/search.component';
 import { ArtistComponent } from './artist/artist.component';
 import { QueueComponent } from './queue/queue.component';
 import { HistoryComponent } from './history/history.component';
+import { PlaylistComponent } from 'app/spotify/playlist/playlist.component';
 
 const appRoutes: Routes = [
     {
@@ -19,7 +20,10 @@ const appRoutes: Routes = [
     { path: 'artist/:provider/:id', component: ArtistComponent },
     { path: 'queue', component: QueueComponent, data: { opaqueHeader: true } },
     { path: 'history', component: HistoryComponent, data: { opaqueHeader: true } },
-    { path: 'likes', component: LikesComponent, data: { opaqueHeader: true } }
+    { path: 'likes', component: LikesComponent, data: { opaqueHeader: true } },
+
+    // TODO: Proper child router:
+    { path: 'spotify/playlist/:user/:id', component: PlaylistComponent }
 ];
 
 export const appRoutingProviders: any[] = [

@@ -100,7 +100,8 @@
 </ng-container>
 <section
     class="container container--opaque now-playing__queue-card">
-    <mat-tab-group>
+    <mat-tab-group
+      selectedIndex="2">
         <mat-tab
             label="Next up">
             <p
@@ -137,6 +138,10 @@
                 [routerLink]="['/history']">
                 See all history
             </a>
+        </mat-tab>
+        <mat-tab
+            label="Spotify">
+            <pm-spotify-home></pm-spotify-home>
         </mat-tab>
     </mat-tab-group>
 </section>

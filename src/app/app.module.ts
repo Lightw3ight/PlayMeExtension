@@ -7,14 +7,14 @@ import { HistoryModule } from './history/history.module';
 import { ArtistModule } from './artist/artist.module';
 import { AlbumModule } from './album/album.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { routing, appRoutingProviders } from './app.routes';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import {
     SearchService,
     ArtistService,
@@ -24,9 +24,25 @@ import {
     UserInfoService,
     SignalRService
 } from './api';
+import * as Raven from 'raven-js';
 
 import { AppComponent } from './app.component';
 import { MatSidenavModule } from '@angular/material';
+import { SpotifyModule } from './spotify/spotify.module';
+import { environment } from './environment';
+
+Raven
+  .config('https://4a8c4ab293924b68b0826a87a1d93b06@sentry.io/287934', {
+    environment: environment.production ? 'production' : 'dev'
+  })
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err:any) : void {
+    Raven.captureException(err);
+  }
+}
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -42,7 +58,8 @@ import { MatSidenavModule } from '@angular/material';
         SearchModule,
         MatSidenavModule,
         HttpClientModule,
-        LikesModule
+        LikesModule,
+        SpotifyModule
     ],
     declarations: [
         AppComponent
@@ -56,7 +73,8 @@ import { MatSidenavModule } from '@angular/material';
         AudioZoneService,
         UserInfoService,
         SignalRService,
-        KarmaService
+        KarmaService,
+        // { provide: ErrorHandler, useClass: RavenErrorHandler }
     ],
     bootstrap: [AppComponent]
 })
