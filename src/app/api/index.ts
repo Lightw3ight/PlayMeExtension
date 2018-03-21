@@ -7,3 +7,5 @@ export * from './signalr.service';
 export * from './user-info.service';
 export * from './audio-zone.interface';
 export * from './karma.service';
+export * from './spotify.service';
+export * from './spotify-auth.service';

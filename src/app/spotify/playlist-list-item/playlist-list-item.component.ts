@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { IPlaylist } from '../../models';
 
 @Component({
     selector: 'pm-playlist-list-item',
@@ -9,15 +10,9 @@ import { Component, OnInit, Input } from '@angular/core';
     ]
 })
 export class PlaylistListItemComponent {
-    @Input() playlist;
+    @Input() playlist: IPlaylist;
 
-    get playlistImage () {
-        const images = this.playlist.images;
-        if (!images
-            || !images.length) {
-            return null;
-        }
-
-        return images[images.length - 1].url;
+    public get playlistImage () {
+        return this.playlist.ImageUrls.length ? this.playlist.ImageUrls[0] : null;
     }
 }

@@ -15,4 +15,5 @@ export class SpotifyPlaylistModel {
     name: string;
     public: false;
     tracks: { items: SpotifyTrackItemModel[], total: number };
+    owner: { id: string };
 }

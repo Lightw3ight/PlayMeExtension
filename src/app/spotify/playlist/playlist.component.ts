@@ -1,14 +1,10 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
-import { SpotifyService } from 'app/spotify/spotify.service';
 import { Observable } from 'rxjs/Observable';
-import { switchMap, map, startWith, filter } from 'rxjs/operators';
-import { SpotifyPlaylistModel } from '../models/spotify-playlist.model';
-import { ITrack, IAlbum, IArtist } from '../../models';
-import { SpotifyTrackModel } from '../models/spotify-track.model';
-import { SpotifyAlbumModel } from '../models/spotify-album.model';
-import { SpotifyArtistModel } from '../models/spotify-artist.model';
+import { switchMap, map, startWith, filter, shareReplay } from 'rxjs/operators';
+import { ITrack, IAlbum, IArtist, IPlaylist } from '../../models';
+import { SpotifyService } from '../../api/spotify.service';
 
 @Component({
     selector: 'pm-playlist',
@@ -17,7 +13,7 @@ import { SpotifyArtistModel } from '../models/spotify-artist.model';
 })
 export class PlaylistComponent implements OnInit {
 
-    public playlist$: Observable<IHttpAsyncItem<SpotifyPlaylistModel>>;
+    public playlist$: Observable<IHttpAsyncItem<IPlaylist>>;
     public tracks$: Observable<ITrack[]>;
     public playlistUrl$: Observable<string>;
 
@@ -39,68 +35,19 @@ export class PlaylistComponent implements OnInit {
             startWith({
                 isLoading: true,
                 result: null
-            })
+            }),
+            shareReplay()
         );
 
         this.tracks$ = this.playlist$.pipe(
             filter(o => !o.isLoading && !!o.result),
-            map(o => o.result.tracks),
-            map(tracks => tracks.items.map(trackItem => this.mapTrack(trackItem.track)))
+            map(o => o.result.Tracks)
         );
 
         this.playlistUrl$ = this.playlist$.pipe(
             filter(o => !o.isLoading && !!o.result),
             map(o => o.result),
-            map(playlist => playlist.images.length ? playlist.images[0].url : '')
+            map(playlist => playlist.ImageUrls.length ? playlist.ImageUrls[0] : '')
         );
-    }
-
-    private mapTrack (track: SpotifyTrackModel): ITrack {
-        return <ITrack> {
-            Name: track.name,
-            Link: track.id,
-            Duration: this.msToTime(track.duration_ms),
-            Album: this.mapAlbum(track.album),
-            Artists: track.artists.map(a => this.mapArtist(a)),
-            MusicProvider: { Identifier: 'sp' }
-        };
-    }
-
-    private mapArtist (artist: SpotifyArtistModel): IArtist {
-        return <IArtist> {
-            Name: artist.name,
-            Link: artist.id,
-            MusicProvider: { Identifier: 'sp' }
-        };
-    }
-
-    private mapAlbum (album: SpotifyAlbumModel): IAlbum {
-        return <IAlbum> {
-            Name: album.name,
-            Link: album.id,
-            ArtworkUrlSmall: album.images[0].url,
-            ArtworkUrlMedium: album.images[0].url,
-            ArtworkUrlLarge: album.images[0].url,
-            MusicProvider: { Identifier: 'sp' }
-        };
-    }
-
-    private msToTime (duration) {
-        // let ms = (duration % 1000) / 100;
-        const h = duration / (1000 * 60 * 60);
-        const hours = Math.floor(h);
-
-        const m = (h - hours) * 60;
-        const minutes = Math.floor(m);
-
-        const seconds = Math.floor((m - minutes) * 60);
-        // const seconds = Math.floor(duration / 1000);
-        // const minutes = Math.floor(duration / (1000 * 60));
-
-        return hours ? `${this.padNumber(hours)}:${this.padNumber(minutes)}:${this.padNumber(seconds)}` : `${this.padNumber(minutes)}:${this.padNumber(seconds)}`;
-    }
-
-    private padNumber (num: number) {
-        return (num < 10) ? '0' + num : num;
     }
 }

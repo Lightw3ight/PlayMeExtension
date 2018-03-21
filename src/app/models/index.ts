@@ -12,3 +12,4 @@ export * from './ISearchResults';
 export * from './ITrack';
 export * from './ITrackPagedList';
 export * from './IVeto';
+export * from './playlist.interface';

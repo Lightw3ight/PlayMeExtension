@@ -33,8 +33,8 @@
             <div
                 *ngIf="!playlists.isLoading">
                 <pm-playlist-list-item
-                    [routerLink]="['/spotify/playlist', playlist.owner.id, playlist.id]"
-                    *ngFor="let playlist of playlists.result.items"
+                    [routerLink]="['/spotify/playlist', playlist.OwnerId, playlist.Link]"
+                    *ngFor="let playlist of playlists.result"
                     [playlist]="playlist">
                 </pm-playlist-list-item>
             </div>
