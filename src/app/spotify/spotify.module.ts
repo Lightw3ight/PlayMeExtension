@@ -12,12 +12,14 @@ import { SpotifyUserService } from 'app/spotify/spotify-user.service';
 import { SpotifyHomeComponent } from './spotify-home/spotify-home.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { SpotifyTrackItemComponent } from './spotify-track-item/spotify-track-item.component';
+import { SharedModule } from '../shared';
 
 @NgModule({
     imports: [
         CommonModule,
         HttpModule,
         RouterModule,
+        SharedModule,
 
         FlexLayoutModule,
         MatCardModule,

@@ -1,0 +1,54 @@
+:host {
+    display: grid;
+    grid-template-columns: min-content auto min-content;
+    grid-column-gap: 10px;
+    align-items: center;
+    padding: 5px 10px 5px 5px;
+    border-radius: 3px;
+    color: #333;
+    border-radius: 3px;
+    transition: background-color ease-in .15s;
+
+    .list-item__hover-show {
+        display: none;   
+    }
+
+    &:hover {
+        background-color: #EEE;
+
+        .list-item__hover-hide {
+            display: none;
+        }
+
+        .list-item__hover-show {
+            display: block;   
+        }
+
+        .list-item__play-button img+mat-icon {
+            opacity: 1;
+        }
+    }
+}
+
+.list-item__thumb {
+    width: 40px;
+}
+
+.list-item__play-button {
+    position: relative;
+    color: white;
+    border-radius: 0;
+    background-color: transparent;
+
+    img+mat-icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 8px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+        transition: opacity ease-in .2s;
+        background-color: rgba(0,0,0,.3);
+    }
+}

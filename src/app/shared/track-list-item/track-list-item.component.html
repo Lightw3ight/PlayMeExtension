@@ -1,4 +1,63 @@
-<div
+	<div
+		*ngIf="!track?.IsAlreadyQueued">
+		<button
+			mat-icon-button
+			class="list-item__play-button"
+			type="button"
+			(click)="queueTrack()">
+			<img
+				class="list-item__thumb"
+				[src]="track?.Album.ArtworkUrlMedium">
+			<mat-icon>play_arrow</mat-icon>
+		</button>
+	</div>
+
+	<div
+		*ngIf="track?.IsAlreadyQueued">
+		<mat-icon
+			class="list-item__display-icon">volume_up</mat-icon>
+	</div>
+	
+	<div>
+		<strong>
+			{{track?.Name}}
+		</strong>
+		<ul class="comma-separated">
+			<li *ngFor="let artist of track?.Artists"><a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a></li>
+		</ul>
+	</div>
+	
+	<div
+		class="list-item__hover-hide">
+		{{ formatTime(track.Duration)}}
+	</div>
+	
+	<div
+		class="list-item__hover-show"
+		*ngIf="!isAlreadyQueued">
+		<button mat-icon-button [matMenuTriggerFor]="menu">
+			<mat-icon>more_vert</mat-icon>
+		</button>
+	
+		<mat-menu #menu="matMenu">
+			<button mat-menu-item (click)="queueTrack()">
+				<mat-icon>play_arrow</mat-icon>
+				<span>Queue</span>
+			</button>
+			<button mat-menu-item (click)="queueWithComment()">
+				<mat-icon>comment</mat-icon>
+				<span>Queue with comment</span>
+			</button>
+			<button
+				mat-menu-item
+				[routerLink]="['/album', track?.Album.MusicProvider.Identifier, track?.Album.Link]">
+				<mat-icon>album</mat-icon>
+				<span>View album</span>
+			</button>
+		</mat-menu>
+	</div>
+
+<!-- <div
 	fxLayout="row"
 	fxLayoutAlign="start center">
 	<div
@@ -66,4 +125,4 @@
 			</button>
 		</mat-menu>
 	</div>
-</div>
+</div> -->

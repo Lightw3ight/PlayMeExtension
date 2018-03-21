@@ -9,7 +9,7 @@ import { SimpleTrackListItemComponent } from '../simple-track-list-item/simple-t
     selector: 'pm-track-list-item',
     templateUrl: 'track-list-item.component.html',
     styleUrls: [
-        '../track-item/track-item.scss',
+        // '../track-item/track-item.scss',
         'track-list-item.component.scss'
         ]
 })
