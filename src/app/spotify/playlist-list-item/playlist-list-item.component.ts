@@ -8,14 +8,10 @@ import { Component, OnInit, Input } from '@angular/core';
         './playlist-list-item.component.scss'
     ]
 })
-export class PlaylistListItemComponent implements OnInit {
+export class PlaylistListItemComponent {
     @Input() playlist;
 
-    constructor() { }
-
-    ngOnInit() { }
-
-    get playlistImage() {
+    get playlistImage () {
         const images = this.playlist.images;
         if (!images
             || !images.length) {

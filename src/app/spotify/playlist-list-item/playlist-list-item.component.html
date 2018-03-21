@@ -1,18 +1,13 @@
-<a
-    class="playlist-item__container"
-    [routerLink]="['/spotify/playlist', playlist.owner.id, playlist.id]"
-    [attr.title]="playlist.name">
-    <div>
-        <img
-            [src]="playlistImage">
-    </div>
+<div>
+    <img
+        class="list-item__thumb"
+        [src]="playlistImage">
+</div>
 
-    <div>
-        <strong>{{ playlist.name }}</strong>
-    </div>
+<div>
+    <strong>{{ playlist.name }}</strong>
+</div>
 
-    <div>
-        {{ playlist.tracks.total}}&nbsp;Tracks
-    </div>
-</a>
-
+<div>
+    {{ playlist.tracks.total}}&nbsp;Tracks
+</div>

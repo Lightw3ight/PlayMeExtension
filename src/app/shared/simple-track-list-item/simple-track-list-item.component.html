@@ -1,4 +1,65 @@
+<ng-container
+	*ngIf="!track.IsAlreadyQueued">
+	<div
+		class="list-item__hover-hide">
+		{{ trackNumber }}
+	</div>
+
+	<div
+		class="list-item__hover-show">
+		<button
+			type="button"
+			mat-icon-button
+			[disabled]="track.IsAlreadyQueued"
+			(click)="queueTrack(track)">
+			<i class="icon-play"></i>
+		</button>
+	</div>
+</ng-container>
+
 <div
+	*ngIf="track.IsAlreadyQueued">
+	<mat-icon
+		class="list-item__display-icon">volume_up</mat-icon>
+</div>
+
+<div>
+	{{track?.Name}}
+</div>
+
+<div
+	class="list-item__hover-show">
+	<button
+		mat-icon-button
+		[matMenuTriggerFor]="menu"
+		*ngIf="!track.IsAlreadyQueued">
+		<mat-icon>more_vert</mat-icon>
+	</button>
+
+	<mat-menu #menu="matMenu">
+		<button
+			mat-menu-item
+			(click)="queueTrack()">
+			<mat-icon>play_arrow</mat-icon>
+			<span>Queue</span>
+		</button>
+		<button
+			mat-menu-item
+			(click)="queueWithComment()">
+			<mat-icon>comment</mat-icon>
+			<span>Queue with comment</span>
+		</button>
+	</mat-menu>
+
+</div>
+
+<div
+	class="list-item__hover-hide">
+	<label>{{ formatTime(track.Duration) }}</label>
+</div>
+
+
+<!-- <div
 	fxLayout="row"
 	fxLayoutAlign="start center">
 	<div
@@ -67,4 +128,4 @@
 		fxFlex="none">
 		<label>{{ formatTime(track.Duration) }}</label>
 	</div>
-</div>
+</div> -->

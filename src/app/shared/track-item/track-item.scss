@@ -1,140 +1,216 @@
-$item-height: 48px;
-$item-padding: 4px;
-
 :host {
-    display: block;
-    transition: background-color .2s;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    display: grid;
+    grid-template-columns: 40px auto min-content;
+    grid-template-rows: 40px;
+    grid-column-gap: 10px;
+    align-items: center;
+    padding: 5px 10px 5px 5px;
+    border-radius: 3px;
+    color: #333;
+    border-radius: 5px;
+    transition: background-color ease-in .15s;
+
+    div:first-child {
+        justify-self: center;
+    }
+
+    .list-item__hover-show {
+        display: none;   
+    }
+
+    .list-item__hover-fade-in {
+        opacity: 0;
+        transition: opacity .2s;
+    }
 
     &:hover {
-        background-color: #EEEEEE;
+        background-color: #EEE;
 
-        .track-item--hover-hide {
+        .list-item__hover-hide {
             display: none;
         }
 
-        .track-item--hover-show {
-            display: inline-block;
+        .list-item__hover-show {
+            display: block;   
         }
 
-        .track-item--hover-fade-in {
+        .list-item__play-button img+mat-icon {
             opacity: 1;
         }
 
-        .track-item--hover-fade-out {
-            opacity: 0;
+        .list-item__hover-fade-in {
+            opacity: 1;
         }
     }
 }
 
-.track-item--hover-show {
-    display: none;
-}
-
-.track-item--hover-fade-in {
-    opacity: 0;
-    transition: opacity .2s;
-}
-
-.track-item--hover-fade-out {
-    opacity: 1;
-    transition: opacity .2s;
-}
-
-.track-item__display-icon {
-    margin: 12px;
-}
-
-.track-item__icon-size-text {
-    display: block;
-    width: $item-height - ($item-padding * 2);
-    line-height: $item-height - ($item-padding * 2);
-    text-align: center;
-}
-
-.track-item__col {
-    padding: 0 $item-padding;
-    position: relative;
-}
-
-.track-item__album-image,
-.track-item__playlist-image,
-.track-item__user-image {
-    width: $item-height - ($item-padding * 2);
-    margin: $item-padding 0;
-	height: auto;
+.list-item__thumb {
+    width: 40px;
+    width: 40px;
     display: block;
 }
 
-.track-item__user-image {
-    display: none;
-}
-
-.track-item--queued:hover {
-    .track-item__user-image {
-        display: block;
-    }
-
-    .track-item__album-image {
-        display: none;
-    }   
-}
-
-.track-item__details {
-    label {
-        font-weight: bold;
-    }
-
-    ul {
-        opacity: .5;
-    }
-}
-
-.track-item__wrap-trap {
+.list-item__play-button {
     position: relative;
-    height: $item-height;
-}
-
-.track-item__wrap-trap-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: $item-height;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-
-    >label,
-    >span,
-    >ul,
-    >a {
-        display: block;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-}
-
-.track-item__play-button {
-    position: absolute;
-    top: 0;
-    left: $item-padding;
     color: white;
     border-radius: 0;
-    background-color: rgba(0,0,0,.3);
-}
+    background-color: transparent;
 
-.track-item__col {
-    .badge {
-        margin: 12px 0;
+    img+mat-icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 8px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+        transition: opacity ease-in .2s;
+        background-color: rgba(0,0,0,.3);
     }
-
-    button {
-        margin: 4px 0;
-    }
 }
 
-.track-item__more-info {
-    padding-bottom: .25rem;
+.list-item__display-icon {
+    margin: 8px;
 }
+
+
+// $item-height: 48px;
+// $item-padding: 4px;
+
+// :host {
+//     display: block;
+//     transition: background-color .2s;
+//     border-bottom: 1px solid rgba(0,0,0,0.06);
+
+//     &:hover {
+//         background-color: #EEEEEE;
+
+//         .track-item--hover-hide {
+//             display: none;
+//         }
+
+//         .track-item--hover-show {
+//             display: inline-block;
+//         }
+
+//         .track-item--hover-fade-in {
+//             opacity: 1;
+//         }
+
+//         .track-item--hover-fade-out {
+//             opacity: 0;
+//         }
+//     }
+// }
+
+// .track-item--hover-show {
+//     display: none;
+// }
+
+// .track-item--hover-fade-in {
+//     opacity: 0;
+//     transition: opacity .2s;
+// }
+
+// .track-item--hover-fade-out {
+//     opacity: 1;
+//     transition: opacity .2s;
+// }
+
+// .track-item__display-icon {
+//     margin: 12px;
+// }
+
+// .track-item__icon-size-text {
+//     display: block;
+//     width: $item-height - ($item-padding * 2);
+//     line-height: $item-height - ($item-padding * 2);
+//     text-align: center;
+// }
+
+// .track-item__col {
+//     padding: 0 $item-padding;
+//     position: relative;
+// }
+
+// .track-item__album-image,
+// .track-item__playlist-image,
+// .track-item__user-image {
+//     width: $item-height - ($item-padding * 2);
+//     margin: $item-padding 0;
+// 	height: auto;
+//     display: block;
+// }
+
+// .track-item__user-image {
+//     display: none;
+// }
+
+// .track-item--queued:hover {
+//     .track-item__user-image {
+//         display: block;
+//     }
+
+//     .track-item__album-image {
+//         display: none;
+//     }   
+// }
+
+// .track-item__details {
+//     label {
+//         font-weight: bold;
+//     }
+
+//     ul {
+//         opacity: .5;
+//     }
+// }
+
+// .track-item__wrap-trap {
+//     position: relative;
+//     height: $item-height;
+// }
+
+// .track-item__wrap-trap-inner {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     height: $item-height;
+//     display: flex;
+//     justify-content: center;
+//     flex-direction: column;
+
+//     >label,
+//     >span,
+//     >ul,
+//     >a {
+//         display: block;
+//         overflow: hidden;
+//         white-space: nowrap;
+//         text-overflow: ellipsis;
+//     }
+// }
+
+// .track-item__play-button {
+//     position: absolute;
+//     top: 0;
+//     left: $item-padding;
+//     color: white;
+//     border-radius: 0;
+//     background-color: rgba(0,0,0,.3);
+// }
+
+// .track-item__col {
+//     .badge {
+//         margin: 12px 0;
+//     }
+
+//     button {
+//         margin: 4px 0;
+//     }
+// }
+
+// .track-item__more-info {
+//     padding-bottom: .25rem;
+// }

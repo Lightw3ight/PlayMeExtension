@@ -22,6 +22,7 @@
 		<strong>
 			{{track?.Name}}
 		</strong>
+
 		<ul class="comma-separated">
 			<li *ngFor="let artist of track?.Artists"><a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a></li>
 		</ul>

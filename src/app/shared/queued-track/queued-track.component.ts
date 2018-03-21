@@ -1,5 +1,5 @@
 import { QueueWithCommentComponent } from '../queue-with-comment/queue-with-comment.component';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, HostBinding } from '@angular/core';
 import { QueueService } from '../../api/queue.service';
 import { IQueuedTrack } from '../../models';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -17,7 +17,7 @@ export class QueuedTrackComponent {
     @Input() public queuedTrack: IQueuedTrack;
     @Output() public likeTrack = new EventEmitter();
     @Output() public vetoTrack = new EventEmitter();
-    public isMoreInfoVisible = false;
+    @HostBinding('class.queued-track__more-info-open') public isMoreInfoVisible = false;
 
     constructor (
         private _queueService: QueueService,
