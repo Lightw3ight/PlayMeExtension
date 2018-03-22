@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-// import { SpotifyService } from './spotify.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { request } from 'http';
 import { SpotifyAuthService, SpotifyService } from '../api';
