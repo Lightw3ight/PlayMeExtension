@@ -1,56 +1,88 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ISpotifyConfig } from './models/spotify';
+import { ISpotifyConfig, ISpotifyUser } from './models/spotify';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { IHttpAsyncItem } from './models';
+import { SpotifyAuthChromeService } from './spotify-auth-chrome.service';
+import { SpotifyAuthWebService } from './spotify-auth-web.service';
+import { tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { spotifyLoginUrlFactory } from './spotify-login-url.factory';
 
-const LOCALSTORAGEKEY_Auth_Token = 'angular2-spotify-token';
-const LOCALSTORAGEKEY_Auth_Token_expiry = 'angular2-spotify-token-expiry';
 const TOKEN_REFRESH_BUFFER_MINS = 2;
+
+// FOR TESTING: To see the Spotify 'allow access' modal, revoke app access from:
+// https://www.spotify.com/nz/account/apps/
 
 @Injectable()
 export class SpotifyAuthService {
-    constructor (
-        @Inject('SpotifyConfig') private config: ISpotifyConfig
-    ) {
-        config.apiBase = 'https://api.spotify.com/v1';
+    private _isLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+    public get isLoggedIn$ (): Observable<boolean> {
+        return this._isLoggedIn$.asObservable();
     }
 
-    public login (): Observable<any> {
-        return Observable.create(observer => {
-            let authCompleted = false;
+    constructor (
+        private _chromeAuthService: SpotifyAuthChromeService,
+        private _webAuthService: SpotifyAuthWebService,
+        @Inject('SpotifyConfig') private _config: ISpotifyConfig
+    ) {
+        this.checkForSavedAuth();
+        window.addEventListener('storage', (e) => this.storageChangedHandler(e), false);
+    }
 
-            const authWindow = this.showAuthDialog(
-                () => {
-                    if (!authCompleted) {
-                        observer.error('Login rejected error');
-                    }
-                }
+    public login (silentMode = false): Observable<any> {
+        if (this.isRunningAsChromeExtension()) {
+            return this._chromeAuthService.login(silentMode).pipe(
+                tap(() => this.checkForSavedAuth())
             );
+        } else {
+            return this._webAuthService.login();
+        }
+    }
 
-            const storageChanged = (e) => {
-                if (e.key === LOCALSTORAGEKEY_Auth_Token) {
-                    if (authWindow) {
-                        authWindow.close();
-                    }
-                    authCompleted = true;
+    public clearAuthToken () {
+        window.localStorage.removeItem(this._config.authTokenKey);
+        this._isLoggedIn$.next(false);
+    }
 
-                    // this.config.userAuthToken = e.newValue;
-                    window.removeEventListener('storage', storageChanged, false);
-                    observer.next(e.newValue);
-                    observer.complete();
-                }
-            };
+    private storageChangedHandler (e) {
+        if (e.key === 'angular2-spotify-token') {
+            this.checkForSavedAuth();
+        }
+    }
 
-            window.addEventListener('storage', storageChanged, false);
-        });
+    private isRunningAsChromeExtension () {
+        return document.location.protocol.indexOf('chrome') >= 0;
+    }
+
+    private checkForSavedAuth () {
+        // TODO: Add some wrapper service for local service access?
+        if (!window.localStorage.getItem(this._config.authTokenKey)) {
+            this._isLoggedIn$.next(false);
+            return;
+        }
+
+        if (this.shouldRefreshToken()) {
+            if (document.location.protocol.indexOf('chrome') >= 0) {
+                this.login(true);
+            } else {
+                this.silentTokenRefresh().subscribe(() => {
+                    // trigger observable
+                });
+            }
+        }
+
+        this._isLoggedIn$.next(true);
     }
 
 
     public shouldRefreshToken (): boolean {
-        if (!window.localStorage.getItem(LOCALSTORAGEKEY_Auth_Token)) {
+        if (!window.localStorage.getItem(this._config.authTokenKey)) {
             return false;
         }
 
-        const tokenExpiryStr = window.localStorage.getItem(LOCALSTORAGEKEY_Auth_Token_expiry);
+        const tokenExpiryStr = window.localStorage.getItem(this._config.authTokenExpiryKey);
         if (!tokenExpiryStr) { return false; }
 
         const tokenExpiry = new Date(tokenExpiryStr);
@@ -64,7 +96,7 @@ export class SpotifyAuthService {
         return Observable.create(observer => {
             const iframe = document.createElement('iframe');
             iframe.style.display = 'none';
-            iframe.src = this.makeLoginUrl();
+            iframe.src = spotifyLoginUrlFactory();
 
             let authCompleted = false;
 
@@ -88,45 +120,5 @@ export class SpotifyAuthService {
             // TODO: Add some kinda timeout (3s?) to send a observer.error()
             document.body.appendChild(iframe);
         });
-    }
-
-    public makeLoginUrl (config?) {
-        const params = {
-            client_id: this.config.clientId,
-            redirect_uri: (config && config.redirectUri) || this.config.redirectUri,
-            scope: this.config.scope || '',
-            response_type: 'token'
-        };
-
-        return 'https://accounts.spotify.com/authorize?' + this.toQueryString(params);
-    }
-
-    private showAuthDialog (onComplete: Function) {
-        const width = 400;
-        const height = 500;
-        const left = (screen.width / 2) - (width / 2);
-        const top = (screen.height / 2) - (height / 2);
-        const options = 'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left;
-        const loginUrl = this.makeLoginUrl();
-
-        const win = window.open(loginUrl, 'Spotify', options);
-        const interval = window.setInterval(() => {
-            if (!win || win.closed) {
-                window.clearInterval(interval);
-                onComplete(win);
-            }
-        }, 1000000);
-
-        return win;
-    }
-
-    private toQueryString (obj: Object): string {
-        const parts = [];
-        for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
-            }
-        }
-        return parts.join('&');
     }
 }

@@ -14,3 +14,4 @@ export * from './track.interface';
 export * from './track-paged-list.interface';
 export * from './veto.interface';
 export * from './playlist.interface';
+export * from './http-async-item.interface';

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { switchMap, map, startWith, filter, shareReplay } from 'rxjs/operators';
-import { ITrack, IAlbum, IArtist, IPlaylist } from '../../api/models';
+import { ITrack, IAlbum, IArtist, IPlaylist, IHttpAsyncItem } from '../../api/models';
 import { SpotifyService } from '../../api/spotify.service';
 
 @Component({

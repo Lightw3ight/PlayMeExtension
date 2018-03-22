@@ -4,4 +4,6 @@ export interface ISpotifyConfig {
     scope: string;
     getUserAuthToken: Function;
     apiBase?: string;
+    authTokenKey: string;
+    authTokenExpiryKey: string;
 }

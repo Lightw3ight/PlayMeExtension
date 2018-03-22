@@ -46,7 +46,7 @@ const LOCALSTORAGEKEY_Auth_Token_expiry = 'angular2-spotify-token-expiry';
 
 @Injectable()
 // export default class SpotifyService {
-export class SpotifyService {
+export class SpotifyDoNotUseService {
   constructor (
     @Inject('SpotifyConfig') private config: SpotifyConfig,
     private http: Http) {
@@ -726,13 +726,13 @@ export class SpotifyService {
       if (obj.hasOwnProperty(key)) {
         parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
       }
-    };
+    }
     return parts.join('&');
   };
 
   private openDialog(uri, name, options, cb) {
-    let win = window.open(uri, name, options);
-    let interval = window.setInterval(() => {
+    const win = window.open(uri, name, options);
+    const interval = window.setInterval(() => {
       try {
         if (!win || win.closed) {
           window.clearInterval(interval);
@@ -744,7 +744,7 @@ export class SpotifyService {
   }
 
   private auth(isJson?: boolean): Object {
-    let auth = {
+    const auth = {
       'Authorization': 'Bearer ' + this.config.getUserAuthToken()
     };
     if (isJson) {
@@ -762,7 +762,7 @@ export class SpotifyService {
   }
 
   private mountItemList(items: string | Array<string>): Array<string> {
-    let itemList = Array.isArray(items) ? items : items.split(',');
+    const itemList = Array.isArray(items) ? items : items.split(',');
     itemList.forEach((value, index) => {
       itemList[index] = this.getIdFromUri(value);
     });

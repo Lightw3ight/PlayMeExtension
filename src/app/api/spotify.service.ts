@@ -5,14 +5,16 @@ import { ISpotifyConfig, ISpotifyUser, ISpotifyPlaylist, ISpotifyOptions, ISpoti
 import { ITrack, IArtist, IAlbum, IPlaylist } from './models';
 import { map } from 'rxjs/operators';
 
+// export const LOCALSTORAGEKEY_AUTH_TOKEN = 'angular2-spotify-token';
+// export const LOCALSTORAGEKEY_AUTH_TOKEN_EXPIRY = 'angular2-spotify-token-expiry';
+export const TOKEN_REFRESH_BUFFER_MINS = 2;
+
 @Injectable()
 export class SpotifyService {
     constructor (
         @Inject('SpotifyConfig') private config: ISpotifyConfig,
         private _http: HttpClient
-    ) {
-        config.apiBase = 'https://api.spotify.com/v1';
-    }
+    ) { }
 
     public getCurrentUser (): Observable<ISpotifyUser> {
         return this.apiGet<ISpotifyUser>('/me');
@@ -25,13 +27,23 @@ export class SpotifyService {
         );
     }
 
-    getCurrentUserPlaylists (options?: ISpotifyOptions): Observable<IPlaylist[]> {
+    public getCurrentUserPlaylists (options?: ISpotifyOptions): Observable<IPlaylist[]> {
         const url = `/me/playlists/`;
         return this.apiGet<ISpotifyPlaylistsResult>(url, options).pipe(
             map(result => {
                 return result.items.map(pl => this.mapPlaylist(pl));
             })
         );
+    }
+
+    private toQueryString (obj: Object): string {
+        const parts = [];
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+            }
+        }
+        return parts.join('&');
     }
 
     private apiGet<T> (url: string, options?: { [key: string]: any | any[] }): Observable<T> {
