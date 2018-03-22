@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import {
     IQueuedTrack,
     IPagedResult
-} from '../models';
+} from '../api/models';
 import {
     IAudioZone,
     UserInfoService,

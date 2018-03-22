@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IPlaylist } from '../../models';
+import { IPlaylist } from '../../api/models';
 
 @Component({
     selector: 'pm-playlist-list-item',

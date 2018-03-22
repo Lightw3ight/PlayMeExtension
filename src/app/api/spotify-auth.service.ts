@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ISpotifyConfig } from '../models/spotify';
+import { ISpotifyConfig } from './models/spotify';
 
 const LOCALSTORAGEKEY_Auth_Token = 'angular2-spotify-token';
 const LOCALSTORAGEKEY_Auth_Token_expiry = 'angular2-spotify-token-expiry';

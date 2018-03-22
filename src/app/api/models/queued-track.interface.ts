@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Rx';
-import { ISavedTrack } from './ISavedTrack';
-import { ILike } from './ILike';
-import { IVeto } from './IVeto';
+import { ISavedTrack } from './saved-track.interface';
+import { ILike } from './like.interface';
+import { IVeto } from './veto.interface';
 
 export interface IQueuedTrack extends ISavedTrack {
     Excluded: boolean;

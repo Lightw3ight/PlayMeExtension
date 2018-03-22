@@ -1,4 +1,4 @@
-import {ITrack} from './ITrack';
+import {ITrack} from './track.interface';
 
 export interface ISavedTrack {
     Track: ITrack;

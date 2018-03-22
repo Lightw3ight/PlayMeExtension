@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
 
-import { IQueuedTrack } from '../../models';
+import { IQueuedTrack } from '../../api/models';
 
 
 @Component({

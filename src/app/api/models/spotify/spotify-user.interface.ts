@@ -1,11 +1,11 @@
-import { SpotifyImageModel } from './spotify-image.model';
+import { ISpotifyImage } from './spotify-image.interface';
 
 export interface ISpotifyUser {
     country: string;
     display_name: string;
     href: string;
     id: string;
-    images: SpotifyImageModel[];
+    images: ISpotifyImage[];
     product: string;
     type: string;
     uri: string;

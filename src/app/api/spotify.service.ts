@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { SpotifyOptions, SpotifyTrackModel, SpotifyArtistModel, SpotifyAlbumModel, SpotifyPlaylistsResult, SpotifyPlaylistModel, ISpotifyConfig, ISpotifyUser } from '../models/spotify';
-import { ITrack, IArtist, IAlbum, IPlaylist } from '../models';
+import { ISpotifyConfig, ISpotifyUser, ISpotifyPlaylist, ISpotifyOptions, ISpotifyPlaylistsResult, ISpotifyTrack, ISpotifyArtist, ISpotifyAlbum } from './models/spotify';
+import { ITrack, IArtist, IAlbum, IPlaylist } from './models';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -20,14 +20,14 @@ export class SpotifyService {
 
     public getPlaylist (userId: string, playlistId: string, options?: { fields: string }): Observable<IPlaylist> {
         const url = `/users/${userId}/playlists/${playlistId}`;
-        return this.apiGet<SpotifyPlaylistModel>(url, options).pipe(
+        return this.apiGet<ISpotifyPlaylist>(url, options).pipe(
             map(result => this.mapPlaylist(result))
         );
     }
 
-    getCurrentUserPlaylists (options?: SpotifyOptions): Observable<IPlaylist[]> {
+    getCurrentUserPlaylists (options?: ISpotifyOptions): Observable<IPlaylist[]> {
         const url = `/me/playlists/`;
-        return this.apiGet<SpotifyPlaylistsResult>(url, options).pipe(
+        return this.apiGet<ISpotifyPlaylistsResult>(url, options).pipe(
             map(result => {
                 return result.items.map(pl => this.mapPlaylist(pl));
             })
@@ -80,7 +80,7 @@ export class SpotifyService {
         return apiOptions;
     }
 
-    private mapPlaylist (playlist: SpotifyPlaylistModel): IPlaylist {
+    private mapPlaylist (playlist: ISpotifyPlaylist): IPlaylist {
         return <IPlaylist> {
             Link: playlist.id,
             Name: playlist.name,
@@ -92,7 +92,7 @@ export class SpotifyService {
         };
     }
 
-    private mapTrack (track: SpotifyTrackModel): ITrack {
+    private mapTrack (track: ISpotifyTrack): ITrack {
         return <ITrack> {
             Name: track.name,
             Link: track.id,
@@ -103,7 +103,7 @@ export class SpotifyService {
         };
     }
 
-    private mapArtist (artist: SpotifyArtistModel): IArtist {
+    private mapArtist (artist: ISpotifyArtist): IArtist {
         return <IArtist> {
             Name: artist.name,
             Link: artist.id,
@@ -111,7 +111,7 @@ export class SpotifyService {
         };
     }
 
-    private mapAlbum (album: SpotifyAlbumModel): IAlbum {
+    private mapAlbum (album: ISpotifyAlbum): IAlbum {
         return <IAlbum> {
             Name: album.name,
             Link: album.id,
@@ -123,7 +123,6 @@ export class SpotifyService {
     }
 
     private msToTime (duration) {
-        // let ms = (duration % 1000) / 100;
         const h = duration / (1000 * 60 * 60);
         const hours = Math.floor(h);
 
@@ -131,8 +130,6 @@ export class SpotifyService {
         const minutes = Math.floor(m);
 
         const seconds = Math.floor((m - minutes) * 60);
-        // const seconds = Math.floor(duration / 1000);
-        // const minutes = Math.floor(duration / (1000 * 60));
 
         return hours ? `${this.padNumber(hours)}:${this.padNumber(minutes)}:${this.padNumber(seconds)}` : `${this.padNumber(minutes)}:${this.padNumber(seconds)}`;
     }

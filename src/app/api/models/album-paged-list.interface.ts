@@ -1,4 +1,4 @@
-import {IAlbum} from './IAlbum';
+import {IAlbum} from './album.interface';
 
 export interface IAlbumPagedList {
     Total: number;

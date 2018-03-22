@@ -1,5 +1,5 @@
-import { IPlayMeObject } from './IPlayMeObject';
-import { ITrack } from './ITrack';
+import { IPlayMeObject } from './play-me-object.interface';
+import { ITrack } from './track.interface';
 
 export interface IPlaylist extends IPlayMeObject {
     Description: string;

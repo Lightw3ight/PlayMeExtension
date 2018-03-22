@@ -5,7 +5,7 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import {
     IQueuedTrack,
     IPagedResult
-} from '../models';
+} from '../api/models';
 import {
     AudioZoneService,
     IAudioZone,

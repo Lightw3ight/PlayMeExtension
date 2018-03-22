@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 import { AlbumService, QueueService } from '../api';
 import { routeAnimation } from './../router-animation';
-import { IAlbum, ITrack } from '../models';
+import { IAlbum, ITrack } from '../api/models';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -19,13 +19,13 @@ export class AlbumComponent implements OnInit {
     provider: string;
     public album$: Observable<IAlbum>;
 
-    constructor(private _route: ActivatedRoute,
+    constructor (private _route: ActivatedRoute,
         private _albumService: AlbumService,
         private _queueService: QueueService,
         private _location: Location) {
     }
 
-    ngOnInit() {
+    ngOnInit () {
         this.album$ = this._route.paramMap.pipe(
             switchMap(params => this._albumService.getAlbum(params.get('id'), params.get('provider'))),
             catchError(error => {
@@ -35,7 +35,7 @@ export class AlbumComponent implements OnInit {
             }));
     }
 
-    queueTrack(track: ITrack) {
+    queueTrack (track: ITrack) {
         this._queueService.queueTrack(track);
     }
 }

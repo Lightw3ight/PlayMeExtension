@@ -1,4 +1,4 @@
-export class SpotifyImageModel {
+export interface ISpotifyImage {
     width: any;
     height: any;
     url: string;

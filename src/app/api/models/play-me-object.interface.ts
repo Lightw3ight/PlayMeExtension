@@ -1,6 +1,6 @@
-import {IMusicProvider} from './IMusicProvider';
+import {IMusicProvider} from './music-provider.interface';
 
-export interface IPlayMeObject{
+export interface IPlayMeObject {
     Link: string;
     Name: string;
     ExternalLink: string;

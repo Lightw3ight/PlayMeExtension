@@ -10,7 +10,7 @@ import { SpotifyUserService } from 'app/spotify/spotify-user.service';
 import { SpotifyHomeComponent } from './spotify-home/spotify-home.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { SharedModule } from '../shared';
-import { ISpotifyConfig } from '../models/spotify';
+import { ISpotifyConfig } from '../api/models/spotify';
 
 @NgModule({
     imports: [

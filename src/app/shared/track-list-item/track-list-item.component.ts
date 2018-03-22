@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ITrack } from '../../models';
+import { ITrack } from '../../api/models';
 import { QueueService } from '../../api';
 import { MatDialog } from '@angular/material';
 import { SimpleTrackListItemComponent } from '../simple-track-list-item/simple-track-list-item.component';

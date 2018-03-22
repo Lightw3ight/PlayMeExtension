@@ -1,4 +1,4 @@
-import {IArtist} from './IArtist';
+import {IArtist} from './artist.interface';
 
 export interface IArtistPagedList {
     Total: number;

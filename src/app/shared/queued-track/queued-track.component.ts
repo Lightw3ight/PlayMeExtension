@@ -1,7 +1,7 @@
 import { QueueWithCommentComponent } from '../queue-with-comment/queue-with-comment.component';
 import { Component, Input, OnInit, Output, EventEmitter, HostBinding } from '@angular/core';
 import { QueueService } from '../../api/queue.service';
-import { IQueuedTrack } from '../../models';
+import { IQueuedTrack } from '../../api/models';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
 

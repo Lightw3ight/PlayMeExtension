@@ -1,6 +1,6 @@
-import {IAlbum} from './IAlbum';
-import {IArtist} from './IArtist';
-import {IPlayMeObject} from './IPlayMeObject';
+import {IAlbum} from './album.interface';
+import {IArtist} from './artist.interface';
+import {IPlayMeObject} from './play-me-object.interface';
 
 export interface ITrack extends IPlayMeObject {
     Artists: IArtist[];

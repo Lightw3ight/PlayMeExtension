@@ -3,10 +3,9 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
-import { ITrack } from '../models/ITrack';
 import * as moment from 'moment';
 import { AudioZoneService } from './audio-zone.service';
-import { IQueuedTrack, IPagedResult } from '../models';
+import { IQueuedTrack, IPagedResult, ITrack } from './models';
 import { UserInfoService } from './user-info.service';
 
 

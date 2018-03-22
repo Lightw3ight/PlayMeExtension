@@ -1,4 +1,4 @@
-export interface SpotifyOptions {
+export interface ISpotifyOptions {
     limit?: number;
     offset?: number;
     market?: string;
