@@ -55,17 +55,22 @@
         </p>
     </div>
 
-    <p
+    <div
         *ngIf="!currentUser.isLoading && !currentUser.result"
         class="padding-top-half">
         <img
             class="spotify-logo"
             src="/assets/images/spotify-logo.svg">
-        <a
+            <br><br>
+            <p>Queue great tunes, quicker.</p>
+            <p>Connect your Spotify account to access your playlists.</p>
+
+        <button
+            mat-stroked-button
             class="spotify-home__link-button"
             *ngIf="!user"
             (click)="login()">
-            Click here</a>
-        to connect your Spotify account to access your playlists
-    </p>
+            Connect Spotify</button>
+
+  </div>
 </section>

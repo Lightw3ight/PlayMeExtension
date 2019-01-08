@@ -96,7 +96,7 @@ export class SpotifyAuthService {
         return Observable.create(observer => {
             const iframe = document.createElement('iframe');
             iframe.style.display = 'none';
-            iframe.src = spotifyLoginUrlFactory();
+            iframe.src = spotifyLoginUrlFactory(this._config);
 
             let authCompleted = false;
 

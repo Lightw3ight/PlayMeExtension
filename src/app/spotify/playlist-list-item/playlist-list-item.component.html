@@ -8,6 +8,14 @@
     <strong>{{ playlist.Name }}</strong>
 </div>
 
-<div>
-    {{ playlist.TrackCount }}&nbsp;Tracks
+<div
+  class="track-count">
+  <span
+    class="track-count__text">
+    {{ playlist.TrackCount }}
+  </span>
+    <mat-icon
+      class="track-count__icon">
+      audiotrack
+    </mat-icon>
 </div>

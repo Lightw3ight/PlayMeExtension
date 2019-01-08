@@ -1,3 +1,17 @@
 :host {
     cursor: pointer;
 }
+
+.track-count {
+  width: 2rem;
+  text-align: right;
+}
+
+.track-count__icon {
+  color: gray;
+}
+
+.track-count__text {
+  position: relative;
+  top: -5px;
+}

@@ -45,7 +45,7 @@ export class SpotifyAuthWebService {
         const left = (screen.width / 2) - (width / 2);
         const top = (screen.height / 2) - (height / 2);
         const options = 'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left;
-        const loginUrl = spotifyLoginUrlFactory();
+        const loginUrl = spotifyLoginUrlFactory(this._config);
 
         const win = window.open(loginUrl, 'Spotify', options);
         const interval = window.setInterval(() => {
