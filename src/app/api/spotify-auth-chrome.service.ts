@@ -15,10 +15,14 @@ export class SpotifyAuthChromeService {
 
     public login (silentMode?: boolean): Observable<any> {
         return Observable.create(observer => {
+
+            const spotifyLoginUrl = spotifyLoginUrlFactory({
+                    ...this._config,
+                    redirectUri: window.chrome.identity.getRedirectURL()
+                });
+
             window.chrome.identity.launchWebAuthFlow({
-                    'url': spotifyLoginUrlFactory({
-                        redirectUri: window.chrome.identity.getRedirectURL()
-                    }),
+                    'url': spotifyLoginUrl,
                     'interactive': !silentMode
                 }, (requestUrl: string) => {
                     const hashMatch = requestUrl.match('#.*');
