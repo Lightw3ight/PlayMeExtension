@@ -1,6 +1,6 @@
 :host {
     display: grid;
-    grid-template-columns: 40px auto min-content;
+    grid-template-columns: 40px auto min-content 40px;
     grid-template-rows: 40px;
     grid-column-gap: 10px;
     align-items: center;
@@ -15,7 +15,7 @@
     }
 
     .list-item__hover-show {
-        display: none;   
+        display: none;
     }
 
     .list-item__hover-fade-in {
@@ -31,7 +31,7 @@
         }
 
         .list-item__hover-show {
-            display: block;   
+            display: block;
         }
 
         .list-item__play-button img+mat-icon {

@@ -1,3 +1,5 @@
+@import '../../shared/scss/env.scss';
+
 :host {
     cursor: pointer;
 }
@@ -8,7 +10,7 @@
 }
 
 .track-count__icon {
-  color: gray;
+  color: $icon-colour;
 }
 
 .track-count__text {
