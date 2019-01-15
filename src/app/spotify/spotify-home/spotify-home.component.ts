@@ -43,7 +43,7 @@ export class SpotifyHomeComponent implements OnInit {
                             catchError(err => {
                               this._snackBar.open('Error with auth - logging out, soz', null, { duration: 3000 });
                               this._spotifyAuthService.clearAuthToken();
-                              return { isLoading: false };
+                              return Observable.of({ isLoading: false, result: null });
                             })
                         );
                     }
