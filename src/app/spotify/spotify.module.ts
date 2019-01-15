@@ -1,3 +1,4 @@
+import { SpotifyAudioPreviewModule } from './spotify-audio-preview/spotify-audio-preview.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,10 +15,16 @@ export const LOCALSTORAGEKEY_AUTH_TOKEN = 'angular2-spotify-token';
 export const LOCALSTORAGEKEY_AUTH_TOKEN_EXPIRY = 'angular2-spotify-token-expiry';
 @NgModule({
     imports: [
+        // Angular
         CommonModule,
         HttpModule,
         RouterModule,
+
+        // This project
         SharedModule,
+        SpotifyAudioPreviewModule,
+
+        // NG Material
         FlexLayoutModule,
         MatCardModule,
         MatIconModule,
