@@ -12,4 +12,5 @@ export interface ITrack extends IPlayMeObject {
     Popularity: number;
     TrackArtworkUrl: string;
     Reason: string;
+    AudioPreviewUrl: string;
 }

@@ -1,3 +1,4 @@
+import { SpotifyAudioPreviewModule } from './spotify/spotify-audio-preview/spotify-audio-preview.module';
 import { KarmaService } from './api/karma.service';
 import { LikesModule } from './likes/likes.module';
 import { SearchModule } from './search/search.module';
@@ -63,7 +64,9 @@ export class RavenErrorHandler implements ErrorHandler {
         MatSidenavModule,
         HttpClientModule,
         LikesModule,
-        SpotifyModule
+
+        SpotifyModule,
+        SpotifyAudioPreviewModule
     ],
     declarations: [
         AppComponent

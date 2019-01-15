@@ -8,4 +8,5 @@ export interface ISpotifyTrack {
     duration_ms: number;
     name: string;
     popularity: number;
+    preview_url: string;
 }

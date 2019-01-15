@@ -24,13 +24,22 @@
 	</strong>
 
 	<ul class="comma-separated">
-		<li *ngFor="let artist of track?.Artists"><a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a></li>
+		<li *ngFor="let artist of track?.Artists">
+      <a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a>
+    </li>
 	</ul>
+</div>
+
+<div>
+    <pm-spotify-audio-preview-button
+      [track]="track">
+
+    </pm-spotify-audio-preview-button>
 </div>
 
 <div
 	class="list-item__hover-hide">
-	{{ formatTime(track.Duration)}}
+	{{ formatTime(track.Duration) }}
 </div>
 
 <div
@@ -55,5 +64,6 @@
 			<mat-icon>album</mat-icon>
 			<span>View album</span>
 		</button>
-	</mat-menu>
+  </mat-menu>
+
 </div>

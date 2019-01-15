@@ -10,11 +10,13 @@ export class SpotifyAudioPreviewButtonComponent implements OnInit {
 
   @Input() track;
 
-  constructor(
+  constructor (
     private _spotifyAudioPreviewService: SpotifyAudioPreviewService
-  ) { }
+  ) {
+  }
 
-  ngOnInit() {
+  ngOnInit () {
+
   }
 
   playPreview () {

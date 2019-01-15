@@ -1,3 +1,4 @@
+import { ITrack } from './../../../api/models/track.interface';
 import { Component, OnInit } from '@angular/core';
 import { SpotifyAudioPreviewService } from '../spotify-audio-preview.service';
 
@@ -8,7 +9,7 @@ import { SpotifyAudioPreviewService } from '../spotify-audio-preview.service';
 })
 export class SpotifyAudioPreviewPlayerComponent implements OnInit {
 
-  public nowPlayingTrack;
+  public nowPlayingTrack: ITrack;
 
   private _currentlyPlayingAudio: HTMLAudioElement;
 
@@ -26,7 +27,7 @@ export class SpotifyAudioPreviewPlayerComponent implements OnInit {
       }
 
       let audio = new Audio();
-      audio.src = track.preview_url;
+      audio.src = track.AudioPreviewUrl;
       audio.load();
 
       this._currentlyPlayingAudio = audio;

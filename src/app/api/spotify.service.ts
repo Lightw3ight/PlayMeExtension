@@ -111,7 +111,8 @@ export class SpotifyService {
             Duration: this.msToTime(track.duration_ms),
             Album: this.mapAlbum(track.album),
             Artists: track.artists.map(a => this.mapArtist(a)),
-            MusicProvider: { Identifier: 'sp' }
+            MusicProvider: { Identifier: 'sp' },
+            AudioPreviewUrl: track.preview_url
         };
     }
 

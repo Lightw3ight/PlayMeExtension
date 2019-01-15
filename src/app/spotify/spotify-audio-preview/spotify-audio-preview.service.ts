@@ -1,9 +1,10 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { ITrack } from 'app/api/models';
 
 @Injectable()
 export class SpotifyAudioPreviewService {
 
-  public playThisSong$ = new EventEmitter<any>();
+  public playThisSong$ = new EventEmitter<ITrack>();
 
   constructor () { }
 
