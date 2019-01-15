@@ -43,6 +43,8 @@ export class SpotifyAuthService {
 
     public clearAuthToken () {
         window.localStorage.removeItem(this._config.authTokenKey);
+        window.localStorage.removeItem(this._config.authTokenExpiryKey);
+
         this._isLoggedIn$.next(false);
     }
 

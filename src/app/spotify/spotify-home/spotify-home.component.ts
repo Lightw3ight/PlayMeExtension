@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { SpotifyService, SpotifyAuthService } from '../../api';
-import { map, startWith, take, switchMap, filter } from 'rxjs/operators';
+import { map, startWith, take, switchMap, filter, catchError } from 'rxjs/operators';
 import { IHttpAsyncItem } from '../../api/models';
 import { ISpotifyUser } from '../../api/models/spotify';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'pm-spotify-home',
@@ -17,7 +18,8 @@ export class SpotifyHomeComponent implements OnInit {
 
     constructor (
         private _spotifyService: SpotifyService,
-        private _spotifyAuthService: SpotifyAuthService
+        private _spotifyAuthService: SpotifyAuthService,
+        private _snackBar: MatSnackBar
     ) { }
 
     public ngOnInit () {
@@ -37,7 +39,12 @@ export class SpotifyHomeComponent implements OnInit {
                     if (isLoggedIn) {
                         return this._spotifyService.getCurrentUser().pipe(
                             map(user => ({ isLoading: false, result: user })),
-                            startWith({ isLoading: true })
+                            startWith({ isLoading: true }),
+                            catchError(err => {
+                              this._snackBar.open('Error with auth - logging out, soz', null, { duration: 3000 });
+                              this._spotifyAuthService.clearAuthToken();
+                              return { isLoading: false };
+                            })
                         );
                     }
 
@@ -68,5 +75,9 @@ export class SpotifyHomeComponent implements OnInit {
 
     public isRunningAsChromeExtension () {
         return document.location.protocol.indexOf('chrome') >= 0;
+    }
+
+    public clearAuth () {
+      this._spotifyAuthService.clearAuthToken();
     }
 }

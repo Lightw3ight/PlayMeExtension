@@ -14,11 +14,20 @@
 <section
     *ngIf="!hasAppErrorMessage && (currentUser$ | async) as currentUser">
 
-    <p
+    <div
         class="padding-top-half"
         *ngIf="currentUser.isLoading">
         Loading profile...
-    </p>
+
+        <div
+          class="padding-top-half">
+          <button
+            (click)="clearAuth()"
+            mat-raised-button>
+            (Dev: clear auth)
+          </button>
+        </div>
+    </div>
 
     <div
         *ngIf="(!currentUser.isLoading && currentUser.result) as user">
