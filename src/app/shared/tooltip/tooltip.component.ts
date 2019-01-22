@@ -59,8 +59,6 @@ export class TooltipComponent implements OnDestroy, OnChanges {
         el.classList.add(`pos-vert-${VerticalPosition[this._vertPos]}`);
         el.classList.add('isActive');
 
-        console.log(window.scrollY);
-
         el.style.top = `${this.getTop()}px`;
         el.style.left = `${this.getLeft()}px`;
     }
