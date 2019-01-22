@@ -101,7 +101,7 @@
 <section
     class="container container--opaque now-playing__queue-card">
     <mat-tab-group
-      selectedIndex="2">
+      selectedIndex="0">
         <mat-tab
             label="Next up">
             <p
@@ -117,10 +117,10 @@
             </pm-queued-track>
 
             <a
+                *ngIf="(trackQueue$ | async)?.length"
                 mat-button
                 class="now-playing__see-all-link"
-                [routerLink]="['/queue']"
-                *ngIf="trackQueue$ | async">
+                [routerLink]="['/queue']">
                 See all queued tracks
             </a>
         </mat-tab>
