@@ -84,8 +84,9 @@ export class RavenErrorHandler implements ErrorHandler {
         SpotifyService,
         SpotifyAuthWebService,
         SpotifyAuthChromeService,
-        SpotifyAuthService
+        SpotifyAuthService,
         // { provide: ErrorHandler, useClass: RavenErrorHandler }
+        { provide: ErrorHandler, useClass: RavenErrorHandler }
     ],
     bootstrap: [AppComponent]
 })
