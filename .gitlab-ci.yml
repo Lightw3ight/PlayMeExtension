@@ -1,4 +1,4 @@
-image: latest
+image: node:6.10.3
 
 before_script:
   - yarn
