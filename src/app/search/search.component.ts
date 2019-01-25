@@ -37,4 +37,8 @@ export class SearchComponent implements OnInit {
                 this.loading = false;
             }));
     }
+
+    public trackByFn (index: number, item) {
+        return index;
+    }
 }

@@ -33,7 +33,7 @@
 			<div class="track-item__wrap-trap-inner">
 				<label>{{track?.Name}}</label>
 				<ul class="comma-separated">
-					<li *ngFor="let artist of track?.Artists"><a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a></li>
+					<li *ngFor="let artist of track?.Artists; trackBy: trackByFn"><a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a></li>
 				</ul>
 			</div>
 		</div>

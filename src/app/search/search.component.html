@@ -26,7 +26,7 @@
 					fxLayout="row wrap">
 					<pm-artist-list-item
 						fxFlex="33.333%"
-						*ngFor="let artist of results?.PagedArtists?.Artists"
+						*ngFor="let artist of results?.PagedArtists?.Artists; trackBy: trackByFn"
 						[artist]="artist">
 					</pm-artist-list-item>
 				</div>
@@ -47,7 +47,7 @@
 				class="search-page__row">
 				<pm-album-list-item
 					fxFlex="33.333%"
-					*ngFor="let album of results?.PagedAlbums?.Albums"
+					*ngFor="let album of results?.PagedAlbums?.Albums; trackBy: trackByFn"
 					[album]="album">
 				</pm-album-list-item>
 			</div>
@@ -64,7 +64,7 @@
 			<ul
 				class="list-unstyled">
 				<li
-					*ngFor="let track of results?.PagedTracks?.Tracks">
+					*ngFor="let track of results?.PagedTracks?.Tracks; trackBy: trackByFn">
 					<pm-track-list-item
 						[track]="track">
 					</pm-track-list-item>

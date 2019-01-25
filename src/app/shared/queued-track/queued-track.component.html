@@ -38,7 +38,7 @@
 				<ul
 					class="comma-separated">
 					<li
-						*ngFor="let artist of queuedTrack.Track?.Artists">
+						*ngFor="let artist of queuedTrack.Track?.Artists; trackBy: trackByFn">
 						<a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a>
 					</li>
 				</ul>
