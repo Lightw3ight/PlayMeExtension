@@ -38,7 +38,7 @@
         <ul
             class="list-unstyled">
             <li
-                *ngFor="let track of album.Tracks; let ix = index">
+                *ngFor="let track of album.Tracks; let ix = index; trackBy: trackByFn">
                 <pm-simple-track-list-item
                     [track]="track"
                     [trackNumber]="ix + 1">
