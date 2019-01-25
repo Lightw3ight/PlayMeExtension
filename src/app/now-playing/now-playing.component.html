@@ -60,7 +60,7 @@
                     class="comma-separated"
                     *ngIf="currentTrack?.Track?.Artists?.length">
                     <li
-                        *ngFor="let artist of currentTrack?.Track?.Artists">
+                        *ngFor="let artist of currentTrack?.Track?.Artists; trackBy: trackByFn">
                         <a
                             class="mat-subhead"
                             [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">

@@ -102,4 +102,9 @@ export class NowPlayingComponent implements OnInit {
         const totalDuration = moment.duration(track.Track.DurationMilliseconds);
         return `${elapsedDuration.minutes()}:${elapsedDuration.seconds()} / ${totalDuration.minutes()}:${totalDuration.seconds()}`;
     }
+
+
+    public trackByFn (index: number, item) {
+        return index;
+    }
 }
