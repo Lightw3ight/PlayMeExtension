@@ -39,7 +39,7 @@ export class AlbumComponent implements OnInit {
         this._queueService.queueTrack(track);
     }
 
-    trackByFn (index: number, track: ITrack) {
+    public trackByFn (index: number, track: ITrack) {
         return index;
     }
 }

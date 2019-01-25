@@ -20,7 +20,7 @@
 			fxLayout="row wrap">
 			<pm-album-list-item
 				fxFlex="33.333%"
-				*ngFor="let album of artist?.Albums"
+				*ngFor="let album of artist?.Albums; trackBy: trackByFn"
 				[album]="album">
 			</pm-album-list-item>
 		</div>

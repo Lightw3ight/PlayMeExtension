@@ -39,4 +39,8 @@ export class ArtistComponent implements OnInit {
     public back () {
         this._location.back();
     }
+
+    public trackByFn (index: number, artist: IArtist) {
+        return index;
+    }
 }
