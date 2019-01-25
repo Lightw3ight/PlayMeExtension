@@ -21,7 +21,7 @@
 				No results
 			</p>
 			<pm-queued-track
-				*ngFor="let track of history$ | async"
+				*ngFor="let track of history$ | async; trackBy: trackByFn"
 				[queuedTrack]="track">
 			</pm-queued-track>
 		</mat-tab>
@@ -34,7 +34,7 @@
 				No results
 			</p>
 			<pm-queued-track
-				*ngFor="let track of requestHistory$ | async"
+				*ngFor="let track of requestHistory$ | async; trackBy: trackByFn"
 				[queuedTrack]="track">
 			</pm-queued-track>
 		</mat-tab>
@@ -47,7 +47,7 @@
 				No results
 			</p>
 			<pm-queued-track
-				*ngFor="let track of userHistory$ | async"
+				*ngFor="let track of userHistory$ | async; trackBy: trackByFn"
 				[queuedTrack]="track">
 			</pm-queued-track>
 		</mat-tab>
