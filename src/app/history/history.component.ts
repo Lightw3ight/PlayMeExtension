@@ -78,7 +78,7 @@ export class HistoryComponent implements OnInit {
         }
     }
 
-    public trackByFn (index: number, item) {
-        return index;
+    public trackByFn (index: number, item: IQueuedTrack) {
+        return item.StartedPlayingDateTime;
     }
 }
