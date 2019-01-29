@@ -1,0 +1,85 @@
+<div
+    *ngIf="hasAppErrorMessage">
+    <mat-chip-list
+        class="sh-ffs">
+        <mat-chip color="warn" selected="true">
+        Something's not right
+        </mat-chip>
+    </mat-chip-list>
+    <div>
+        {{ hasAppErrorMessage }}
+    </div>
+</div>
+
+<section
+    *ngIf="!hasAppErrorMessage && (currentUser$ | async) as currentUser">
+
+    <div
+        class="padding-top-half"
+        *ngIf="currentUser.isLoading">
+        Loading profile...
+
+        <div
+          class="padding-top-half">
+          <button
+            (click)="clearAuth()"
+            mat-raised-button>
+            (Dev: clear auth)
+          </button>
+        </div>
+    </div>
+
+    <div
+        *ngIf="(!currentUser.isLoading && currentUser.result) as user">
+        <div
+            *ngIf="(playlists$ | async) as playlists">
+            <p
+                class="padding-top-half"
+                *ngIf="playlists.isLoading">
+                Loading playlists...
+            </p>
+
+            <div
+                *ngIf="!playlists.isLoading">
+                <pm-playlist-list-item
+                    [routerLink]="['/spotify/playlist', playlist.OwnerId, playlist.Link]"
+                    *ngFor="let playlist of playlists.result"
+                    [playlist]="playlist">
+                </pm-playlist-list-item>
+            </div>
+        </div>
+
+        <p
+            class="spotify-home__login-info">
+            <img
+                *ngIf="user.images.length"
+                [src]="user.images[0].url"
+                width="40"
+                height="40"/>
+            You are currently logged into Spotify as {{ user.display_name }}
+            <a
+                class="spotify-home__link-button"
+                (click)="logout()">
+                log out</a>
+        </p>
+    </div>
+
+    <div
+        *ngIf="!currentUser.isLoading && !currentUser.result"
+        class="padding-top-half">
+        <img
+            class="spotify-logo"
+            src="/assets/images/spotify-logo.svg">
+            <br><br>
+            <p>Queue great tunes, quicker.</p>
+            <p>Connect your Spotify account to access your playlists.</p>
+
+        <button
+            mat-stroked-button
+            class="spotify-home__link-button"
+            *ngIf="!user"
+            (click)="login()">
+            Connect Spotify</button>
+
+  </div>
+</section>

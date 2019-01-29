@@ -1,164 +1,151 @@
-<div
-	fxLayout="row"
-	fxLayoutAlign="start start"
-	[class.track-item--queued]="hasQueuedTrack">
+<ng-container
+	*ngIf="hasQueuedTrack">
 	<div
-		class="track-item__col"
-		fxFlex="none">
+		class="list-item__hover-hide">
 		<img
-			[src]="queuedTrack.Track?.Album?.ArtworkUrlMedium || '/assets/images/pixel.gif'"
-			class="track-item__album-image">
+			class="list-item__thumb"
+			[src]="queuedTrack.Track?.Album?.ArtworkUrlMedium || '/assets/images/pixel.gif'">
+	</div>
 
+	<div
+		class="list-item__hover-show">
 		<img
+			class="list-item__thumb"
 			[src]="queuedTrack?.userPhotoUrl"
-			[title]="queuedTrack?.fullName | async"
-			class="track-item__user-image"
-			*ngIf="hasQueuedTrack">
-
-		<button
-			mat-icon-button
-			*ngIf="!hasQueuedTrack"
-			class="track-item--hover-fade-in track-item__play-button"
-			type="button"
-			(click)="queueTrack()">
-			<mat-icon>play_arrow</mat-icon>
-		</button>
+			[title]="queuedTrack?.fullName | async">
 	</div>
+</ng-container>
+
+<div
+	*ngIf="!hasQueuedTrack">
+	<button
+		mat-icon-button
+		class="list-item__play-button"
+		type="button"
+		(click)="queueTrack()">
+		<img
+			class="list-item__thumb"
+			[src]="queuedTrack.Track?.Album?.ArtworkUrlMedium || '/assets/images/pixel.gif'">
+		<mat-icon>play_arrow</mat-icon>
+	</button>
+</div>
+
+<div
+	(click)="isMoreInfoVisible = !isMoreInfoVisible">
+	<strong>{{queuedTrack.Track.Name}}</strong>
+	<ul
+		class="comma-separated">
+		<li
+			*ngFor="let artist of queuedTrack.Track?.Artists">
+			<a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a>
+		</li>
+	</ul>
 
 	<div
-		class="track-item__col track-item__details"
-		fxFlex
-		fxFlexFill>
-		<div
-			class="track-item__wrap-trap"
-			(click)="isMoreInfoVisible = !isMoreInfoVisible">
-			<div
-				class="track-item__wrap-trap-inner">
-				<label>{{queuedTrack.Track.Name}}</label>
-				<ul
-					class="comma-separated">
-					<li
-						*ngFor="let artist of queuedTrack.Track?.Artists; trackBy: trackByFn">
-						<a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+    class="track-item__more-info"
+    *ngIf="isMoreInfoVisible">
+    <a
+      *ngIf="queuedTrack?.Track?.Album"
+      [routerLink]="['/album', queuedTrack?.Track?.Album.MusicProvider.Identifier, queuedTrack?.Track?.Album.Link]">
+      {{queuedTrack?.Track?.Album?.Name}}
+    </a><br>
 
-		<div
-			class="track-item__more-info"
-			*ngIf="isMoreInfoVisible">
+		<small>
+			Queued by
+			<span
+				*ngIf="!queuedTrack.url">
+				{{queuedTrack.fullName | async}}
+			</span>
 			<a
-				*ngIf="queuedTrack?.Track?.Album"
-				[routerLink]="['/album', queuedTrack?.Track?.Album.MusicProvider.Identifier, queuedTrack?.Track?.Album.Link]">
-				{{queuedTrack?.Track?.Album?.Name}}
-			</a><br>
-
-			<small>
-				Queued by
-				<span
-					*ngIf="!queuedTrack.url">
-					{{queuedTrack.fullName | async}}
-				</span>
-				<a
-					[href]="queuedTrack.url"
-					class="user-link dark top"
-					target="_blank"
-					*ngIf="queuedTrack.url">
-					{{queuedTrack.fullName | async}}<img [src]="queuedTrack?.userPhotoUrl">
-				</a>
-				<span
-					*ngIf="queuedTrack.Reason">
-					text: {{queuedTrack.Reason}}
-				</span>
-				<span
-					*ngIf="queuedTrack.StartedPlayingDateTime">
-					, played at {{queuedTrack.StartedPlayingDateTime | date: 'HH:mm'}} on {{queuedTrack.StartedPlayingDateTime | date}}
-				</span>
-			</small>
-		</div>
+				[href]="queuedTrack.url"
+				class="user-link dark top"
+				target="_blank"
+				*ngIf="queuedTrack.url">
+				{{queuedTrack.fullName | async}}<img [src]="queuedTrack?.userPhotoUrl">
+			</a>
+			<span
+				*ngIf="queuedTrack.Reason">
+				text: {{queuedTrack.Reason}}
+			</span>
+			<span
+				*ngIf="queuedTrack.StartedPlayingDateTime">
+				, played at {{queuedTrack.StartedPlayingDateTime | date: 'HH:mm'}} on {{queuedTrack.StartedPlayingDateTime | date}}
+			</span>
+		</small>
 	</div>
+</div>
 
-	<div
-		class="track-item__col track-item--hover-fade-in"
-		fxFlex="none">
+<div
+	class="list-item__hover-fade-in">
+	<button
+		mat-icon-button
+		[matMenuTriggerFor]="menu">
+		  <mat-icon>more_vert</mat-icon>
+	</button>
+
+	<mat-menu
+		#menu="matMenu">
 		<button
-			mat-icon-button
-			[matMenuTriggerFor]="menu">
-  			<mat-icon>more_vert</mat-icon>
+			mat-menu-item
+			(click)="queueTrack()"
+			*ngIf="!hasQueuedTrack">
+			<mat-icon>play_arrow</mat-icon>
+			<span>Queue</span>
 		</button>
+		<button
+			mat-menu-item
+			(click)="queueWithComment()"
+			*ngIf="!hasQueuedTrack">
+			<mat-icon>comment</mat-icon>
+			<span>Queue with comment</span>
+		</button>
+		<button
+			mat-menu-item
+			(click)="like()"
+			*ngIf="hasQueuedTrack">
+			<mat-icon>mood</mat-icon>
+			<span>Like</span>
+		</button>
+		<button
+			mat-menu-item
+			(click)="veto()"
+			*ngIf="hasQueuedTrack">
+			<mat-icon>mood_bad</mat-icon>
+			<span>Veto</span>
+		</button>
+	</mat-menu>
+</div>
 
-		<mat-menu
-			#menu="matMenu">
-			<button
-				mat-menu-item
-				(click)="queueTrack()"
-				*ngIf="!hasQueuedTrack">
-				<mat-icon>play_arrow</mat-icon>
-				<span>Queue</span>
-			</button>
-			<button
-				mat-menu-item
-				(click)="queueWithComment()"
-				*ngIf="!hasQueuedTrack">
-				<mat-icon>comment</mat-icon>
-				<span>Queue with comment</span>
-			</button>
-			<button
-				mat-menu-item
-				(click)="like()"
-				*ngIf="hasQueuedTrack">
-				<mat-icon>mood</mat-icon>
-				<span>Like</span>
-			</button>
-			<button
-				mat-menu-item
-				(click)="veto()"
-				*ngIf="hasQueuedTrack">
-				<mat-icon>mood_bad</mat-icon>
-				<span>Veto</span>
-			</button>
-		</mat-menu>
-	</div>
-
+<div
+	class="queued-track__opinions">
 	<div
-		class="track-item__col"
-		fxFlex="none">
-		<div
-			[pmTooltipTrigger]="queuedTrack?.LikeCount ? likeList : null"
-			class="badge badge-like user-list-container">
-			{{queuedTrack.LikeCount}}
-			<pm-tooltip
-				position="middle left"
-				#likeList>
-				<pm-user-list
-					title="Likes"
-					[opinions]="queuedTrack?.Likes"
-					*ngIf="queuedTrack?.LikeCount"
-					position="left">
-				</pm-user-list>
-			</pm-tooltip>
-			<!-- <pm-user-list
+		[pmTooltipTrigger]="queuedTrack?.LikeCount ? likeList : null"
+		class="badge badge-like user-list-container">
+		{{queuedTrack.LikeCount}}
+		<pm-tooltip
+			position="middle left"
+			#likeList>
+			<pm-user-list
 				title="Likes"
 				[opinions]="queuedTrack?.Likes"
 				*ngIf="queuedTrack?.LikeCount"
 				position="left">
-			</pm-user-list> -->
-		</div>
-		<div
-			[pmTooltipTrigger]="queuedTrack?.VetoCount ? vetoList : null"
-			class="badge badge-veto user-list-container">
-			{{queuedTrack.VetoCount}}
-			<pm-tooltip
-				position="middle left"
-				#vetoList>
-				<pm-user-list
-					title="Vetoes"
-					[opinions]="queuedTrack?.Vetoes"
-					*ngIf="queuedTrack?.VetoCount"
-					position="left">
-				</pm-user-list>
-			</pm-tooltip>
-		</div>
+			</pm-user-list>
+		</pm-tooltip>
+	</div>
+	<div
+		[pmTooltipTrigger]="queuedTrack?.VetoCount ? vetoList : null"
+		class="badge badge-veto user-list-container">
+		{{queuedTrack.VetoCount}}
+		<pm-tooltip
+			position="middle left"
+			#vetoList>
+			<pm-user-list
+				title="Vetoes"
+				[opinions]="queuedTrack?.Vetoes"
+				*ngIf="queuedTrack?.VetoCount"
+				position="left">
+			</pm-user-list>
+		</pm-tooltip>
 	</div>
 </div>

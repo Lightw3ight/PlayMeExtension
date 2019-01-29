@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 
 import { NowPlayingComponent } from './now-playing.component';
 import { MatProgressBarModule, MatTabsModule } from '@angular/material';
+import { SpotifyModule } from 'app/spotify/spotify.module';
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import { MatProgressBarModule, MatTabsModule } from '@angular/material';
         SharedModule,
         RouterModule,
         MatProgressBarModule,
-        MatTabsModule
+        MatTabsModule,
+        SpotifyModule
     ],
     exports: [NowPlayingComponent],
     declarations: [NowPlayingComponent]

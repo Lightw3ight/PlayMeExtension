@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ArtistService } from '../api';
-import { IArtist } from '../models';
+import { IArtist } from '../api/models';
 import { Observable } from 'rxjs/Observable';
 import { catchError, switchMap } from 'rxjs/operators';
 

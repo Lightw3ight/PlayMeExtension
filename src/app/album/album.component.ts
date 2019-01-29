@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 import { AlbumService, QueueService } from '../api';
 import { routeAnimation } from './../router-animation';
-import { IAlbum, ITrack } from '../models';
+import { IAlbum, ITrack } from '../api/models';
 import { Observable } from 'rxjs/Observable';
 
 @Component({

@@ -100,7 +100,8 @@
 </ng-container>
 <section
     class="container container--opaque now-playing__queue-card">
-    <mat-tab-group>
+    <mat-tab-group
+      selectedIndex="0">
         <mat-tab
             label="Next up">
             <p
@@ -116,10 +117,10 @@
             </pm-queued-track>
 
             <a
+                *ngIf="(trackQueue$ | async)?.length"
                 mat-button
                 class="now-playing__see-all-link"
-                [routerLink]="['/queue']"
-                *ngIf="trackQueue$ | async">
+                [routerLink]="['/queue']">
                 See all queued tracks
             </a>
         </mat-tab>
@@ -137,6 +138,10 @@
                 [routerLink]="['/history']">
                 See all history
             </a>
+        </mat-tab>
+        <mat-tab
+            label="Spotify">
+            <pm-spotify-home></pm-spotify-home>
         </mat-tab>
     </mat-tab-group>
 </section>

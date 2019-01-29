@@ -1,7 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-
-import { IVeto } from '../../models/IVeto';
-import { ILike } from '../../models/ILike';
+import { IVeto, ILike } from '../../api/models';
 
 @Component({
     selector: 'pm-user-list',

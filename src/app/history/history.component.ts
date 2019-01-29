@@ -5,7 +5,7 @@ import { MatTabChangeEvent } from '@angular/material';
 import {
     IQueuedTrack,
     IPagedResult
-} from '../models';
+} from '../api/models';
 import {
     AudioZoneService,
     IAudioZone,

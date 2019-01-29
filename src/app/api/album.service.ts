@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IAlbum } from '../models/IAlbum';
+import { IAlbum } from './models';
 import { AudioZoneService } from './audio-zone.service';
 import { Observable } from 'rxjs/Observable';
 

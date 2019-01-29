@@ -1,5 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ITrack } from '../../models/ITrack';
+import { ITrack } from '../../api/models';
 import { QueueService } from '../../api/queue.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { QueueWithCommentComponent } from '../queue-with-comment/queue-with-comment.component';
@@ -8,7 +8,7 @@ import { QueueWithCommentComponent } from '../queue-with-comment/queue-with-comm
     selector: 'pm-simple-track-list-item',
     templateUrl: 'simple-track-list-item.component.html',
     styleUrls: [
-        './track-item.scss',
+        '../track-item/track-item.scss',
         './simple-track-list-item.component.scss'
     ]
 })
