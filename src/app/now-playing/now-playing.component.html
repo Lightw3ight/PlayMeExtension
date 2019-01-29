@@ -60,7 +60,7 @@
                     class="comma-separated"
                     *ngIf="currentTrack?.Track?.Artists?.length">
                     <li
-                        *ngFor="let artist of currentTrack?.Track?.Artists">
+                        *ngFor="let artist of currentTrack?.Track?.Artists; trackBy: trackByFn">
                         <a
                             class="mat-subhead"
                             [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">
@@ -110,7 +110,7 @@
                 <em>There are no tracks in the queue</em>
             </p>
             <pm-queued-track
-                *ngFor="let track of trackQueue$ | async"
+                *ngFor="let track of trackQueue$ | async; trackBy: trackByFn"
                 [queuedTrack]="track"
                 (likeTrack)="likeTrack(track)"
                 (vetoTrack)="vetoTrack(track)">
@@ -128,7 +128,7 @@
         <mat-tab
             label="History">
             <pm-queued-track
-                *ngFor="let track of trackHistory$ | async"
+                *ngFor="let track of trackHistory$ | async; trackBy: trackByFn"
                 [queuedTrack]="track">
             </pm-queued-track>
 

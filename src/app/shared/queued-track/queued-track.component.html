@@ -42,13 +42,24 @@
 	</ul>
 
 	<div
-		class="track-item__more-info"
-		*ngIf="isMoreInfoVisible">
-		<a
-			*ngIf="queuedTrack?.Track?.Album"
-			[routerLink]="['/album', queuedTrack?.Track?.Album.MusicProvider.Identifier, queuedTrack?.Track?.Album.Link]">
-			{{queuedTrack?.Track?.Album?.Name}}
-		</a><br>
+		class="track-item__col track-item__details"
+		fxFlex
+		fxFlexFill>
+		<div
+			class="track-item__wrap-trap"
+			(click)="isMoreInfoVisible = !isMoreInfoVisible">
+			<div
+				class="track-item__wrap-trap-inner">
+				<label>{{queuedTrack.Track.Name}}</label>
+				<ul
+					class="comma-separated">
+					<li
+						*ngFor="let artist of queuedTrack.Track?.Artists; trackBy: trackByFn">
+						<a [routerLink]="['/artist', artist.MusicProvider.Identifier, artist.Link]">{{artist.Name}}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 
 		<small>
 			Queued by

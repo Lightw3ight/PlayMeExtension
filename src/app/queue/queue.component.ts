@@ -55,4 +55,8 @@ export class QueueComponent implements OnInit, OnDestroy {
         queuedTrack.VetoCount++;
         this._signalRService.vetoTrack(queuedTrack.Id);
     }
+
+    public trackByFn (index: number, item: IQueuedTrack) {
+        return item.Id;
+    }
 }

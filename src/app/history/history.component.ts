@@ -77,4 +77,8 @@ export class HistoryComponent implements OnInit {
                 break;
         }
     }
+
+    public trackByFn (index: number, item: IQueuedTrack) {
+        return item.Id;
+    }
 }

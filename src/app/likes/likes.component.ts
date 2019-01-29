@@ -23,4 +23,8 @@ export class LikesComponent implements OnInit {
                 this.loading = false;
             }));
     }
+
+    public trackByFn (index: number, track: ITrack): number {
+        return index;
+    }
 }

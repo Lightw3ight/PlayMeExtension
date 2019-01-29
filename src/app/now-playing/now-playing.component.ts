@@ -103,4 +103,7 @@ export class NowPlayingComponent implements OnInit {
         return `${elapsedDuration.minutes()}:${elapsedDuration.seconds()} / ${totalDuration.minutes()}:${totalDuration.seconds()}`;
     }
 
+    public trackByFn (index: number, item: IQueuedTrack) {
+        return item.Id;
+    }
 }

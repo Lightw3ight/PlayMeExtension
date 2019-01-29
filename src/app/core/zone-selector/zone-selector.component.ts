@@ -28,4 +28,8 @@ export class ZoneSelectorComponent implements OnInit {
         this.activeZone = this._audioZoneService.getCurrentZoneSnapshot();
         this.zones$ = this._audioZoneService.getAllZones();
     }
+
+    public trackByFn (index: number, item) {
+        return index;
+    }
 }

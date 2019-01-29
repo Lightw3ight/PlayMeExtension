@@ -10,7 +10,7 @@
 	<div class="option-buttons__like-divider"></div>
 
 	<div
-		*ngFor="let like of track?.Likes; let ix = index"
+		*ngFor="let like of track?.Likes; let ix = index; trackBy: trackByFn"
 		[style.display]="(ix >= maxUserCount - 1) ? 'none' : ''"
 		[matTooltip]="like.fullName | async"
 		[style.background-image]="'url(' + like.userPhotoUrl + ')'"
@@ -44,7 +44,7 @@
 	<div class="option-buttons__veto-divider"></div>
 
 	<div
-		*ngFor="let veto of track?.Vetoes; let ix = index"
+		*ngFor="let veto of track?.Vetoes; let ix = index; trackBy: trackByFn"
 		[style.display]="(ix >= maxUserCount - 1) ? 'none' : ''"
 		[matTooltip]="veto.fullName | async"
 		[style.background-image]="'url(' + veto.userPhotoUrl + ')'"

@@ -29,4 +29,9 @@ export class OpinionButtonsComponent implements OnChanges {
             // this.track.Likes[0].userPhotoUrl;
         }
     }
+
+
+    public trackByFn (index: number, item) {
+        return index;
+    }
 }

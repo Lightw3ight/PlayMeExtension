@@ -93,4 +93,8 @@ export class SiteHeaderComponent implements OnInit {
     public changeZone (zone: IAudioZone) {
         this._audioZoneService.setCurrentZone(zone.path);
     }
+
+    public trackByFn (index: number, suggestions: Observable<string>) {
+        return index;
+    }
 }
