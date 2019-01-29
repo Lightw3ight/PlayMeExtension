@@ -16,7 +16,7 @@
     </p>
 
     <pm-queued-track
-        *ngFor="let track of queuedTracks$ | async"
+        *ngFor="let track of queuedTracks$ | async; trackBy: trackByFn"
         [queuedTrack]="track"
         (likeTrack)="likeTrack(track)"
         (vetoTrack)="vetoTrack(track)">

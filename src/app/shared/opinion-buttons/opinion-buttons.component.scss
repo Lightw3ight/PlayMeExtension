@@ -25,6 +25,12 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	margin-right: 5px;
+	transition: transform ease-in .2s;
+
+	&:hover {
+		transform: scale(2,2);
+		z-index: 10;
+	}
 }
 
 .option-buttons__no-likes,

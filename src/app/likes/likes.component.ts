@@ -1,4 +1,4 @@
-import { IQueuedTrack, ITrack } from '../models';
+import { IQueuedTrack, ITrack } from '../api/models';
 import { QueueService } from '../api';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -22,5 +22,9 @@ export class LikesComponent implements OnInit {
             tap(() => {
                 this.loading = false;
             }));
+    }
+
+    public trackByFn (index: number, track: ITrack): number {
+        return index;
     }
 }

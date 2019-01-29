@@ -5,7 +5,7 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import {
     IQueuedTrack,
     IPagedResult
-} from '../models';
+} from '../api/models';
 import {
     AudioZoneService,
     IAudioZone,
@@ -54,5 +54,9 @@ export class QueueComponent implements OnInit, OnDestroy {
     public vetoTrack (queuedTrack: IQueuedTrack) {
         queuedTrack.VetoCount++;
         this._signalRService.vetoTrack(queuedTrack.Id);
+    }
+
+    public trackByFn (index: number, item: IQueuedTrack) {
+        return item.Id;
     }
 }

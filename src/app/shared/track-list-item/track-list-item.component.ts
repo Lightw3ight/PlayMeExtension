@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ITrack } from '../../models';
+import { ITrack } from '../../api/models';
 import { QueueService } from '../../api';
 import { MatDialog } from '@angular/material';
 import { SimpleTrackListItemComponent } from '../simple-track-list-item/simple-track-list-item.component';
@@ -9,7 +9,7 @@ import { SimpleTrackListItemComponent } from '../simple-track-list-item/simple-t
     selector: 'pm-track-list-item',
     templateUrl: 'track-list-item.component.html',
     styleUrls: [
-        '../simple-track-list-item/track-item.scss',
+        '../track-item/track-item.scss',
         'track-list-item.component.scss'
         ]
 })
@@ -21,5 +21,10 @@ export class TrackListItemComponent extends SimpleTrackListItemComponent {
         dialog: MatDialog
     ) {
         super(_queueService, dialog);
+    }
+
+
+    public trackByFn (index: number, item) {
+        return index;
     }
 }

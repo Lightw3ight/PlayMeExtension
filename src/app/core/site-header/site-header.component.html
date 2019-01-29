@@ -43,7 +43,9 @@
                 <mat-autocomplete
                     (optionSelected)="search($event.option.value)"
                     #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of suggestions$ | async" [value]="option">
+                    <mat-option 
+                        *ngFor="let option of suggestions$ | async; trackBy: trackByFn" 
+                        [value]="option">
                         {{ option }}
                     </mat-option>
                 </mat-autocomplete>

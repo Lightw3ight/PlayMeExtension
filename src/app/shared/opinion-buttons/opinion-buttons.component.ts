@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
 
-import { IQueuedTrack } from '../../models';
+import { IQueuedTrack } from '../../api/models';
 
 
 @Component({
@@ -28,5 +28,10 @@ export class OpinionButtonsComponent implements OnChanges {
         if (changes.track) {
             // this.track.Likes[0].userPhotoUrl;
         }
+    }
+
+
+    public trackByFn (index: number, item) {
+        return index;
     }
 }

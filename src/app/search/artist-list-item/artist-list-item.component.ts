@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IArtist } from '../../models';
+import { IArtist } from '../../api/models';
 
 @Component({
     selector: 'pm-artist-list-item',

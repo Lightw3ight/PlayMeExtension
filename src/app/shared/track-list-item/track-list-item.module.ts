@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 
 import { TrackListItemComponent } from './track-list-item.component';
 import { MatIconModule, MatMenuModule, MatButtonModule } from '@angular/material';
+import { SpotifyAudioPreviewButtonModule } from 'app/spotify/spotify-audio-preview/spotify-audio-preview-button/spotify-audio-preview-button.module';
 
 @NgModule({
     imports: [
@@ -13,7 +14,9 @@ import { MatIconModule, MatMenuModule, MatButtonModule } from '@angular/material
         FlexLayoutModule,
         MatMenuModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+
+        SpotifyAudioPreviewButtonModule
     ],
     exports: [TrackListItemComponent],
     declarations: [TrackListItemComponent],

@@ -1,3 +1,4 @@
+import { SpotifyAudioPreviewModule } from './spotify/spotify-audio-preview/spotify-audio-preview.module';
 import { KarmaService } from './api/karma.service';
 import { LikesModule } from './likes/likes.module';
 import { SearchModule } from './search/search.module';
@@ -14,7 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { routing, appRoutingProviders } from './app.routes';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import {
     SearchService,
     ArtistService,
@@ -22,24 +23,29 @@ import {
     QueueService,
     AudioZoneService,
     UserInfoService,
-    SignalRService
+    SignalRService,
+    SpotifyService,
+    SpotifyAuthService
 } from './api';
 import * as Raven from 'raven-js';
 
 import { AppComponent } from './app.component';
 import { MatSidenavModule } from '@angular/material';
+import { SpotifyModule } from './spotify/spotify.module';
 import { environment } from './environment';
+import { SpotifyAuthWebService } from './api/spotify-auth-web.service';
+import { SpotifyAuthChromeService } from './api/spotify-auth-chrome.service';
 
 Raven
-  .config('https://4a8c4ab293924b68b0826a87a1d93b06@sentry.io/287934', {
-    environment: environment.production ? 'production' : 'dev'
-  })
-  .install();
+    .config('https://4a8c4ab293924b68b0826a87a1d93b06@sentry.io/287934', {
+        environment: environment.production ? 'production' : 'dev'
+    })
+    .install();
 
 export class RavenErrorHandler implements ErrorHandler {
-  handleError (err:any) : void {
-    Raven.captureException(err);
-  }
+    handleError (err: any): void {
+        Raven.captureException(err);
+    }
 }
 
 @NgModule({
@@ -57,7 +63,10 @@ export class RavenErrorHandler implements ErrorHandler {
         SearchModule,
         MatSidenavModule,
         HttpClientModule,
-        LikesModule
+        LikesModule,
+
+        SpotifyModule,
+        SpotifyAudioPreviewModule
     ],
     declarations: [
         AppComponent
@@ -72,6 +81,11 @@ export class RavenErrorHandler implements ErrorHandler {
         UserInfoService,
         SignalRService,
         KarmaService,
+        SpotifyService,
+        SpotifyAuthWebService,
+        SpotifyAuthChromeService,
+        SpotifyAuthService,
+        // { provide: ErrorHandler, useClass: RavenErrorHandler }
         { provide: ErrorHandler, useClass: RavenErrorHandler }
     ],
     bootstrap: [AppComponent]

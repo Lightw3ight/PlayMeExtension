@@ -1,70 +1,59 @@
-<div
-	fxLayout="row"
-	fxLayoutAlign="start center">
+<ng-container
+	*ngIf="!track.IsAlreadyQueued">
 	<div
-		class="track-item__col"
-		fxFlex="none"
-		*ngIf="!track.IsAlreadyQueued">
-		<label
-			class="track-item__icon-size-text track-item--hover-hide">{{ trackNumber }}</label>
+		class="list-item__hover-hide">
+		{{ trackNumber }}
+	</div>
 
-		<button type="button"
-			class="track-item--hover-show"
+	<div
+		class="list-item__hover-show">
+		<button
+			type="button"
 			mat-icon-button
 			[disabled]="track.IsAlreadyQueued"
 			(click)="queueTrack(track)">
 			<i class="icon-play"></i>
 		</button>
 	</div>
-	
-	<div
-		class="track-item__col"
-		fxFlex="none"
-		*ngIf="track.IsAlreadyQueued">
-		<mat-icon class="track-item__display-icon">volume_up</mat-icon>
-	</div>
+</ng-container>
 
-	<div
-		class="track-item__col"
-		fxFlex
-		fxFlexFill>
-		<div class="track-item__wrap-trap">
-			<div class="track-item__wrap-trap-inner">
-				<label>{{track?.Name}}</label>
-			</div>
-		</div>
-	</div>
+<div
+	*ngIf="track.IsAlreadyQueued">
+	<mat-icon
+		class="list-item__display-icon">volume_up</mat-icon>
+</div>
 
-	<div
-		class="track-item__col track-item--hover-show"
-		fxFlex="none">
+<div>
+	{{track?.Name}}
+</div>
+
+<div
+	class="list-item__hover-show">
+	<button
+		mat-icon-button
+		[matMenuTriggerFor]="menu"
+		*ngIf="!track.IsAlreadyQueued">
+		<mat-icon>more_vert</mat-icon>
+	</button>
+
+	<mat-menu #menu="matMenu">
 		<button
-			mat-icon-button
-			[matMenuTriggerFor]="menu"
-			*ngIf="!track.IsAlreadyQueued">
-  			<mat-icon>more_vert</mat-icon>
+			mat-menu-item
+			(click)="queueTrack()">
+			<mat-icon>play_arrow</mat-icon>
+			<span>Queue</span>
 		</button>
+		<button
+			mat-menu-item
+			(click)="queueWithComment()">
+			<mat-icon>comment</mat-icon>
+			<span>Queue with comment</span>
+		</button>
+	</mat-menu>
 
-		<mat-menu #menu="matMenu">
-			<button
-				mat-menu-item
-				(click)="queueTrack()">
-				<mat-icon>play_arrow</mat-icon>
-				<span>Queue</span>
-			</button>
-			<button
-				mat-menu-item
-				(click)="queueWithComment()">
-				<mat-icon>comment</mat-icon>
-				<span>Queue with comment</span>
-			</button>
-		</mat-menu>
+</div>
 
-	</div>
-
-	<div
-		class="track-item__col track-item--hover-hide"
-		fxFlex="none">
-		<label>{{ formatTime(track.Duration) }}</label>
-	</div>
+<div
+	class="list-item__hover-hide">
+	<label>{{ formatTime(track.Duration) }}</label>
 </div>

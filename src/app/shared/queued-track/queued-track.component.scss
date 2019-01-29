@@ -1,3 +1,16 @@
+:host {
+	grid-template-columns: 40px auto min-content min-content;
+	
+	&.queued-track__more-info-open {
+		grid-template-rows: auto;
+		align-items: start;
+	}
+}
+
 .user-list-container {
 	position: relative;
+}
+
+.queued-track__opinions {
+	white-space: nowrap;
 }

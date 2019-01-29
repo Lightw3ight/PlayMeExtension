@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { ISearchResults } from '../models';
+import { ISearchResults } from './models';
 import { AudioZoneService } from './audio-zone.service';
 
 @Injectable()

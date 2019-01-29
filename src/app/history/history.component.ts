@@ -5,7 +5,7 @@ import { MatTabChangeEvent } from '@angular/material';
 import {
     IQueuedTrack,
     IPagedResult
-} from '../models';
+} from '../api/models';
 import {
     AudioZoneService,
     IAudioZone,
@@ -76,5 +76,9 @@ export class HistoryComponent implements OnInit {
                 this.loadFullHistory();
                 break;
         }
+    }
+
+    public trackByFn (index: number, item: IQueuedTrack) {
+        return item.Id;
     }
 }

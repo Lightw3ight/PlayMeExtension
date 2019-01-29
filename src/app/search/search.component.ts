@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { SearchService } from '../api';
-import { ISearchResults } from '../models';
+import { ISearchResults } from '../api/models';
 import { Observable } from 'rxjs/Observable';
 import { map, switchMap, tap } from 'rxjs/operators';
 
@@ -36,5 +36,9 @@ export class SearchComponent implements OnInit {
             tap(results => {
                 this.loading = false;
             }));
+    }
+
+    public trackByFn (index: number, item) {
+        return index;
     }
 }

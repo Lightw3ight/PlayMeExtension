@@ -1,0 +1,28 @@
+.sh-ffs {
+  margin: .5rem;
+}
+
+.spotify-logo {
+    width: 100px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.spotify-home__link-button {
+    cursor: pointer;
+}
+
+.spotify-home__login-info {
+    margin: 20px 0;
+    padding: 8px;
+    background-color: #EEE;
+    border-radius: 5px;
+
+    img {
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-right: 10px;
+        width: 40px;
+    }
+}

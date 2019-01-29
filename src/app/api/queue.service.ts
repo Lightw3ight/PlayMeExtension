@@ -3,10 +3,9 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
-import { ITrack } from '../models/ITrack';
 import * as moment from 'moment';
 import { AudioZoneService } from './audio-zone.service';
-import { IQueuedTrack, IPagedResult } from '../models';
+import { IQueuedTrack, IPagedResult, ITrack } from './models';
 import { UserInfoService } from './user-info.service';
 
 
@@ -53,23 +52,32 @@ export class QueueService {
     }
 
     public queueTrack (track: ITrack, comment: string = null): void {
-        const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/Queue/Enqueue/${track.MusicProvider.Identifier}/${track.Link}`;
+      if (track.IsAlreadyQueued) {
+        return;
+      }
 
-        if (track.IsAlreadyQueued) {
-            return;
-        }
+      track.Reason = comment;
 
-        track.Reason = comment;
+      this.queueTrackById(track.MusicProvider.Identifier, track.Link, comment)
+          .subscribe(() => {
+            track.IsAlreadyQueued = true;
+          });
+    }
+
+    public queueTrackById (
+      musicProvider: string,
+      trackId: string,
+      comment: string = null): Observable<Object> {
+
+        const url = `${this._audioZoneService.getCurrentZoneSnapshot().path}/api/Queue/Enqueue/${musicProvider}/${trackId}`;
+
         const data = {
-            id: encodeURIComponent(track.Link),
-            provider: track.MusicProvider.Identifier,
-            reason: track.Reason
+            id: encodeURIComponent(trackId),
+            provider: musicProvider,
+            reason: comment
         };
 
-        this._http.post(url, data)
-            .subscribe(() => {
-                track.IsAlreadyQueued = true;
-            });
+        return this._http.post(url, data);
     }
 
     public parseQueuedTrack (queueItem: IQueuedTrack) {

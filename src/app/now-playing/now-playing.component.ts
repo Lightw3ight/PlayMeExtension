@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import {
     IQueuedTrack,
     IPagedResult
-} from '../models';
+} from '../api/models';
 import {
     IAudioZone,
     UserInfoService,
@@ -101,5 +101,9 @@ export class NowPlayingComponent implements OnInit {
         const elapsedDuration = moment.duration(this.getElapsedMilliseconds(track));
         const totalDuration = moment.duration(track.Track.DurationMilliseconds);
         return `${elapsedDuration.minutes()}:${elapsedDuration.seconds()} / ${totalDuration.minutes()}:${totalDuration.seconds()}`;
+    }
+
+    public trackByFn (index: number, item: IQueuedTrack) {
+        return item.Id;
     }
 }
