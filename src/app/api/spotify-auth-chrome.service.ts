@@ -4,13 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { IHttpAsyncItem } from './models';
 import { spotifyLoginUrlFactory } from './spotify-login-url.factory';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class SpotifyAuthChromeService {
     private _currentUser: ReplaySubject<IHttpAsyncItem<ISpotifyUser>> = new ReplaySubject();
 
     constructor (
-        @Inject('SpotifyConfig') private _config: ISpotifyConfig
+        @Inject('SpotifyConfig') private _config: ISpotifyConfig,
+        private _snackBar: MatSnackBar
     ) { }
 
     public login (silentMode?: boolean): Observable<any> {
@@ -25,6 +27,14 @@ export class SpotifyAuthChromeService {
                     'url': spotifyLoginUrl,
                     'interactive': !silentMode
                 }, (requestUrl: string) => {
+                    if (!requestUrl) {
+                      this._snackBar.open('Spotify auth unsuccessful', null, { duration: 3000 });
+                      observer.next();
+                      observer.complete();
+
+                      return;
+                    }
+
                     const hashMatch = requestUrl.match('#.*');
                     const hash = hashMatch[0].substring(1); // cut off leading #
                     const pairs = hash.split('&');
