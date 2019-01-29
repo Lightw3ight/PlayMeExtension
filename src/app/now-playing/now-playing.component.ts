@@ -105,6 +105,6 @@ export class NowPlayingComponent implements OnInit {
 
 
     public trackByFn (index: number, item: IQueuedTrack) {
-        return item.StartedPlayingDateTime;
+        return item.Id;
     }
 }
