@@ -13,7 +13,5 @@ build:
 
 deployExtension:
   stage: deployExtension
-  only:
-    - master #to be invoked only on master merge
   script:
     - CLIENT_ID=${CLIENT_ID} CLIENT_SECRET=${CLIENT_SECRET} EXTENSION_ID=${EXTENSION_ID} REFRESH_TOKEN=${REFRESH_TOKEN} node ./deploy.js
