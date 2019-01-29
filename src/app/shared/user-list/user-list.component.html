@@ -2,7 +2,7 @@
 <ul
 	class="list-unstyled">
 	<li
-		*ngFor="let opinion of opinions">
+		*ngFor="let opinion of opinions; trackBy: trackByFn">
 		{{opinion.fullName | async}}
 	</li>
 </ul>

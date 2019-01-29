@@ -48,4 +48,9 @@ export class QueuedTrackComponent {
     public get hasQueuedTrack (): boolean {
         return !this.queuedTrack.StartedPlayingDateTime;
     }
+
+
+    public trackByFn (index: number, item) {
+        return index;
+    }
 }

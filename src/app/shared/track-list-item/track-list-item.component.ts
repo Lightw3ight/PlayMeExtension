@@ -22,4 +22,9 @@ export class TrackListItemComponent extends SimpleTrackListItemComponent {
     ) {
         super(_queueService, dialog);
     }
+
+
+    public trackByFn (index: number, item) {
+        return index;
+    }
 }

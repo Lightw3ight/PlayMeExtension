@@ -11,4 +11,9 @@ import { ILike } from '../../models/ILike';
 export class UserListComponent {
     @Input() public opinions: IVeto[] | ILike[];
     @Input() public title: string;
+
+
+    public trackByFn (index: number, item) {
+        return index;
+    }
 }
