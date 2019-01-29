@@ -28,6 +28,7 @@ zipFolder(folder, zipName, function (err) {
 });
 
 function uploadZip() {
+  const fs = require('fs');
   // creating file stream to upload
   const extensionSource = fs.createReadStream(`./${zipName}`);
 
