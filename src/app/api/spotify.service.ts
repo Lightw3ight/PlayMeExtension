@@ -36,6 +36,21 @@ export class SpotifyService {
         );
     }
 
+    public getRecommendationsForTrack (track: string) {
+      const url = `/recommendations`;
+
+      const options = {
+        market: 'NZ',
+        seed_tracks: track
+      };
+
+      return this.apiGet<any>(url, options).pipe(
+        map(result => {
+          return result.tracks.map(track => this.mapTrack(track));
+        })
+      );
+    }
+
     private toQueryString (obj: Object): string {
         const parts = [];
         for (const key in obj) {
