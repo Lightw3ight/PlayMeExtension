@@ -50,19 +50,12 @@
 		<button mat-menu-item (click)="queueWithComment()">
 			<mat-icon>comment</mat-icon>
 			<span>Queue with comment</span>
-    </button>
-    <hr>
+		</button>
 		<button
 			mat-menu-item
 			[routerLink]="['/album', track?.Album.MusicProvider.Identifier, track?.Album.Link]">
 			<mat-icon>album</mat-icon>
 			<span>View album</span>
-    </button>
-    <button
-			mat-menu-item
-			[routerLink]="['/spotify/recommendations', track?.Link]">
-			<mat-icon>search</mat-icon>
-			<span>Find similar tracks</span>
 		</button>
   </mat-menu>
 
