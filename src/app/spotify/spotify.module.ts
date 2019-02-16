@@ -12,6 +12,7 @@ import { PlaylistComponent } from './playlist/playlist.component';
 import { SharedModule } from '../shared';
 import { ISpotifyConfig } from '../api/models/spotify';
 import { SpotifyRecentlyPlayedComponent } from './spotify-recently-played/spotify-recently-played.component';
+import { SpotifyTopTracksComponent } from './spotify-top-tracks/spotify-top-tracks.component';
 export const LOCALSTORAGEKEY_AUTH_TOKEN = 'angular2-spotify-token';
 export const LOCALSTORAGEKEY_AUTH_TOKEN_EXPIRY = 'angular2-spotify-token-expiry';
 @NgModule({
@@ -53,7 +54,8 @@ export const LOCALSTORAGEKEY_AUTH_TOKEN_EXPIRY = 'angular2-spotify-token-expiry'
         PlaylistListItemComponent,
         SpotifyHomeComponent,
         PlaylistComponent,
-        SpotifyRecentlyPlayedComponent
+        SpotifyRecentlyPlayedComponent,
+        SpotifyTopTracksComponent
     ],
     exports: [
         SpotifyHomeComponent

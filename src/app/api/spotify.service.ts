@@ -46,6 +46,16 @@ export class SpotifyService {
       );
     }
 
+    public getTopTracks () {
+      const url = `/me/top/tracks`;
+
+      return this.apiGet<any>(url).pipe(
+        map(result => {
+          return result.items.map(item => this.mapTrack(item));
+        })
+      );
+    }
+
     private toQueryString (obj: Object): string {
         const parts = [];
         for (const key in obj) {

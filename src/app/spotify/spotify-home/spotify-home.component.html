@@ -45,6 +45,10 @@
                   [routerLink]="['/spotify/recently-played']">
                   Recently played
                 </a>
+                <a
+                  [routerLink]="['/spotify/top-tracks']">
+                  Top tracks
+                </a>
                 <pm-playlist-list-item
                     [routerLink]="['/spotify/playlist', playlist.OwnerId, playlist.Link]"
                     *ngFor="let playlist of playlists.result"
