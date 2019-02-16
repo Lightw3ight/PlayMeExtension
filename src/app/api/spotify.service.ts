@@ -36,6 +36,16 @@ export class SpotifyService {
         );
     }
 
+    public getRecentlyPlayed (): Observable<any> {
+      const url = `/me/player/recently-played/`;
+
+      return this.apiGet<any>(url).pipe(
+        map(result => {
+          return result.items.map(item => this.mapTrack(item.track));
+        })
+      );
+    }
+
     private toQueryString (obj: Object): string {
         const parts = [];
         for (const key in obj) {

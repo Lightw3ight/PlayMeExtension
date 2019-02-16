@@ -1,0 +1,8 @@
+<p>
+  spotify-recently-played works!
+</p>
+
+<pm-track-list-item
+    *ngFor="let track of (recentlyPlayedTracks$ | async)"
+    [track]="track">
+</pm-track-list-item>
