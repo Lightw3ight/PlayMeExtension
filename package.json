@@ -30,10 +30,12 @@
     "moment": "^2.18.1",
     "raven-js": "^3.22.3",
     "rxjs": "^5.5.6",
+    "tslib": "^1.9.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
-    "@angular/cli": "~1.7.1",
+    "@angular-devkit/build-angular": "~0.13.0",
+    "@angular/cli": "^7.3.1",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
     "@types/chrome": "0.0.59",
