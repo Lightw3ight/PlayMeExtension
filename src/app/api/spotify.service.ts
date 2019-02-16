@@ -36,20 +36,20 @@ export class SpotifyService {
         );
     }
 
-    public getRecentlyPlayed (): Observable<any> {
+    public getRecentlyPlayed (options): Observable<any> {
       const url = `/me/player/recently-played/`;
 
-      return this.apiGet<any>(url).pipe(
+      return this.apiGet<any>(url, options).pipe(
         map(result => {
           return result.items.map(item => this.mapTrack(item.track));
         })
       );
     }
 
-    public getTopTracks () {
+    public getTopTracks (options) {
       const url = `/me/top/tracks`;
 
-      return this.apiGet<any>(url).pipe(
+      return this.apiGet<any>(url, options).pipe(
         map(result => {
           return result.items.map(item => this.mapTrack(item));
         })

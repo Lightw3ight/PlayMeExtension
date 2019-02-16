@@ -41,14 +41,20 @@
 
             <div
                 *ngIf="!playlists.isLoading">
-                <a
-                  [routerLink]="['/spotify/recently-played']">
-                  Recently played
-                </a>
-                <a
-                  [routerLink]="['/spotify/top-tracks']">
-                  Top tracks
-                </a>
+                <div class="link-item">
+                  <div></div>
+                  <a
+                    [routerLink]="['/spotify/recently-played']">
+                    Recently played on Spotify
+                  </a>
+                </div>
+                <div class="link-item">
+                  <div></div>
+                  <a
+                    [routerLink]="['/spotify/top-tracks']">
+                    Your top tracks
+                  </a>
+                </div>
                 <pm-playlist-list-item
                     [routerLink]="['/spotify/playlist', playlist.OwnerId, playlist.Link]"
                     *ngFor="let playlist of playlists.result"

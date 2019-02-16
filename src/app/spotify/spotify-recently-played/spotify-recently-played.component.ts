@@ -16,7 +16,7 @@ export class SpotifyRecentlyPlayedComponent implements OnInit {
   ) { }
 
   ngOnInit () {
-    this.recentlyPlayedTracks$ = this._spotifyService.getRecentlyPlayed();
+    this.recentlyPlayedTracks$ = this._spotifyService.getRecentlyPlayed({ limit: 50 });
   }
 
 }

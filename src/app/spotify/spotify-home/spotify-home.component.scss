@@ -26,3 +26,81 @@
         width: 40px;
     }
 }
+
+// TODO: This is duplicated code from track-item.scss . Make common - properly...
+.link-item {
+      display: grid;
+      grid-template-columns: 40px auto min-content 40px;
+      grid-template-rows: 40px;
+      grid-column-gap: 10px;
+      align-items: center;
+      padding: 5px 10px 5px 5px;
+      border-radius: 3px;
+      color: #333;
+      border-radius: 5px;
+      transition: background-color ease-in .15s;
+
+      div:first-child {
+          justify-self: center;
+      }
+
+      .list-item__hover-show {
+          display: none;
+      }
+
+      .list-item__hover-fade-in {
+          opacity: 0;
+          transition: opacity .2s;
+      }
+
+      &:hover {
+          background-color: rgb(238, 238, 238);
+
+          .list-item__hover-hide {
+              display: none;
+          }
+
+          .list-item__hover-show {
+              display: block;
+          }
+
+          .list-item__play-button img+mat-icon {
+              opacity: 1;
+          }
+
+          .list-item__hover-fade-in {
+              opacity: 1;
+          }
+      }
+
+
+  .list-item__thumb {
+      width: 40px;
+      width: 40px;
+      display: block;
+  }
+
+  .list-item__play-button {
+      position: relative;
+      color: white;
+      border-radius: 0;
+      background-color: transparent;
+
+      img+mat-icon {
+          position: absolute;
+          top: 0;
+          left: 0;
+          padding: 8px;
+          width: 40px;
+          height: 40px;
+          opacity: 0;
+          transition: opacity ease-in .2s;
+          background-color: rgba(0,0,0,.3);
+      }
+  }
+
+  .list-item__display-icon {
+      margin: 8px;
+  }
+
+}

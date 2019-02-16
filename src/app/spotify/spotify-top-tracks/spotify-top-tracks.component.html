@@ -1,8 +1,15 @@
-<p>
-  spotify-top-tracks works!
-</p>
+<div
+    class="small-hero">
+    <h1
+        class="md-display-1">
+        Your top tracks
+    </h1>
+</div>
 
-<pm-track-list-item
-    *ngFor="let track of (topTracks$ | async)"
-    [track]="track">
-</pm-track-list-item>
+<section
+    class="container container--opaque">
+    <pm-track-list-item
+      *ngFor="let track of (topTracks$ | async)"
+      [track]="track">
+    </pm-track-list-item>
+</section>
