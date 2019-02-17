@@ -7,6 +7,8 @@ import { NgModule } from '@angular/core';
 import { NowPlayingComponent } from './now-playing.component';
 import { MatProgressBarModule, MatTabsModule } from '@angular/material';
 import { SpotifyModule } from 'app/spotify/spotify.module';
+import { ShortQueueComponent } from './short-queue/short-queue.component';
+import { ShortHistoryComponent } from './short-history/short-history.component';
 
 @NgModule({
     imports: [
@@ -19,6 +21,6 @@ import { SpotifyModule } from 'app/spotify/spotify.module';
         SpotifyModule
     ],
     exports: [NowPlayingComponent],
-    declarations: [NowPlayingComponent]
+    declarations: [NowPlayingComponent, ShortQueueComponent, ShortHistoryComponent]
 })
 export class NowPlayingModule { }

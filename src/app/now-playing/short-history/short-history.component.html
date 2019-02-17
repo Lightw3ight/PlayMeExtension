@@ -1,0 +1,15 @@
+<p>
+  short-history works!
+</p>
+
+<pm-queued-track
+    *ngFor="let track of trackHistory$ | async; trackBy: trackByFn"
+    [queuedTrack]="track">
+</pm-queued-track>
+
+<a
+    mat-button
+    class="now-playing__see-all-link"
+    [routerLink]="['/history']">
+    See all history
+</a>

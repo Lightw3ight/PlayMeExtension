@@ -1,0 +1,23 @@
+<p>
+  short-queue works!
+</p>
+
+<p
+    *ngIf="!(trackQueue$ | async)?.length"
+    class="text padding-top-half">
+    <em>There are no tracks in the queue</em>
+</p>
+<pm-queued-track
+    *ngFor="let track of trackQueue$ | async; trackBy: trackByFn"
+    [queuedTrack]="track"
+    (likeTrack)="likeTrack(track)"
+    (vetoTrack)="vetoTrack(track)">
+</pm-queued-track>
+
+<a
+    *ngIf="(trackQueue$ | async)?.length"
+    mat-button
+    class="now-playing__see-all-link"
+    [routerLink]="['/queue']">
+    See all queued tracks
+</a>

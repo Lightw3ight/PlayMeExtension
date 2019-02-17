@@ -29,8 +29,8 @@ import { switchMap, takeUntil, map } from 'rxjs/operators';
 export class NowPlayingComponent implements OnInit {
     @HostBinding('@routerTransition') animate = true;
     public currentTrack$: Observable<IQueuedTrack>;
-    public trackQueue$: Observable<IQueuedTrack[]>;
-    public trackHistory$: Observable<IQueuedTrack[]>;
+    // public trackQueue$: Observable<IQueuedTrack[]>;
+    // public trackHistory$: Observable<IQueuedTrack[]>;
     public trackProgress$: Observable<number>;
     public trackElapsedTime$: Observable<string>;
     public karma$: Observable<number>;
@@ -52,8 +52,8 @@ export class NowPlayingComponent implements OnInit {
 
     public ngOnInit () {
         this.karma$ = this._karmaService.getCurrentKarma();
-        this.trackHistory$ = this._signalRService.getRecentlyPlayed();
-        this.trackQueue$ = this._signalRService.getNextUp();
+        // this.trackHistory$ = this._signalRService.getRecentlyPlayed();
+        // this.trackQueue$ = this._signalRService.getNextUp();
         this.currentTrack$ = this._signalRService.getNowPlaying();
         this.trackProgress$ = Observable
             .interval(500).pipe(

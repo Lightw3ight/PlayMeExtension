@@ -100,48 +100,27 @@
 </ng-container>
 <section
     class="container container--opaque now-playing__queue-card">
-    <mat-tab-group
+    <nav mat-tab-nav-bar
       selectedIndex="0">
-        <mat-tab
-            label="Next up">
-            <p
-                *ngIf="!(trackQueue$ | async)?.length"
-                class="text padding-top-half">
-                <em>There are no tracks in the queue</em>
-            </p>
-            <pm-queued-track
-                *ngFor="let track of trackQueue$ | async; trackBy: trackByFn"
-                [queuedTrack]="track"
-                (likeTrack)="likeTrack(track)"
-                (vetoTrack)="vetoTrack(track)">
-            </pm-queued-track>
-
-            <a
-                *ngIf="(trackQueue$ | async)?.length"
-                mat-button
-                class="now-playing__see-all-link"
-                [routerLink]="['/queue']">
-                See all queued tracks
-            </a>
-        </mat-tab>
-
-        <mat-tab
-            label="History">
-            <pm-queued-track
-                *ngFor="let track of trackHistory$ | async; trackBy: trackByFn"
-                [queuedTrack]="track">
-            </pm-queued-track>
-
-            <a
-                mat-button
-                class="now-playing__see-all-link"
-                [routerLink]="['/history']">
-                See all history
-            </a>
-        </mat-tab>
-        <mat-tab
-            label="Spotify">
-            <pm-spotify-home></pm-spotify-home>
-        </mat-tab>
-    </mat-tab-group>
+        <a mat-tab-link
+            routerLink="/now-playing/queue"
+            routerLinkActive #rla="routerLinkActive"
+            [active]="rla.isActive">
+            Next up
+        </a>
+        <a mat-tab-link
+            routerLink="/now-playing/history"
+            routerLinkActive #rla="routerLinkActive"
+            [active]="rla.isActive">
+            History
+        </a>
+        <a mat-tab-link
+            routerLink="/spotify"
+            routerLinkActive #rla="routerLinkActive"
+            [active]="rla.isActive">
+            Spotify
+        </a>
+    </nav>
+    xxx
+    <router-outlet name="homeNav">yyy</router-outlet>
 </section>
