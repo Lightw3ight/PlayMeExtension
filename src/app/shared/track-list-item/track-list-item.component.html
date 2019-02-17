@@ -1,10 +1,11 @@
 <div
 	*ngIf="!track?.IsAlreadyQueued">
 	<button
-		mat-icon-button
+    (click)="queueTrack()"
+    mat-icon-button
 		class="list-item__play-button"
 		type="button"
-		(click)="queueTrack()">
+    title="Queue track">
 		<img
 			class="list-item__thumb"
 			[src]="track?.Album.ArtworkUrlMedium">
@@ -43,7 +44,9 @@
 	</button>
 
 	<mat-menu #menu="matMenu">
-		<button mat-menu-item (click)="queueTrack()">
+    <button
+      mat-menu-item
+      (click)="queueTrack()">
 			<mat-icon>play_arrow</mat-icon>
 			<span>Queue</span>
 		</button>
