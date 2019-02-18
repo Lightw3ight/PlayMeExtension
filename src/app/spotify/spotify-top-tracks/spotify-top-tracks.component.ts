@@ -15,7 +15,7 @@ export class SpotifyTopTracksComponent implements OnInit {
   ) { }
 
   ngOnInit () {
-    this.topTracks$ = this._spotifyService.getTopTracks({ limit: 50 });Í
+    this.topTracks$ = this._spotifyService.getTopTracks({ limit: 50 });
   }
 
 }
