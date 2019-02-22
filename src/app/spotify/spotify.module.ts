@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
-import { MatCardModule, MatIconModule, MatButtonModule, MatMenuModule, MatChipsModule, MatSnackBarModule } from '@angular/material';
+import { MatCardModule, MatIconModule, MatButtonModule, MatMenuModule, MatChipsModule, MatSnackBarModule, MatTableModule, MatTooltipModule } from '@angular/material';
 import { PlaylistListItemComponent } from './playlist-list-item/playlist-list-item.component';
 import { SpotifyHomeComponent } from './spotify-home/spotify-home.component';
 import { PlaylistComponent } from './playlist/playlist.component';
@@ -34,7 +34,9 @@ export const LOCALSTORAGEKEY_AUTH_TOKEN_EXPIRY = 'angular2-spotify-token-expiry'
         MatButtonModule,
         MatMenuModule,
         MatChipsModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatTableModule,
+        MatTooltipModule
     ],
     providers: [
         {
