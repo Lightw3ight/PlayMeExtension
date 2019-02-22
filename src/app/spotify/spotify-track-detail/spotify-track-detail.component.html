@@ -1,0 +1,54 @@
+<p>
+  spotify-track-detail works!
+</p>
+
+<div *ngIf="(artistDetail$ | async) as artist">
+  Artist: {{ artist.name }}
+
+  <h4>Genres</h4>
+  <ul *ngFor="let genre of artist.genres">
+    <li>{{ genre }}</li>
+  </ul>
+  <span *ngIf="!artist.genres.length">(No genres)</span>
+</div>
+
+<div *ngIf="(audioAnalysis$ | async) as audioAnalysis">
+  Tempo: {{ audioAnalysis.tempo | number }}
+
+
+<table mat-table>
+  <tr>
+    <td mat-cell>acousticness</td>
+    <td mat-cell>{{ audioAnalysis.acousticness | percent:'2.2' }}</td>
+  </tr>
+  <tr>
+    <td mat-cell>danceability</td>
+    <td mat-cell>{{ audioAnalysis.danceability | percent:'2.2' }}</td>
+  </tr>
+  <tr>
+    <td mat-cell>energy</td>
+    <td mat-cell>{{ audioAnalysis.energy | percent:'2.2' }}</td>
+  </tr>
+  <tr>
+    <td mat-cell>instrumentalness</td>
+    <td mat-cell>{{ audioAnalysis.instrumentalness | percent:'2.2' }}</td>
+  </tr>
+  <tr>
+    <td mat-cell>liveness</td>
+    <td mat-cell>{{ audioAnalysis.liveness | percent:'2.2' }}</td>
+  </tr>
+  <tr>
+    <td mat-cell>loudness</td>
+    <td mat-cell>{{ audioAnalysis.loudness | percent:'2.2' }}</td>
+  </tr>
+  <tr>
+    <td mat-cell>speechiness</td>
+    <td mat-cell>{{ audioAnalysis.speechiness | percent:'2.2' }}</td>
+  </tr>
+  <tr>
+    <td mat-cell>valence</td>
+    <td mat-cell>{{ audioAnalysis.valence | percent:'2.2' }}</td>
+  </tr>
+</table>
+
+</div>

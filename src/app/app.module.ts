@@ -30,7 +30,7 @@ import {
 import * as Raven from 'raven-js';
 
 import { AppComponent } from './app.component';
-import { MatSidenavModule } from '@angular/material';
+import { MatSidenavModule, MatTableModule } from '@angular/material';
 import { SpotifyModule } from './spotify/spotify.module';
 import { environment } from './environment';
 import { SpotifyAuthWebService } from './api/spotify-auth-web.service';
@@ -62,6 +62,7 @@ export class RavenErrorHandler implements ErrorHandler {
         QueueModule,
         SearchModule,
         MatSidenavModule,
+        MatTableModule,
         HttpClientModule,
         LikesModule,
 
