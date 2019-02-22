@@ -10,6 +10,7 @@ import { SpotifyService } from 'app/api';
 export class SpotifyTrackDetailComponent implements OnInit {
 
   public artistDetail$;
+  public trackDetail$;
   public audioAnalysis$;
 
   constructor (
@@ -22,6 +23,7 @@ export class SpotifyTrackDetailComponent implements OnInit {
     const artistId = this._route.snapshot.params['artistId'];
 
     this.artistDetail$ = this._spotifyService.getArtist(artistId);
+    this.trackDetail$ = this._spotifyService.getTrack(trackId);
 
     this.audioAnalysis$ = this._spotifyService.getAudioAnalysis(trackId);
   }

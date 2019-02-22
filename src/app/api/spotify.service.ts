@@ -62,6 +62,12 @@ export class SpotifyService {
       return this.apiGet<any>(url + artistId);
     }
 
+    public getTrack (trackId: string) {
+      const url = `/tracks/`;
+
+      return this.apiGet<any>(url + trackId);
+    }
+
     public getAudioAnalysis (trackId: string) {
       const url = `/audio-features/`;
 

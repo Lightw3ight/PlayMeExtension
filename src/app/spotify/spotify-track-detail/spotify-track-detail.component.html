@@ -3,17 +3,42 @@
 </h1>
 
 <div *ngIf="(artistDetail$ | async) as artist">
-  Artist: {{ artist.name }}
+  <h2>
+    Artist: {{ artist.name }}
+  </h2>
 
-  <h4>Genres</h4>
+  <h4>Artist popularity: {{ artist.popularity }}</h4>
+
+  <h4>Followers: {{artist.followers.total | number }}</h4>
+
+  <h4>Artist genres</h4>
   <mat-chip-list *ngFor="let genre of artist.genres">
     <mat-chip>{{ genre }}</mat-chip>
   </mat-chip-list>
   <span *ngIf="!artist.genres.length">(No genres)</span>
 
-<h4>Audio analysis</h4>
+
+<div *ngIf="(trackDetail$ | async) as trackDetail">
+<h2>Track: {{ trackDetail.name }}</h2>
 <div *ngIf="(audioAnalysis$ | async) as audioAnalysis">
   <table mat-table>
+      <tr>
+          <td mat-cell>Popularity</td>
+          <td mat-cell>{{ trackDetail.popularity }}</td>
+        </tr>
+        <tr>
+            <td mat-cell>Explicit lyrics</td>
+            <td mat-cell>{{ trackDetail.explicit }}</td>
+          </tr>
+          <tr>
+              <td mat-cell>Is playable</td>
+              <td mat-cell>{{ trackDetail.is_playable }}</td>
+            </tr>
+    <tr>
+      <td>
+        <strong>Audio analysis</strong>
+      </td>
+    </tr>
     <tr>
       <td mat-cell>Tempo</td>
       <td mat-cell>{{ audioAnalysis.tempo }} BPM</td>
@@ -71,5 +96,5 @@
       </td>
     </tr>
   </table>
-
+</div>
 </div>
