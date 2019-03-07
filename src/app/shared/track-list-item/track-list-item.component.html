@@ -62,6 +62,7 @@
 			<span>View album</span>
     </button>
     <button
+      *ngIf="(hasSpotifyFeatures$ | async)"
 			mat-menu-item
 			[routerLink]="['/spotify/track-detail', track?.Artists[0].Link, track?.Link]">
 			<mat-icon>highlight</mat-icon>

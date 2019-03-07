@@ -113,6 +113,15 @@
 			*ngIf="hasQueuedTrack">
 			<mat-icon>mood_bad</mat-icon>
 			<span>Veto</span>
+    </button>
+    <hr
+      *ngIf="(hasSpotifyFeatures$ | async)">
+    <button
+      *ngIf="(hasSpotifyFeatures$ | async)"
+      mat-menu-item
+			[routerLink]="['/spotify/track-detail', queuedTrack?.Track?.Artists[0].Link, queuedTrack?.Track?.Link]">
+			<mat-icon>highlight</mat-icon>
+			<span>Track details</span>
 		</button>
 	</mat-menu>
 </div>

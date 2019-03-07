@@ -1,100 +1,108 @@
-<h1>
-  Track details
-</h1>
+<section
+	class="container container--opaque">
+  <h1>
+    Track details
+  </h1>
 
-<div *ngIf="(artistDetail$ | async) as artist">
-  <h2>
-    Artist: {{ artist.name }}
-  </h2>
+  <mat-card
+    class="track-detail_disclaimer-box">
+    <strong>Experimental:</strong>
+    A test of what data's available from Spotify
+  </mat-card>
+  <div *ngIf="(artistDetail$ | async) as artist">
+    <h2>
+      Artist: {{ artist.name }}
+    </h2>
 
-  <h4>Artist popularity: {{ artist.popularity }}</h4>
+    <h4>Artist popularity: {{ artist.popularity }}</h4>
 
-  <h4>Followers: {{artist.followers.total | number }}</h4>
+    <h4>Followers: {{artist.followers.total | number }}</h4>
 
-  <h4>Artist genres</h4>
-  <mat-chip-list *ngFor="let genre of artist.genres">
-    <mat-chip>{{ genre }}</mat-chip>
-  </mat-chip-list>
-  <span *ngIf="!artist.genres.length">(No genres)</span>
+    <h4>Artist genres</h4>
+    <mat-chip-list *ngFor="let genre of artist.genres">
+      <mat-chip>{{ genre }}</mat-chip>
+    </mat-chip-list>
+    <span *ngIf="!artist.genres.length">(No genres)</span>
 
 
-<div *ngIf="(trackDetail$ | async) as trackDetail">
-<h2>Track: {{ trackDetail.name }}</h2>
-<div *ngIf="(audioAnalysis$ | async) as audioAnalysis">
-  <table mat-table>
-      <tr>
-          <td mat-cell>Popularity</td>
-          <td mat-cell>{{ trackDetail.popularity }}</td>
-        </tr>
+  <div *ngIf="(trackDetail$ | async) as trackDetail">
+  <h2>Track: {{ trackDetail.name }}</h2>
+  <div *ngIf="(audioAnalysis$ | async) as audioAnalysis">
+    <table mat-table>
         <tr>
-            <td mat-cell>Explicit lyrics</td>
-            <td mat-cell>{{ trackDetail.explicit }}</td>
+            <td mat-cell>Popularity</td>
+            <td mat-cell>{{ trackDetail.popularity }}</td>
           </tr>
           <tr>
-              <td mat-cell>Is playable</td>
-              <td mat-cell>{{ trackDetail.is_playable }}</td>
+              <td mat-cell>Explicit lyrics</td>
+              <td mat-cell>{{ trackDetail.explicit }}</td>
             </tr>
-    <tr>
-      <td>
-        <strong>Audio analysis</strong>
-      </td>
-    </tr>
-    <tr>
-      <td mat-cell>Tempo</td>
-      <td mat-cell>{{ audioAnalysis.tempo }} BPM</td>
-    </tr>
-    <tr>
-        <td mat-cell>Key</td>
-        <td mat-cell>{{ getKey(audioAnalysis.key) }} | {{ getMode(audioAnalysis.mode) }}</td>
+            <tr>
+                <td mat-cell>Is playable</td>
+                <td mat-cell>{{ trackDetail.is_playable }}</td>
+              </tr>
+      <tr>
+        <td>
+          <strong>Audio analysis</strong>
+        </td>
       </tr>
       <tr>
-          <td mat-cell>Time signature</td>
-          <td mat-cell>{{ audioAnalysis.time_signature }}</td>
+        <td mat-cell>Tempo</td>
+        <td mat-cell>{{ audioAnalysis.tempo }} BPM</td>
+      </tr>
+      <tr>
+          <td mat-cell>Key</td>
+          <td mat-cell>{{ getKey(audioAnalysis.key) }} | {{ getMode(audioAnalysis.mode) }}</td>
         </tr>
+        <tr>
+            <td mat-cell>Time signature</td>
+            <td mat-cell>{{ audioAnalysis.time_signature }}</td>
+          </tr>
 
-    <tr>
-      <td mat-cell>acousticness</td>
-      <td mat-cell>{{ audioAnalysis.acousticness | percent:'2.2' }}</td>
-    </tr>
-    <tr>
-      <td mat-cell>danceability</td>
-      <td mat-cell>{{ audioAnalysis.danceability | percent:'2.2' }}</td>
-    </tr>
-    <tr>
-      <td mat-cell>energy</td>
-      <td mat-cell>{{ audioAnalysis.energy | percent:'2.2' }}</td>
-    </tr>
-    <tr>
-      <td mat-cell>instrumentalness</td>
-      <td mat-cell>{{ audioAnalysis.instrumentalness | percent:'2.2' }}</td>
-    </tr>
-    <tr>
-      <td mat-cell>liveness</td>
-      <td mat-cell>{{ audioAnalysis.liveness | percent:'2.2' }}</td>
-      <td>
-        <span
-          matTooltip="Detects the presence of an audience in the recording. A value above 80% provides strong likelihood that the track is live.">
-          ?
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td mat-cell>loudness</td>
-      <td mat-cell>{{ audioAnalysis.loudness }} dB</td>
-    </tr>
-    <tr>
-      <td mat-cell>speechiness</td>
-      <td mat-cell>{{ audioAnalysis.speechiness | percent:'2.2' }}</td>
-    </tr>
-    <tr>
-      <td mat-cell>valence</td>
-      <td mat-cell>{{ audioAnalysis.valence | percent:'2.2' }}</td>
-      <td>
-        <span matTooltip="The musical positiveness conveyed by a track. High valence sound more positive (e.g. happy, cheerful, euphoric), low valence sounds more negative (e.g. sad, depressed, angry). ">
-          ?
-        </span>
-      </td>
-    </tr>
-  </table>
-</div>
+      <tr>
+        <td mat-cell>acousticness</td>
+        <td mat-cell>{{ audioAnalysis.acousticness | percent:'2.2' }}</td>
+      </tr>
+      <tr>
+        <td mat-cell>danceability</td>
+        <td mat-cell>{{ audioAnalysis.danceability | percent:'2.2' }}</td>
+      </tr>
+      <tr>
+        <td mat-cell>energy</td>
+        <td mat-cell>{{ audioAnalysis.energy | percent:'2.2' }}</td>
+      </tr>
+      <tr>
+        <td mat-cell>instrumentalness</td>
+        <td mat-cell>{{ audioAnalysis.instrumentalness | percent:'2.2' }}</td>
+      </tr>
+      <tr>
+        <td mat-cell>liveness</td>
+        <td mat-cell>{{ audioAnalysis.liveness | percent:'2.2' }}</td>
+        <td>
+          <span
+            matTooltip="Detects the presence of an audience in the recording. A value above 80% provides strong likelihood that the track is live.">
+            ?
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td mat-cell>loudness</td>
+        <td mat-cell>{{ audioAnalysis.loudness }} dB</td>
+      </tr>
+      <tr>
+        <td mat-cell>speechiness</td>
+        <td mat-cell>{{ audioAnalysis.speechiness | percent:'2.2' }}</td>
+      </tr>
+      <tr>
+        <td mat-cell>valence</td>
+        <td mat-cell>{{ audioAnalysis.valence | percent:'2.2' }}</td>
+        <td>
+          <span matTooltip="The musical positiveness conveyed by a track. High valence sound more positive (e.g. happy, cheerful, euphoric), low valence sounds more negative (e.g. sad, depressed, angry). ">
+            ?
+          </span>
+        </td>
+      </tr>
+    </table>
+  </div>
+  </div>
 </div>
