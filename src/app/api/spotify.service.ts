@@ -68,6 +68,21 @@ export class SpotifyService {
       return this.apiGet<any>(url + trackId);
     }
 
+    public getRecommendationsForTrack (track: string) {
+      const url = `/recommendations`;
+
+      const options = {
+        market: 'NZ',
+        seed_tracks: track
+      };
+
+      return this.apiGet<any>(url, options).pipe(
+        map(result => {
+          return result.tracks.map(t => this.mapTrack(t));
+        })
+      );
+    }
+
     public getAudioAnalysis (trackId: string) {
       const url = `/audio-features/`;
 

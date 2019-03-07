@@ -118,6 +118,13 @@
       *ngIf="(hasSpotifyFeatures$ | async)">
     <button
       *ngIf="(hasSpotifyFeatures$ | async)"
+			mat-menu-item
+			[routerLink]="['/spotify/recommendations', queuedTrack?.Track?.Link]">
+			<mat-icon>search</mat-icon>
+			<span>Find similar tracks</span>
+		</button>
+    <button
+      *ngIf="(hasSpotifyFeatures$ | async)"
       mat-menu-item
 			[routerLink]="['/spotify/track-detail', queuedTrack?.Track?.Artists[0].Link, queuedTrack?.Track?.Link]">
 			<mat-icon>highlight</mat-icon>

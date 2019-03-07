@@ -10,6 +10,7 @@ import { PlaylistComponent } from 'app/spotify/playlist/playlist.component';
 import { SpotifyRecentlyPlayedComponent } from './spotify/spotify-recently-played/spotify-recently-played.component';
 import { SpotifyTopTracksComponent } from './spotify/spotify-top-tracks/spotify-top-tracks.component';
 import { SpotifyTrackDetailComponent } from './spotify/spotify-track-detail/spotify-track-detail.component';
+import { SpotifyRecommendationsComponent } from './spotify/spotify-recommendations/spotify-recommendations.component';
 
 const appRoutes: Routes = [
     {
@@ -27,6 +28,7 @@ const appRoutes: Routes = [
 
     // TODO: Proper child router:
     { path: 'spotify/playlist/:user/:id', component: PlaylistComponent },
+    { path: 'spotify/recommendations/:trackId', component: SpotifyRecommendationsComponent },
     { path: 'spotify/recently-played', component: SpotifyRecentlyPlayedComponent },
     { path: 'spotify/top-tracks', component: SpotifyTopTracksComponent },
     { path: 'spotify/track-detail/:artistId/:trackId', component: SpotifyTrackDetailComponent }
