@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SpotifyService } from 'app/api';
-import { switchMap, map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'pm-spotify-recommendations',
@@ -11,6 +11,7 @@ import { switchMap, map } from 'rxjs/operators';
 export class SpotifyRecommendationsComponent implements OnInit {
 
   public recommendedTracks$;
+  public trackDetail$;
 
   constructor (
     private _route: ActivatedRoute,
@@ -18,11 +19,16 @@ export class SpotifyRecommendationsComponent implements OnInit {
   ) { }
 
   ngOnInit () {
+
     this.recommendedTracks$ = this._route.paramMap.pipe(
-      map(paramMap => paramMap.get('id')),
+      map(paramMap => paramMap.get('trackId')),
       switchMap(trackId => this._spotifyService.getRecommendationsForTrack(trackId))
+    );
+
+    this.trackDetail$ = this._route.paramMap.pipe(
+      map(paramMap => paramMap.get('trackId')),
+      switchMap(trackId => this._spotifyService.getTrack(trackId))
     );
   }
 
 }
-

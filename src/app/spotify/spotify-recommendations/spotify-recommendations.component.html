@@ -1,0 +1,18 @@
+<section
+  class="container container--opaque">
+  <h1>
+    Recommendations
+  </h1>
+
+
+  <h3
+    *ngIf="(trackDetail$ | async) as trackDetail">
+    Similar to: {{ trackDetail.name }}, by {{ trackDetail.artists[0].name }}
+  </h3>
+
+  <pm-track-list-item
+      *ngFor="let track of (recommendedTracks$ | async)"
+      [track]="track">
+  </pm-track-list-item>
+
+</section>
