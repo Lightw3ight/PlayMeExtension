@@ -1,10 +1,11 @@
 <div
 	*ngIf="!track?.IsAlreadyQueued">
 	<button
-		mat-icon-button
+    (click)="queueTrack()"
+    mat-icon-button
 		class="list-item__play-button"
 		type="button"
-		(click)="queueTrack()">
+    title="Queue track">
 		<img
 			class="list-item__thumb"
 			[src]="track?.Album.ArtworkUrlMedium">
@@ -37,13 +38,15 @@
 
 <div
 	class="list-item__hover-show"
-	*ngIf="!isAlreadyQueued">
+	*ngIf="!track?.IsAlreadyQueued">
 	<button mat-icon-button [matMenuTriggerFor]="menu">
 		<mat-icon>more_vert</mat-icon>
 	</button>
 
 	<mat-menu #menu="matMenu">
-		<button mat-menu-item (click)="queueTrack()">
+    <button
+      mat-menu-item
+      (click)="queueTrack()">
 			<mat-icon>play_arrow</mat-icon>
 			<span>Queue</span>
 		</button>
@@ -59,10 +62,11 @@
 			<span>View album</span>
     </button>
     <button
+      *ngIf="(hasSpotifyFeatures$ | async)"
 			mat-menu-item
-			[routerLink]="['/spotify/recommendations', track?.Link]">
-			<mat-icon>search</mat-icon>
-			<span>Find similar tracks</span>
+			[routerLink]="['/spotify/track-detail', track?.Artists[0].Link, track?.Link]">
+			<mat-icon>highlight</mat-icon>
+			<span>Track details</span>
 		</button>
   </mat-menu>
 

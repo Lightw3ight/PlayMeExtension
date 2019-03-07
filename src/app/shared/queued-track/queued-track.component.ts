@@ -3,6 +3,8 @@ import { Component, Input, OnInit, Output, EventEmitter, HostBinding } from '@an
 import { QueueService } from '../../api/queue.service';
 import { IQueuedTrack } from '../../api/models';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { Observable } from 'rxjs';
+import { SpotifyAuthService } from 'app/api';
 
 
 @Component({
@@ -13,16 +15,23 @@ import { MatDialog, MatDialogRef } from '@angular/material';
         './queued-track.component.scss'
     ]
 })
-export class QueuedTrackComponent {
+export class QueuedTrackComponent implements OnInit {
     @Input() public queuedTrack: IQueuedTrack;
     @Output() public likeTrack = new EventEmitter();
     @Output() public vetoTrack = new EventEmitter();
     @HostBinding('class.queued-track__more-info-open') public isMoreInfoVisible = false;
 
     constructor (
-        private _queueService: QueueService,
-        public dialog: MatDialog
+      public dialog: MatDialog,
+      private _queueService: QueueService,
+      private _spotifyAuthService: SpotifyAuthService
     ) { }
+
+    public hasSpotifyFeatures$: Observable<boolean>;
+
+    ngOnInit (): void {
+      this.hasSpotifyFeatures$ = this._spotifyAuthService.isLoggedIn$;
+    }
 
     public like () {
         this.likeTrack.emit(null);

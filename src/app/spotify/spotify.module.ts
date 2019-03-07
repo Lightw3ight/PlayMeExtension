@@ -5,13 +5,15 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
-import { MatCardModule, MatIconModule, MatButtonModule, MatMenuModule, MatChipsModule, MatSnackBarModule } from '@angular/material';
+import { MatCardModule, MatIconModule, MatButtonModule, MatMenuModule, MatChipsModule, MatSnackBarModule, MatTableModule, MatTooltipModule } from '@angular/material';
 import { PlaylistListItemComponent } from './playlist-list-item/playlist-list-item.component';
 import { SpotifyHomeComponent } from './spotify-home/spotify-home.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { SharedModule } from '../shared';
 import { ISpotifyConfig } from '../api/models/spotify';
-import { SpotifyRecommendationsComponent } from './spotify-recommendations/spotify-recommendations.component';
+import { SpotifyRecentlyPlayedComponent } from './spotify-recently-played/spotify-recently-played.component';
+import { SpotifyTopTracksComponent } from './spotify-top-tracks/spotify-top-tracks.component';
+import { SpotifyTrackDetailComponent } from './spotify-track-detail/spotify-track-detail.component';
 export const LOCALSTORAGEKEY_AUTH_TOKEN = 'angular2-spotify-token';
 export const LOCALSTORAGEKEY_AUTH_TOKEN_EXPIRY = 'angular2-spotify-token-expiry';
 @NgModule({
@@ -32,7 +34,9 @@ export const LOCALSTORAGEKEY_AUTH_TOKEN_EXPIRY = 'angular2-spotify-token-expiry'
         MatButtonModule,
         MatMenuModule,
         MatChipsModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatTableModule,
+        MatTooltipModule
     ],
     providers: [
         {
@@ -53,7 +57,9 @@ export const LOCALSTORAGEKEY_AUTH_TOKEN_EXPIRY = 'angular2-spotify-token-expiry'
         PlaylistListItemComponent,
         SpotifyHomeComponent,
         PlaylistComponent,
-        SpotifyRecommendationsComponent
+        SpotifyRecentlyPlayedComponent,
+        SpotifyTopTracksComponent,
+        SpotifyTrackDetailComponent
     ],
     exports: [
         SpotifyHomeComponent

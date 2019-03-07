@@ -36,19 +36,42 @@ export class SpotifyService {
         );
     }
 
-    public getRecommendationsForTrack (track: string) {
-      const url = `/recommendations`;
-
-      const options = {
-        market: 'NZ',
-        seed_tracks: track
-      };
+    public getRecentlyPlayed (options): Observable<any> {
+      const url = `/me/player/recently-played/`;
 
       return this.apiGet<any>(url, options).pipe(
         map(result => {
-          return result.tracks.map(track => this.mapTrack(track));
+          return result.items.map(item => this.mapTrack(item.track));
         })
       );
+    }
+
+    public getTopTracks (options) {
+      const url = `/me/top/tracks`;
+
+      return this.apiGet<any>(url, options).pipe(
+        map(result => {
+          return result.items.map(item => this.mapTrack(item));
+        })
+      );
+    }
+
+    public getArtist (artistId: string) {
+      const url = `/artists/`;
+
+      return this.apiGet<any>(url + artistId);
+    }
+
+    public getTrack (trackId: string) {
+      const url = `/tracks/`;
+
+      return this.apiGet<any>(url + trackId);
+    }
+
+    public getAudioAnalysis (trackId: string) {
+      const url = `/audio-features/`;
+
+      return this.apiGet<any>(url + trackId);
     }
 
     private toQueryString (obj: Object): string {
