@@ -56,6 +56,24 @@ export class SpotifyService {
       );
     }
 
+    public getArtist (artistId: string) {
+      const url = `/artists/`;
+
+      return this.apiGet<any>(url + artistId);
+    }
+
+    public getTrack (trackId: string) {
+      const url = `/tracks/`;
+
+      return this.apiGet<any>(url + trackId);
+    }
+
+    public getAudioAnalysis (trackId: string) {
+      const url = `/audio-features/`;
+
+      return this.apiGet<any>(url + trackId);
+    }
+
     private toQueryString (obj: Object): string {
         const parts = [];
         for (const key in obj) {
