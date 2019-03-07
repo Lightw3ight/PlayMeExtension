@@ -10,9 +10,16 @@
     Similar to: {{ trackDetail.name }}, by {{ trackDetail.artists[0].name }}
   </h3>
 
-  <pm-track-list-item
+  <div
+    *ngIf="(recommendedTracks$ | async) as recommendedTracks">
+    <pm-track-list-item
       *ngFor="let track of (recommendedTracks$ | async)"
       [track]="track">
   </pm-track-list-item>
+  <div
+    *ngIf=!recommendedTracks.length>
+    No recommended tracks found, sorry
+  </div>
+  </div>
 
 </section>
