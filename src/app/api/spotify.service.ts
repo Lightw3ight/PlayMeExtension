@@ -162,6 +162,7 @@ export class SpotifyService {
             Name: track.name,
             Link: track.id,
             Duration: this.msToTime(track.duration_ms),
+            DurationMilliseconds: track.duration_ms,
             Album: this.mapAlbum(track.album),
             Artists: track.artists.map(a => this.mapArtist(a)),
             MusicProvider: { Identifier: 'sp' },
