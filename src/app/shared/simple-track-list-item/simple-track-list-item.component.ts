@@ -37,4 +37,24 @@ export class SimpleTrackListItemComponent {
     public formatTime (time: string) {
         return time.indexOf('00:') === 0 ? time.substr(3) : time;
     }
+
+    public formatTimeFromMs (time: number) {
+      return this.msToTime(time);
+    }
+
+    private msToTime (duration): string {
+      const h = duration / (1000 * 60 * 60);
+      const hours = Math.floor(h);
+
+      const m = (h - hours) * 60;
+      const minutes = Math.floor(m);
+
+      const seconds = Math.floor((m - minutes) * 60);
+
+      return hours ? `${this.padNumber(hours)}:${this.padNumber(minutes)}:${this.padNumber(seconds)}` : `${this.padNumber(minutes)}:${this.padNumber(seconds)}`;
+    }
+
+    private padNumber (num: number) {
+      return (num < 10) ? '0' + num : num;
+    }
 }

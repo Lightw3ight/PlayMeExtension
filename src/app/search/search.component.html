@@ -8,68 +8,89 @@
 		class="mat-title">
 		Search results for <em>{{ searchQuery$ | async }}</em>
 	</h1>
-	
-	<mat-tab-group
-		*ngIf="results$ | async as results">
-		<mat-tab
-			label="Artists"
-			*ngIf="results?.PagedArtists?.Artists">
-			<div
-				class="search-page_artist-list">
-				<p
-					class="padding-top-half"
-					*ngIf="results?.PagedArtists?.Artists?.length === 0">
-					<em>No artists</em>
-				</p>
-				<div
-					class="search-page__row"
-					fxLayout="row wrap">
-					<pm-artist-list-item
-						fxFlex="33.333%"
-						*ngFor="let artist of results?.PagedArtists?.Artists; trackBy: trackByFn"
-						[artist]="artist">
-					</pm-artist-list-item>
-				</div>
-			</div>
-		</mat-tab>
 
-		<mat-tab
-			label="Albums"
-			*ngIf="results?.PagedAlbums?.Albums">
-			<p
-				class="padding-top-half"
-				*ngIf="results?.PagedAlbums?.Albums?.length === 0">
-				<em>No albums</em>
-			</p>
+  <div
+    *ngIf="results$ | async as results">
 
-			<div
-				fxLayout="row wrap"
-				class="search-page__row">
-				<pm-album-list-item
-					fxFlex="33.333%"
-					*ngFor="let album of results?.PagedAlbums?.Albums; trackBy: trackByFn"
-					[album]="album">
-				</pm-album-list-item>
-			</div>
-		</mat-tab>
-		
-		<mat-tab
-			label="Tracks"
-			*ngIf="results?.PagedTracks?.Tracks">
-			<p
-				class="padding-top-half"
-				*ngIf="results?.PagedTracks?.Tracks?.length === 0">
-				<em>No tracks</em>
-			</p>
-			<ul
-				class="list-unstyled">
-				<li
-					*ngFor="let track of results?.PagedTracks?.Tracks; trackBy: trackByFn">
-					<pm-track-list-item
-						[track]="track">
-					</pm-track-list-item>
-				</li>
-			</ul>
-		</mat-tab>
-	</mat-tab-group>
+    <div
+      *ngIf="!results?.PagedArtists?.Artists.length && !results?.PagedArtists?.Artists.length && !results?.PagedTracks?.Tracks.length">
+      No results
+    </div>
+    <mat-tab-group
+      *ngIf="results">
+      <mat-tab
+        *ngIf="results?.PagedArtists?.Artists.length">
+        <ng-template mat-tab-label>
+          Artists (
+            {{ results?.PagedArtists?.Artists.length }}
+          )
+        </ng-template>
+        <div
+          class="search-page_artist-list">
+          <p
+            class="padding-top-half"
+            *ngIf="results?.PagedArtists?.Artists?.length === 0">
+            <em>No artists</em>
+          </p>
+          <div
+            class="search-page__row"
+            fxLayout="row wrap">
+            <pm-artist-list-item
+              fxFlex="33.333%"
+              *ngFor="let artist of results?.PagedArtists?.Artists; trackBy: trackByFn"
+              [artist]="artist">
+            </pm-artist-list-item>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab
+        *ngIf="results?.PagedAlbums?.Albums.length">
+        <ng-template mat-tab-label>
+          Albums (
+            {{ results?.PagedAlbums?.Albums.length }}
+          )
+        </ng-template>
+        <p
+          class="padding-top-half"
+          *ngIf="results?.PagedAlbums?.Albums?.length === 0">
+          <em>No albums</em>
+        </p>
+
+        <div
+          fxLayout="row wrap"
+          class="search-page__row">
+          <pm-album-list-item
+            fxFlex="33.333%"
+            *ngFor="let album of results?.PagedAlbums?.Albums; trackBy: trackByFn"
+            [album]="album">
+          </pm-album-list-item>
+        </div>
+      </mat-tab>
+
+      <mat-tab
+        *ngIf="results?.PagedTracks?.Tracks.length">
+        <ng-template mat-tab-label>
+          Tracks (
+            {{ results?.PagedTracks?.Tracks.length }}
+          )
+        </ng-template>
+        <p
+          class="padding-top-half"
+          *ngIf="results?.PagedTracks?.Tracks?.length === 0">
+          <em>No tracks</em>
+        </p>
+        <ul
+          class="list-unstyled">
+          <li
+            *ngFor="let track of results?.PagedTracks?.Tracks; trackBy: trackByFn">
+            <pm-track-list-item
+              [track]="track">
+            </pm-track-list-item>
+          </li>
+        </ul>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
 </section>

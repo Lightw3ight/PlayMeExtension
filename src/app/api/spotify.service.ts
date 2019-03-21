@@ -188,7 +188,7 @@ export class SpotifyService {
         };
     }
 
-    private msToTime (duration) {
+    private msToTime (duration): string {
         const h = duration / (1000 * 60 * 60);
         const hours = Math.floor(h);
 
@@ -200,7 +200,7 @@ export class SpotifyService {
         return hours ? `${this.padNumber(hours)}:${this.padNumber(minutes)}:${this.padNumber(seconds)}` : `${this.padNumber(minutes)}:${this.padNumber(seconds)}`;
     }
 
-    private padNumber (num: number) {
-        return (num < 10) ? '0' + num : num;
+    private padNumber (num: number): string {
+        return (num < 10) ? '0' + num : '' + num;
     }
 }
