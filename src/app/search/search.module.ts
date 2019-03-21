@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SearchComponent } from './search.component';
-import { MatTabsModule, MatProgressBarModule } from '@angular/material';
+import { MatTabsModule, MatProgressBarModule, MatChipsModule } from '@angular/material';
 
 @NgModule({
     imports: [
@@ -14,6 +14,7 @@ import { MatTabsModule, MatProgressBarModule } from '@angular/material';
         SharedModule,
         FlexLayoutModule,
         MatTabsModule,
+        MatChipsModule,
         ArtistListItemModule,
         AlbumListItemModule,
         MatProgressBarModule
