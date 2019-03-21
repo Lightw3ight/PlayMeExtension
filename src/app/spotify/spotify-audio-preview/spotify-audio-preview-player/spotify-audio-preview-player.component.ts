@@ -18,20 +18,20 @@ export class SpotifyAudioPreviewPlayerComponent implements OnInit {
   ) { }
 
   ngOnInit () {
-    this._spotifyAudioPreviewService.playThisSong$.subscribe(track => {
-      this.nowPlayingTrack = track;
+    // this._spotifyAudioPreviewService.currentlyPlayingTrack$.subscribe(track => {
+    //   this.nowPlayingTrack = track;
 
-      if (this._currentlyPlayingAudio) {
-        this._currentlyPlayingAudio.pause();
-        delete this._currentlyPlayingAudio;
-      }
+    //   if (this._currentlyPlayingAudio) {
+    //     this._currentlyPlayingAudio.pause();
+    //     delete this._currentlyPlayingAudio;
+    //   }
 
-      let audio = new Audio();
-      audio.src = track.AudioPreviewUrl;
-      audio.load();
+    //   let audio = new Audio();
+    //   audio.src = track.AudioPreviewUrl;
+    //   audio.load();
 
-      this._currentlyPlayingAudio = audio;
-      audio.play();
-    });
+    //   this._currentlyPlayingAudio = audio;
+    //   audio.play();
+    // });
   }
 }

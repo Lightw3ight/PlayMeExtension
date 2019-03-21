@@ -2,4 +2,20 @@
 
 :host {
   color: $icon-colour;
+
+}
+
+.isPlaying {
+  background-color: #6BBCF4;
+  color: white;
+  animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }
 }

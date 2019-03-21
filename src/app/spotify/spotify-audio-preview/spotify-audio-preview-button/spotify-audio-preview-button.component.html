@@ -1,5 +1,6 @@
 <button
   *ngIf="track.AudioPreviewUrl"
+  [ngClass]="{'isPlaying': (isTrackPlaying$ | async)}"
   (click)="playPreview()"
   mat-icon-button
   title="Preview song locally">
